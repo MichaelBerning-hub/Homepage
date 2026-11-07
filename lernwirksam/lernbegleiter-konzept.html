@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sokratischer KI-Lernbegleiter – Konzeptentwurf | Michael Berning</title>
+<meta name="description" content="Konzeptentwurf für einen KI-Lernbegleiter, der den Umgang mit KI durch Fragen statt fertige Antworten vermittelt.">
+<link rel="canonical" href="https://michael-berning.netlify.app/lernwirksam/lernbegleiter-konzept.html">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--paper:#F3F5EF;--surface:#fff;--ink:#17241D;--muted:#5A6A61;--line:#D5DDD3;--leaf:#2E6A4E;--pollen:#B87912;--leaf-soft:#E2ECE4}
+@media (prefers-color-scheme:dark){:root{--paper:#111A15;--surface:#18231D;--ink:#E7EEE8;--muted:#9DAEA4;--line:#2C3A32;--leaf:#7CC4A0;--pollen:#E2A748;--leaf-soft:#1F3229}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;line-height:1.65}
+a{color:var(--leaf)}
+header,main,footer{max-width:820px;margin:0 auto;padding:0 22px}
+header{padding-top:28px}
+.back{font-size:.95rem}
+.hero{display:flex;gap:20px;align-items:center;margin:26px 0 8px}
+.hero img{width:96px;height:96px;background:#fff;border-radius:16px;padding:8px;flex:none}
+h1,h2{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;line-height:1.2}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);margin:0}
+.status{display:inline-block;margin-top:8px;color:var(--pollen);font-weight:700;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase}
+h2{font-size:1.35rem;margin:38px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+.lead{font-size:1.12rem}
+table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:12px;overflow:hidden;font-size:.95rem}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--leaf-soft)}
+.scroll{overflow-x:auto}
+blockquote{margin:0;background:var(--surface);border-left:4px solid var(--leaf);border-radius:0 12px 12px 0;padding:14px 18px}
+blockquote p{margin:.35em 0}
+.note{color:var(--muted);font-size:.92rem}
+footer{padding:40px 22px 50px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<header><a class="back" href="/#portfolio">← Zurück zum Portfolio</a> · <a class="back" href="/lernwirksam/#lernbegleiter">Lernwirksam</a></header>
+<main>
+<div class="hero"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="Logo Sokratischer KI-Lernbegleiter"><div><h1>Sokratischer KI-Lernbegleiter</h1><span class="status">Konzeptentwurf · Stand November 2026</span></div></div>
+
+<p class="lead">Der Lernbegleiter bringt Menschen den Umgang mit KI bei, indem er fragt statt antwortet. Wer lernt, formuliert selbst Prompts, prüft die Ergebnisse und leitet daraus eigene Regeln ab.</p>
+<p>KI-Werkzeuge liefern sofort fertige Antworten. Wer so arbeitet, lernt wenig darüber, wie gute Anfragen entstehen und wann man einem Ergebnis nicht trauen sollte. Der Lernbegleiter dreht das um: Er hält Lösungen zurück und führt mit Fragen zum eigenen Urteil. Er lässt sich an vier Bereiche anpassen: Schule, Erwachsenenbildung/DaF, Corporate Learning und Bildungsmanagement.</p>
+<p class="note">Dies ist ein Konzeptentwurf im Rahmen von Lernwirksam. Ein erprobter Prototyp liegt noch nicht vor.</p>
+
+<h2>Didaktische Grundlage: der sokratische Dialog</h2>
+<p>Im sokratischen Dialog entsteht Wissen durch gezielte Fragen, nicht durch Belehrung. Drei Bewegungen tragen das Gespräch:</p>
+<ul>
+<li><strong>Klären:</strong> Was meinst du genau? Was willst du erreichen?</li>
+<li><strong>Prüfen (Elenchos):</strong> Fragen, die Widersprüche und Lücken sichtbar machen. Oft folgt eine Phase der Ratlosigkeit (Aporie), die zum Weiterdenken anregt.</li>
+<li><strong>Hervorbringen (Mäeutik):</strong> Die Lernenden formulieren selbst eine bessere Antwort oder Regel.</li>
+</ul>
+<p>Das passt zum Prompting: Ein guter Prompt verlangt ein klares Ziel, geklärte Begriffe und die kritische Prüfung des Ergebnisses. Wie im neosokratischen Gespräch nach Leonard Nelson und Gustav Heckmann wird immer an einem konkreten Beispiel gearbeitet, hier an einer echten Aufgabe der lernenden Person.</p>
+
+<h2>Lernziele: AI Literacy und Prompting</h2>
+<div class="scroll"><table>
+<tr><th>Stufe</th><th>Lernziel</th><th>Leitfrage des Lernbegleiters</th></tr>
+<tr><td>Verstehen</td><td>Wissen, wie ein Sprachmodell Antworten erzeugt und warum es Fehler macht</td><td>Woran könntest du erkennen, ob diese Antwort stimmt?</td></tr>
+<tr><td>Anwenden</td><td>Einen Prompt mit Ziel, Kontext und gewünschtem Format schreiben</td><td>Was müsste die KI über deine Situation wissen, um dir wirklich zu helfen?</td></tr>
+<tr><td>Gezielt einsetzen</td><td>Entscheiden, wann KI hilft und wann nicht; Ergebnisse prüfen und überarbeiten</td><td>Hättest du diese Aufgabe ohne KI schneller oder besser gelöst?</td></tr>
+<tr><td>Mitgestalten</td><td>Regeln für den KI-Einsatz in der eigenen Gruppe oder Organisation entwickeln</td><td>Welche Regel würdest du deinem Team aus dieser Erfahrung mitgeben?</td></tr>
+</table></div>
+
+<h2>Dialogphasen</h2>
+<ol>
+<li><strong>Anliegen klären:</strong> Welche echte Aufgabe bringst du mit? Was soll am Ende dabei herauskommen?</li>
+<li><strong>Vorwissen erfragen:</strong> Hast du dafür schon einmal KI genutzt? Was hat funktioniert, was nicht?</li>
+<li><strong>Erster Versuch:</strong> Die Person schreibt selbst einen Prompt. Der Lernbegleiter schreibt ihn nicht vor.</li>
+<li><strong>Prüfen:</strong> Was fehlt der KI an Information? Welche Aussage würdest du nachprüfen?</li>
+<li><strong>Überarbeiten:</strong> Die Person verbessert den Prompt auf Grundlage ihrer eigenen Antworten, danach erneut Phase 4.</li>
+<li><strong>Reflexion und Transfer:</strong> Die Person formuliert eine Regel in eigenen Worten und überlegt, wo sie sie das nächste Mal anwendet.</li>
+</ol>
+
+<h2>Gesprächsregeln</h2>
+<ul>
+<li>Pro Nachricht höchstens eine Frage.</li>
+<li>Keine fertige Lösung und kein fertiger Prompt. Kommt die Person nach drei Versuchen nicht weiter, gibt es einen Hinweis, keine Lösung.</li>
+<li>Immer an der echten Aufgabe der Person arbeiten.</li>
+<li>Widersprüche freundlich und als Frage benennen, nie als Urteil.</li>
+<li>Konkret und sparsam loben: benennen, was am Prompt besser geworden ist.</li>
+<li>Offen sagen, dass hier eine KI spricht, die selbst Fehler machen kann.</li>
+</ul>
+
+<h2>Anpassung an vier Bereiche</h2>
+<div class="scroll"><table>
+<tr><th>Bereich</th><th>Zielgruppe</th><th>Typische Aufgaben</th><th>Besondere Grenzen</th></tr>
+<tr><td>Schule</td><td>Schülerinnen und Schüler ab Sek. I, Lehrkräfte</td><td>Referat in Biologie vorbereiten, spanischen Text verstehen, Stunde planen</td><td>Mindestalter der KI-Dienste, schulische Datenschutzregeln, keine Hausaufgaben lösen lassen</td></tr>
+<tr><td>Erwachsenenbildung/DaF</td><td>Teilnehmende in Sprach- und Integrationskursen (etwa A2 bis B2)</td><td>Brief an eine Behörde, eigenen Text korrigieren lassen, Vokabeln üben</td><td>Keine persönlichen Daten aus Behördenschreiben eingeben</td></tr>
+<tr><td>Corporate Learning</td><td>Beschäftigte ohne KI-Vorwissen, Führungskräfte</td><td>E-Mail formulieren, Besprechung zusammenfassen, Bericht gliedern</td><td>Interne Richtlinien und vertrauliche Daten</td></tr>
+<tr><td>Bildungsmanagement</td><td>Koordination, Redaktion, Lernmedien-Entwicklung</td><td>Kursplan entwerfen, Arbeitsblatt erstellen, Material auf Fehler prüfen</td><td>Urheberrecht, fachliche Prüfung jeder KI-Ausgabe</td></tr>
+</table></div>
+
+<h2>Beispieldialog (Corporate Learning)</h2>
+<blockquote>
+<p><strong>Lernbegleiter:</strong> Welche Aufgabe möchten Sie heute mit KI lösen?</p>
+<p><strong>Teilnehmerin:</strong> Ich muss einem Kunden schreiben, dessen Lieferung sich verspätet.</p>
+<p><strong>Lernbegleiter:</strong> Wie würden Sie die KI darum bitten? Schreiben Sie Ihren Prompt so, wie er Ihnen einfällt.</p>
+<p><strong>Teilnehmerin:</strong> „Schreib eine E-Mail wegen einer verspäteten Lieferung.“</p>
+<p><strong>Lernbegleiter:</strong> Angenommen, eine neue Kollegin bekäme genau diesen Satz als Auftrag. Was würde sie Sie zuerst fragen?</p>
+<p><strong>Teilnehmerin:</strong> Wer der Kunde ist, wie lange es dauert und ob wir etwas anbieten.</p>
+<p><strong>Lernbegleiter:</strong> Welche dieser Angaben darf die KI erfahren, und welche lassen Sie besser weg?</p>
+<p><strong>Teilnehmerin:</strong> Den Namen lasse ich weg. Zwei Wochen Verspätung und 5 % Rabatt kann ich nennen.</p>
+<p><strong>Lernbegleiter:</strong> Welche Regel nehmen Sie aus diesem Gespräch mit?</p>
+<p><strong>Teilnehmerin:</strong> Ich sage der KI, was eine Kollegin wissen müsste, aber nichts Vertrauliches.</p>
+</blockquote>
+
+<h2>Datenschutz und Grenzen</h2>
+<ul>
+<li><strong>Datensparsamkeit:</strong> keine Fragen nach Namen, Adressen oder Gesundheitsdaten; Hinweis und Anonymisierung, falls sie doch eingegeben werden.</li>
+<li><strong>Transparenz:</strong> Zu Beginn wird gesagt, dass eine KI antwortet und wo Eingaben verarbeitet werden.</li>
+<li><strong>Fachliche Grenzen:</strong> keine Bewertung von Prüfungsleistungen, keine Rechts- oder Gesundheitsberatung.</li>
+<li><strong>Kein Kompetenznachweis:</strong> Der Lernbegleiter ist eine Lernhilfe, kein Zertifikat.</li>
+</ul>
+
+<h2>Nächste Schritte</h2>
+<ol>
+<li>Gesprächsregeln und Bereichsprofile als System-Prompt ausarbeiten</li>
+<li>Gespräche mit Testpersonen aus jedem Bereich, besonders prüfen: hält der Lernbegleiter Lösungen zurück?</li>
+<li>Web-Prototyp mit Bereichsauswahl</li>
+</ol>
+</main>
+<footer>Michael Berning · <a href="/">Startseite</a> · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></footer>
+</body>
+</html>

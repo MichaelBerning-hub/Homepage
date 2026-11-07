@@ -164,6 +164,7 @@ section.block h2{font-size:clamp(1.6rem,3.4vw,2.1rem);margin-bottom:16px}
 /* Lebensreise */
 .journey{display:grid;gap:14px}
 .jmap{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.jglobe{display:block;width:100%;height:auto;aspect-ratio:1000/620;cursor:pointer;background:var(--surface)}
 .jmap{perspective:1100px;background:linear-gradient(var(--leaf-soft),var(--surface) 55%)}
 .jstage{transform:rotateX(40deg) scale(1.1);transform-origin:50% 58%;transition:transform .9s ease,margin .9s ease;margin:-22px 0 -44px}
 .jstage.flat{transform:none;margin:0}
@@ -297,19 +298,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
       <h2>Eine Reise durch meine Stationen</h2>
       <p class="intro">Steigen Sie ein: Mit „Weiter“ fliegen oder fahren Sie von Station zu Station. Oder tippen Sie direkt auf einen Ort.</p>
       <div class="journey" data-jlang="de" data-labels='{"prev": "Zurück", "next": "Weiter", "play": "Reise abspielen", "pause": "Anhalten", "restart": "Von vorn", "of": "von", "plane": "mit dem Flugzeug", "train": "mit dem Zug", "stay": "angekommen", "start": "Start", "overview": "Gesamtansicht", "closeup": "Nah heranzoomen"}'>
-        <div class="jmap"><div class="jstage"><svg viewBox="0 0 1000 620" role="img" aria-label="Karte der Lebensstationen">
-          <defs><pattern id="dots-de" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" class="jdot"/></pattern></defs>
-          <g class="jcam">
-          <rect x="-600" y="-400" width="2200" height="1420" fill="url(#dots-de)"/>
-          <rect class="jregion" x="600" y="40" width="385" height="380" rx="38"/>
-          <rect class="jregion" x="340" y="395" width="305" height="210" rx="38"/>
-          <rect class="jregion" x="70" y="380" width="215" height="170" rx="38"/>
-          <text class="jrname" x="965" y="400" text-anchor="end">Deutschland</text>
-          <text class="jrname" x="360" y="430">Spanien</text>
-          <text class="jrname" x="92" y="412">Ecuador</text>
-          <g class="jlegs"></g><g class="jshadow"></g><g class="jplaces"></g><g class="jvehicle"></g>
-          </g>
-        </svg></div></div>
+        <div class="jmap"><canvas class="jglobe" width="1000" height="620" role="img" aria-label="Karte der Lebensstationen"></canvas></div>
         <div class="jcard" aria-live="polite">
           <div class="jmeta"><span class="jstep"></span><span class="jmode"></span></div>
           <h3 class="jtitle"></h3>
@@ -323,7 +312,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
           <button type="button" class="btn ghost jview" aria-pressed="false">Gesamtansicht</button>
         </div>
         <ol class="jlist"></ol>
-        <p class="note">Schematische Karte, nicht maßstabsgetreu.</p>
+        <p class="note">Kartendaten: Natural Earth (gemeinfrei).</p>
       </div>
     </div>
   </section>
@@ -354,13 +343,27 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
       </ol>
     </div>
   </section>
+  <section class="block" id="konzepte">
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Didaktische Konzepte</div>
+    <div>
+      <h2>Didaktische Konzepte</h2>
+      <p class="intro">Vier Ansätze, mit denen ich Lernen gestalte: was die Idee ist, für wen sie gedacht ist und wo ich sie eingesetzt habe.</p>
+      <div class="projects">
+<article class="project"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">KI &amp; Didaktik · Konzeptentwurf</span><h3>Sokratischer Dialog mit KI</h3><p>Lernende schreiben ihre Prompts selbst. Ein Lernbegleiter stellt Fragen statt fertige Antworten zu geben: Ziel klären, Ergebnis prüfen, selbst verbessern.</p><p class="org">Für Schule, Erwachsenenbildung/DaF, Corporate Learning und Bildungsmanagement. Konzept 2026, noch nicht erprobt.</p><a href="/lernwirksam/lernbegleiter-konzept.html">Konzept lesen →</a></article>
+<article class="project"><img src="/assets/projekte/landyous.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biologie · Nachhaltigkeit</span><h3>Spielbasiertes Lernen</h3><p>Ein Lernspiel öffnet einen spielerischen Zugang zur nachhaltigen Landnutzung. Eine Handreichung unterstützt Lehrkräfte beim Einsatz im Unterricht.</p><p class="org">Mitentwicklung des Lernspiels LandYOUs und der Handreichung im Team, veröffentlicht bei Klett MINT (2018).</p><a href="https://mint-zirkel.de/unterrichtsmaterial/landyous-2/" target="_blank" rel="noopener noreferrer">LandYOUs ansehen ↗</a></article>
+<article class="project"><img src="/assets/projekte/oekoambulanz.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biodiversität · Schule</span><h3>Ökoambulanz</h3><p>Schülerinnen und Schüler werden zu „Öko-Sanitätern“ und fördern die biologische Vielfalt an ihrer Schule. Ein Leitfaden beschreibt den Ablauf.</p><p class="org">Eigenständig entwickelt und an UNESCO-Projektschulen in Bremen umgesetzt (2019).</p></article>
+<article class="project"><img src="/assets/projekte/sprachsensibel.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Sprache · Fachlernen</span><h3>Sprachsensibler Fachunterricht</h3><p>Fachliches Lernen und Sprachlernen gehören zusammen: Fachwortschatz, typische Satzmuster und Unterstützung beim Lesen und Schreiben werden gezielt mitgeplant.</p><p class="org">Im Biologie- und Spanischunterricht, als Vertretungslehrkraft unter anderem in DaF/DaZ und in BAMF-Sprachkursen.</p></article>
+      </div>
+    </div>
+  </section>
+
 <section class="block" id="ai-literacy"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><path d="M10 14l2-4 2 4M10.6 13h2.8"/></svg><b>AI</b>Literacy</div><div><h2>AI Literacy: KI-Kompetenz im Überblick</h2><p class="intro">KI-Kompetenz verbindet Wissen, praktische Fähigkeiten und eine reflektierte Haltung. Für Lernwirksam dient der AILit-Rahmen als Orientierung bei der Planung von Lernangeboten.</p><div class="ail-panel"><div class="ail-banner"><strong>Verstehen. Anwenden. Entscheiden. Mitgestalten.</strong><p>Vier verbundene Bereiche – mit dem Menschen in der Verantwortung.</p></div><div class="ail-grid"><article class="ail-card"><span class="ail-no">01 / 04</span><h3>Mit KI bewusst umgehen</h3><p>KI erkennen, ihre Grenzen verstehen und Ergebnisse kritisch beurteilen.</p><details><summary>Geplantes Praxisbeispiel aufklappen</summary><p>KI-Fortbildung: Eine Lehrkraft prüft einen KI-generierten Biologietext auf fachliche Fehler und begründet ihre Korrekturen.</p></details></article><article class="ail-card"><span class="ail-no">02 / 04</span><h3>KI kreativ anwenden</h3><p>Mit KI eigene Ideen und Materialien entwickeln und nachvollziehbar überarbeiten.</p><details><summary>Geplantes Praxisbeispiel aufklappen</summary><p>DaF/DaZ-App: Teilnehmende entwerfen einen beruflichen Dialog mit KI-Unterstützung und passen Wortwahl und Ton an die Situation an.</p></details></article><article class="ail-card"><span class="ail-no">03 / 04</span><h3>KI gezielt einsetzen</h3><p>Aufgaben passend verteilen, klare Ziele setzen und die Qualität selbst kontrollieren.</p><details><summary>Geplantes Praxisbeispiel aufklappen</summary><p>Coaching-Simulation: Eine berufliche Aufgabe wird in eigene Arbeit und KI-Unterstützung aufgeteilt. Anschließend werden Nutzen und Ergebnis gemeinsam reflektiert.</p></details></article><article class="ail-card"><span class="ail-no">04 / 04</span><h3>KI aktiv mitgestalten</h3><p>Menschliche Entscheidungen hinter KI hinterfragen und Verbesserungen mitdenken.</p><details><summary>Geplantes Praxisbeispiel aufklappen</summary><p>Lernwirksam-Pilot: Lernende formulieren Anforderungen an eine faire, verständliche Lernhilfe und prüfen einen Entwurf anhand dieser Kriterien.</p></details></article></div><div class="ail-footer"><p>Eigene, vereinfachte Darstellung in Anlehnung an das AILit-Framework von OECD und Europäischer Kommission. Der Originalrahmen richtet sich an die Primar- und Sekundarstufe. Die Beispiele für Erwachsenenbildung und berufliche Weiterbildung sind eine eigene Übertragung auf geplante Lernwirksam-Vorhaben.</p><p>Die Übersicht beschreibt Lernziele und eine konzeptionelle Orientierung, keinen persönlichen Kompetenznachweis.</p><p><a href="https://ailiteracyframework.org/de/" target="_blank" rel="noopener">Originalframework ↗</a> · <a href="https://ki-campus.org/themen/ai-literacy" target="_blank" rel="noopener">Einordnung beim KI-Campus ↗</a></p></div><div class="ail-tips"><h3>Tipps zum Weiterlernen</h3><ul><li><a href="https://ki-campus.org/" target="_blank" rel="noopener noreferrer">KI-Campus ↗</a>: kostenlose Online-Kurse zu KI und KI-Kompetenz von Stifterverband und Partnern, auf Deutsch und Englisch.</li><li><a href="https://promptcowboy.ai/" target="_blank" rel="noopener noreferrer">Prompt Cowboy ↗</a>: Werkzeug, das grobe Ideen in ausführliche Prompts umwandelt. Mein Tipp: erst selbst einen Prompt schreiben, dann mit dem Vorschlag vergleichen und prüfen, was fehlte.</li></ul><p class="note">Externe Angebote mit eigenen Datenschutzregeln; Prompt Cowboy arbeitet mit Benutzerkonto. Keine persönlichen oder vertraulichen Daten eingeben. Für die Inhalte verlinkter Seiten sind deren Betreiber verantwortlich.</p></div><div class="ail-links"><a class="ail-jump" href="/lernwirksam/#ki-fortbildungen">KI-Fortbildungen für Lehrende →</a><a class="ail-jump" href="/lernwirksam/#ki-coaching">KI-Coaching-Simulation →</a><a class="ail-jump" href="/lernwirksam/#berufssprachkurse">Berufssprachkurse DaF/DaZ →</a></div></div></div></section>
 
 
-  <section class="block" id="schluessel"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg><b>05</b>Bestimmungs&shy;schlüssel</div><div><h2>Passe ich zu Ihrer Stelle?</h2><div class="key"><p class="key-intro">Wählen Sie den Bedarf Ihrer Stelle. Die Antworten verbinden meine bisherige Erfahrung mit aktuellen Arbeitsproben und geplanten Vorhaben.</p><div class="couplet"><span class="no">1</span><button aria-expanded="false" aria-controls="k1" id="kb1">Sie möchten KI-Kompetenzen vermitteln oder Lehrende fortbilden</button><div class="answer" id="k1" hidden>Ich verbinde Unterrichts- und Erwachsenenbildungserfahrung mit meinem Schwerpunkt KI &amp; Didaktik. Für <strong>Lernwirksam</strong> plane ich KI-Fortbildungen für Lehrende. Die vier Bereiche des AILit-Frameworks dienen als Orientierung für Lernziele und Übungen. KI-Campus-Fortbildungen sind aktuell und geplant; der Zertifikatslehrgang KI-Manager (IHK) beginnt am 16.11.2026.<p><a href="#ai-literacy">AI-Literacy-Übersicht →</a></p></div></div><div class="couplet"><span class="no">2</span><button aria-expanded="false" aria-controls="k2" id="kb2">Sie entwickeln digitale Lernangebote, Lernmaterialien oder Bildungs-Apps</button><div class="answer" id="k2" hidden>Ich konzipiere Lernangebote aus fachlicher und didaktischer Perspektive und setze KI-Werkzeuge sowie Canva ein. Mit <strong>Karrierekompass</strong> entwickle ich einen Karriere- und Weiterbildungsassistenten. Eine lernbegleitende <strong>App für Berufssprachkurse DaF/DaZ</strong> ist in Planung.<p><a href="#projekte">Projekte und Entwicklungsstand →</a></p></div></div><div class="couplet"><span class="no">3</span><button aria-expanded="false" aria-controls="k3" id="kb3">Sie suchen Erfahrung in Erwachsenenbildung, DaF/DaZ oder Spanisch</button><div class="answer" id="k3" hidden>Als <strong>BAMF-zugelassener DaF/DaZ-Dozent</strong> bringe ich Erfahrung aus Sprach- und Integrationskursen mit. Dazu kommen mein Studium in Biologie und Spanisch, Spanischkenntnisse auf <strong>C1-Niveau</strong> und sprachsensibler Fachunterricht. Die geplante Berufssprachkurs-App knüpft daran an.<p><a href="/lernwirksam/#berufssprachkurse">Vorhaben für Berufssprachkurse →</a></p></div></div><div class="couplet"><span class="no">4</span><button aria-expanded="false" aria-controls="k4" id="kb4">Sie möchten Corporate Learning und KI-Coaching für Beschäftigte gestalten</button><div class="answer" id="k4" hidden>Für die berufliche Weiterbildung erarbeite ich eine <strong>KI-Coaching-Simulation als Arbeitsprobe</strong>: berufliche Ausgangssituation klären, Lernziele setzen, KI-Anwendungen üben und Ergebnisse reflektieren. Das Vorhaben gehört zum Corporate Learning und befindet sich in Erarbeitung.<p><a href="/lernwirksam/#ki-coaching">Coaching-Simulation und Status →</a></p></div></div><div class="couplet"><span class="no">5</span><button aria-expanded="false" aria-controls="k5" id="kb5">Sie brauchen Bildungsmanagement, Kurskoordination oder Projektorganisation</button><div class="answer" id="k5" hidden>Bei der Ländlichen Erwachsenenbildung habe ich <strong>15 Kurse mit 8 Dozent:innen</strong> koordiniert und Angebote nach BAMF-Richtlinien geplant. Für das Forschungsprojekt SciVis habe ich die <strong>Abschlusstagung in Berlin</strong> hauptverantwortlich organisiert.<p><a href="#werdegang">Berufliche Stationen →</a></p></div></div><div class="couplet"><span class="no">6</span><button aria-expanded="false" aria-controls="k6" id="kb6">Sie entwickeln Bildungsmedien für Biologie, MINT oder Nachhaltigkeit</button><div class="answer" id="k6" hidden>Ich habe <strong>LandYOUs</strong> zur nachhaltigen Landnutzung mitentwickelt und die begleitende Handreichung im Team für Klett MINT verfasst. In der Biologiedidaktik habe ich Unterrichtskonzepte zur Biodiversität entwickelt und empirisch erprobt.<p><a href="#projekte">Fachliche Projekte →</a></p></div></div></div></div></section>
+  <section class="block" id="schluessel"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg><b>06</b>Bestimmungs&shy;schlüssel</div><div><h2>Passe ich zu Ihrer Stelle?</h2><div class="key"><p class="key-intro">Wählen Sie den Bedarf Ihrer Stelle. Die Antworten verbinden meine bisherige Erfahrung mit aktuellen Arbeitsproben und geplanten Vorhaben.</p><div class="couplet"><span class="no">1</span><button aria-expanded="false" aria-controls="k1" id="kb1">Sie möchten KI-Kompetenzen vermitteln oder Lehrende fortbilden</button><div class="answer" id="k1" hidden>Ich verbinde Unterrichts- und Erwachsenenbildungserfahrung mit meinem Schwerpunkt KI &amp; Didaktik. Für <strong>Lernwirksam</strong> plane ich KI-Fortbildungen für Lehrende. Die vier Bereiche des AILit-Frameworks dienen als Orientierung für Lernziele und Übungen. KI-Campus-Fortbildungen sind aktuell und geplant; der Zertifikatslehrgang KI-Manager (IHK) beginnt am 16.11.2026.<p><a href="#ai-literacy">AI-Literacy-Übersicht →</a></p></div></div><div class="couplet"><span class="no">2</span><button aria-expanded="false" aria-controls="k2" id="kb2">Sie entwickeln digitale Lernangebote, Lernmaterialien oder Bildungs-Apps</button><div class="answer" id="k2" hidden>Ich konzipiere Lernangebote aus fachlicher und didaktischer Perspektive und setze KI-Werkzeuge sowie Canva ein. Mit <strong>Karrierekompass</strong> entwickle ich einen Karriere- und Weiterbildungsassistenten. Eine lernbegleitende <strong>App für Berufssprachkurse DaF/DaZ</strong> ist in Planung.<p><a href="#projekte">Projekte und Entwicklungsstand →</a></p></div></div><div class="couplet"><span class="no">3</span><button aria-expanded="false" aria-controls="k3" id="kb3">Sie suchen Erfahrung in Erwachsenenbildung, DaF/DaZ oder Spanisch</button><div class="answer" id="k3" hidden>Als <strong>BAMF-zugelassener DaF/DaZ-Dozent</strong> bringe ich Erfahrung aus Sprach- und Integrationskursen mit. Dazu kommen mein Studium in Biologie und Spanisch, Spanischkenntnisse auf <strong>C1-Niveau</strong> und sprachsensibler Fachunterricht. Die geplante Berufssprachkurs-App knüpft daran an.<p><a href="/lernwirksam/#berufssprachkurse">Vorhaben für Berufssprachkurse →</a></p></div></div><div class="couplet"><span class="no">4</span><button aria-expanded="false" aria-controls="k4" id="kb4">Sie möchten Corporate Learning und KI-Coaching für Beschäftigte gestalten</button><div class="answer" id="k4" hidden>Für die berufliche Weiterbildung erarbeite ich eine <strong>KI-Coaching-Simulation als Arbeitsprobe</strong>: berufliche Ausgangssituation klären, Lernziele setzen, KI-Anwendungen üben und Ergebnisse reflektieren. Das Vorhaben gehört zum Corporate Learning und befindet sich in Erarbeitung.<p><a href="/lernwirksam/#ki-coaching">Coaching-Simulation und Status →</a></p></div></div><div class="couplet"><span class="no">5</span><button aria-expanded="false" aria-controls="k5" id="kb5">Sie brauchen Bildungsmanagement, Kurskoordination oder Projektorganisation</button><div class="answer" id="k5" hidden>Bei der Ländlichen Erwachsenenbildung habe ich <strong>15 Kurse mit 8 Dozent:innen</strong> koordiniert und Angebote nach BAMF-Richtlinien geplant. Für das Forschungsprojekt SciVis habe ich die <strong>Abschlusstagung in Berlin</strong> hauptverantwortlich organisiert.<p><a href="#werdegang">Berufliche Stationen →</a></p></div></div><div class="couplet"><span class="no">6</span><button aria-expanded="false" aria-controls="k6" id="kb6">Sie entwickeln Bildungsmedien für Biologie, MINT oder Nachhaltigkeit</button><div class="answer" id="k6" hidden>Ich habe <strong>LandYOUs</strong> zur nachhaltigen Landnutzung mitentwickelt und die begleitende Handreichung im Team für Klett MINT verfasst. In der Biologiedidaktik habe ich Unterrichtskonzepte zur Biodiversität entwickelt und empirisch erprobt.<p><a href="#projekte">Fachliche Projekte →</a></p></div></div></div></div></section>
 
   <section class="block" id="werdegang">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg><b>06</b>Werdegang</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg><b>07</b>Werdegang</div>
     <div>
       <h2>Berufliche Stationen</h2>
       <ol class="timeline">
@@ -374,7 +377,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="ausbildung">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6"/></svg><b>07</b>Ausbildung</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6"/></svg><b>08</b>Ausbildung</div>
     <div>
       <h2>Studium und Weiterbildung</h2>
       <ol class="timeline">
@@ -390,7 +393,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="projekte">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg><b>08</b>Projekte</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg><b>09</b>Projekte</div>
     <div>
       <h2>Projekte und Vorhaben</h2>
       <div class="projects">
@@ -435,7 +438,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="portfolio">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><b>09</b>Portfolio</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><b>10</b>Portfolio</div>
     <div>
       <h2>Portfolio: Arbeitsproben zum Ansehen</h2>
       <p class="intro">Ausgewählte Arbeiten, die Sie direkt öffnen können. Hintergrund und Stand der Vorhaben stehen unter „Projekte“.</p>
@@ -449,7 +452,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="ausland">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h11a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 17a2 2 0 0 1 2-2h11M9 7h5M9 10h5"/></svg><b>10</b>Feldnotizen</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h11a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 17a2 2 0 0 1 2-2h11M9 7h5M9 10h5"/></svg><b>11</b>Feldnotizen</div>
     <div>
       <h2>Forschung und Studium im Ausland</h2>
       <ol class="timeline">
@@ -463,7 +466,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="kompetenzen">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><b>11</b>Kompetenzen</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><b>12</b>Kompetenzen</div>
     <div>
       <h2>Was ich mitbringe</h2>
       <div class="skills">
@@ -484,7 +487,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="engagement">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8C20 15.4 12 20 12 20z"/></svg><b>12</b>Engagement</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8C20 15.4 12 20 12 20z"/></svg><b>13</b>Engagement</div>
     <div>
       <h2>Ehrenamt</h2>
       <ol class="timeline">
@@ -555,19 +558,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
       <h2>Un viaje por mis etapas</h2>
       <p class="intro">Suba a bordo: con «Siguiente» vuela o viaja de etapa en etapa. O toque directamente un lugar.</p>
       <div class="journey" data-jlang="es" data-labels='{"prev": "Anterior", "next": "Siguiente", "play": "Reproducir viaje", "pause": "Pausar", "restart": "Desde el inicio", "of": "de", "plane": "en avión", "train": "en tren", "stay": "llegada", "start": "Inicio", "overview": "Vista general", "closeup": "Acercar"}'>
-        <div class="jmap"><div class="jstage"><svg viewBox="0 0 1000 620" role="img" aria-label="Mapa de las etapas">
-          <defs><pattern id="dots-es" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" class="jdot"/></pattern></defs>
-          <g class="jcam">
-          <rect x="-600" y="-400" width="2200" height="1420" fill="url(#dots-es)"/>
-          <rect class="jregion" x="600" y="40" width="385" height="380" rx="38"/>
-          <rect class="jregion" x="340" y="395" width="305" height="210" rx="38"/>
-          <rect class="jregion" x="70" y="380" width="215" height="170" rx="38"/>
-          <text class="jrname" x="965" y="400" text-anchor="end">Alemania</text>
-          <text class="jrname" x="360" y="430">España</text>
-          <text class="jrname" x="92" y="412">Ecuador</text>
-          <g class="jlegs"></g><g class="jshadow"></g><g class="jplaces"></g><g class="jvehicle"></g>
-          </g>
-        </svg></div></div>
+        <div class="jmap"><canvas class="jglobe" width="1000" height="620" role="img" aria-label="Mapa de las etapas"></canvas></div>
         <div class="jcard" aria-live="polite">
           <div class="jmeta"><span class="jstep"></span><span class="jmode"></span></div>
           <h3 class="jtitle"></h3>
@@ -581,7 +572,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
           <button type="button" class="btn ghost jview" aria-pressed="false">Vista general</button>
         </div>
         <ol class="jlist"></ol>
-        <p class="note">Mapa esquemático, sin escala.</p>
+        <p class="note">Datos cartográficos: Natural Earth (dominio público).</p>
       </div>
     </div>
   </section>
@@ -612,13 +603,27 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
       </ol>
     </div>
   </section>
+  <section class="block" id="es-conceptos">
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Conceptos didácticos</div>
+    <div>
+      <h2>Conceptos didácticos</h2>
+      <p class="intro">Cuatro enfoques con los que diseño el aprendizaje: la idea, para quién está pensado y dónde lo he aplicado.</p>
+      <div class="projects">
+<article class="project"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">IA y didáctica · borrador</span><h3>Diálogo socrático con IA</h3><p>Las personas escriben sus propios prompts. Un acompañante hace preguntas en lugar de dar respuestas: aclarar el objetivo, revisar el resultado y mejorarlo por sí mismas.</p><p class="org">Para la escuela, la educación de adultos, la formación corporativa y la gestión educativa. Concepto de 2026, aún sin probar.</p><a href="/lernwirksam/lernbegleiter-konzept.html">Leer el concepto (en alemán) →</a></article>
+<article class="project"><img src="/assets/projekte/landyous.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biología · sostenibilidad</span><h3>Aprendizaje basado en juegos</h3><p>Un juego didáctico ofrece un acceso lúdico al uso sostenible del suelo. Una guía acompaña al profesorado en su uso en clase.</p><p class="org">Codesarrollo del juego LandYOUs y de la guía en equipo, publicado en Klett MINT (2018).</p><a href="https://mint-zirkel.de/unterrichtsmaterial/landyous-2/" target="_blank" rel="noopener noreferrer">Ver LandYOUs ↗</a></article>
+<article class="project"><img src="/assets/projekte/oekoambulanz.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biodiversidad · escuela</span><h3>Ökoambulanz</h3><p>El alumnado se convierte en «ecosanitarios» y fomenta la biodiversidad en su centro. Una guía describe el proceso.</p><p class="org">Desarrollado de forma independiente y aplicado en escuelas asociadas a la UNESCO en Bremen (2019).</p></article>
+<article class="project"><img src="/assets/projekte/sprachsensibel.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Lengua · aprendizaje de contenidos</span><h3>Enseñanza de contenidos sensible a la lengua</h3><p>El aprendizaje de la materia y el de la lengua van juntos: se planifican el vocabulario técnico, las estructuras típicas y el apoyo a la lectura y la escritura.</p><p class="org">En clases de Biología y Español, como profesor sustituto, entre otras en alemán como lengua extranjera, y en cursos de idiomas del BAMF.</p></article>
+      </div>
+    </div>
+  </section>
+
 <section class="block" id="es-ai-literacy"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><path d="M10 14l2-4 2 4M10.6 13h2.8"/></svg><b>AI</b>Literacy</div><div><h2>Alfabetización en IA: competencias de un vistazo</h2><p class="intro">La alfabetización en IA combina conocimientos, habilidades prácticas y una actitud reflexiva. Para Lernwirksam, el marco AILit sirve de referencia al planificar propuestas de aprendizaje.</p><div class="ail-panel"><div class="ail-banner"><strong>Comprender. Crear. Decidir. Participar.</strong><p>Cuatro ámbitos conectados, con las personas al frente de las decisiones.</p></div><div class="ail-grid"><article class="ail-card"><span class="ail-no">01 / 04</span><h3>Interactuar con la IA</h3><p>Reconocer la IA, comprender sus límites y evaluar sus resultados con espíritu crítico.</p><details><summary>Ver un ejemplo práctico previsto</summary><p>Formación docente: Un profesor revisa un texto de Biología generado por IA, identifica errores y justifica sus correcciones.</p></details></article><article class="ail-card"><span class="ail-no">02 / 04</span><h3>Crear con IA</h3><p>Desarrollar ideas y materiales propios con IA y revisarlos de forma transparente.</p><details><summary>Ver un ejemplo práctico previsto</summary><p>App de alemán profesional: Los participantes elaboran un diálogo laboral con ayuda de IA y adaptan el vocabulario y el tono a la situación.</p></details></article><article class="ail-card"><span class="ail-no">03 / 04</span><h3>Gestionar la IA</h3><p>Repartir tareas, fijar objetivos claros y mantener el control de la calidad.</p><details><summary>Ver un ejemplo práctico previsto</summary><p>Simulación de coaching: Se distribuye una tarea laboral entre trabajo propio y apoyo de IA. Después se reflexiona sobre el proceso y el resultado.</p></details></article><article class="ail-card"><span class="ail-no">04 / 04</span><h3>Contribuir al diseño de la IA</h3><p>Cuestionar las decisiones humanas que hay detrás de la IA y proponer mejoras.</p><details><summary>Ver un ejemplo práctico previsto</summary><p>Piloto de Lernwirksam: Los participantes definen criterios para una ayuda de aprendizaje justa y comprensible y valoran un borrador con esos criterios.</p></details></article></div><div class="ail-footer"><p>Presentación propia simplificada basada en el marco AILit de la OCDE y la Comisión Europea. El marco original se dirige a la educación primaria y secundaria. Los ejemplos de educación de adultos y formación profesional continua son adaptaciones propias para iniciativas previstas de Lernwirksam.</p><p>La vista general describe objetivos de aprendizaje y una referencia conceptual; no acredita competencias personales.</p><p><a href="https://ailiteracyframework.org/" target="_blank" rel="noopener">Marco original ↗</a> · <a href="https://ki-campus.org/themen/ai-literacy" target="_blank" rel="noopener">Explicación en KI-Campus ↗</a></p></div><div class="ail-tips"><h3>Recursos para seguir aprendiendo</h3><ul><li><a href="https://ki-campus.org/" target="_blank" rel="noopener noreferrer">KI-Campus ↗</a>: cursos en línea gratuitos sobre IA y alfabetización en IA del Stifterverband y sus socios, en alemán e inglés.</li><li><a href="https://promptcowboy.ai/" target="_blank" rel="noopener noreferrer">Prompt Cowboy ↗</a>: herramienta que convierte ideas generales en prompts detallados. Mi consejo: escribir primero un prompt propio, compararlo con la propuesta y ver qué faltaba.</li></ul><p class="note">Servicios externos con sus propias normas de privacidad; Prompt Cowboy funciona con cuenta de usuario. No introduzca datos personales ni confidenciales. Los responsables de los sitios enlazados son sus operadores.</p></div><div class="ail-links"><a class="ail-jump" href="/lernwirksam/es/#ki-fortbildungen">Formación en IA para docentes →</a><a class="ail-jump" href="/lernwirksam/es/#ki-coaching">Simulación de coaching en IA →</a><a class="ail-jump" href="/lernwirksam/es/#berufssprachkurse">Cursos de alemán profesional →</a></div></div></div></section>
 
 
-  <section class="block" id="es-clave"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg><b>05</b>Clave de identificación</div><div><h2>¿Encajo en su puesto?</h2><div class="key"><p class="key-intro">Seleccione la necesidad que corresponde a su puesto. Las respuestas conectan mi experiencia con muestras de trabajo actuales e iniciativas previstas.</p><div class="couplet"><span class="no">1</span><button aria-expanded="false" aria-controls="ek1" id="ekb1">Quieren desarrollar competencias en IA o formar a docentes</button><div class="answer" id="ek1" hidden>Combino experiencia docente y en educación de adultos con un enfoque en IA y didáctica. En <strong>Lernwirksam</strong> preveo formación en IA para docentes. Los cuatro ámbitos de AILit orientan los objetivos y las actividades. La formación de KI-Campus está en curso y prevista; el curso de certificado KI-Manager (IHK) comienza el 16/11/2026.<p><a href="#es-ai-literacy">Vista general de competencias en IA →</a></p></div></div><div class="couplet"><span class="no">2</span><button aria-expanded="false" aria-controls="ek2" id="ekb2">Desarrollan aprendizaje digital, materiales o aplicaciones educativas</button><div class="answer" id="ek2" hidden>Diseño propuestas desde una perspectiva didáctica y disciplinar, utilizando herramientas de IA y Canva. Con <strong>Karrierekompass</strong> desarrollo un asistente de carrera y formación. Se prevé una <strong>app para cursos de alemán profesional</strong>.<p><a href="#es-proyectos">Proyectos y estado de desarrollo →</a></p></div></div><div class="couplet"><span class="no">3</span><button aria-expanded="false" aria-controls="ek3" id="ekb3">Buscan experiencia en educación de adultos, alemán o español</button><div class="answer" id="ek3" hidden>Como <strong>docente de alemán acreditado por el BAMF</strong>, cuento con experiencia en cursos de idioma e integración. Estudié Biología y Español, hablo español a nivel <strong>C1</strong> y tengo experiencia en enseñanza sensible a las necesidades lingüísticas. La app prevista de alemán profesional parte de esta base.<p><a href="/lernwirksam/es/#berufssprachkurse">Iniciativa de alemán profesional →</a></p></div></div><div class="couplet"><span class="no">4</span><button aria-expanded="false" aria-controls="ek4" id="ekb4">Quieren diseñar formación corporativa y coaching en IA para empleados</button><div class="answer" id="ek4" hidden>Estoy elaborando una <strong>simulación de coaching en IA como muestra de trabajo</strong>: concretar una situación laboral, fijar objetivos, practicar con IA y reflexionar sobre los resultados. La iniciativa pertenece a la formación corporativa y está en elaboración.<p><a href="/lernwirksam/es/#ki-coaching">Simulación de coaching y estado →</a></p></div></div><div class="couplet"><span class="no">5</span><button aria-expanded="false" aria-controls="ek5" id="ekb5">Necesitan gestión educativa, coordinación de cursos o proyectos</button><div class="answer" id="ek5" hidden>En Ländliche Erwachsenenbildung coordiné <strong>15 cursos con 8 docentes</strong> y planifiqué ofertas conforme a las directrices del BAMF. Fui responsable principal de organizar el <strong>congreso final de SciVis en Berlín</strong>.<p><a href="#es-trayectoria">Trayectoria profesional →</a></p></div></div><div class="couplet"><span class="no">6</span><button aria-expanded="false" aria-controls="ek6" id="ekb6">Desarrollan materiales de Biología, ciencias o sostenibilidad</button><div class="answer" id="ek6" hidden>Codesarrollé <strong>LandYOUs</strong> sobre uso sostenible del suelo y redacté en equipo la guía para Klett MINT. En Didáctica de la Biología elaboré propuestas sobre biodiversidad y las evalué empíricamente.<p><a href="#es-proyectos">Proyectos de la especialidad →</a></p></div></div></div></div></section>
+  <section class="block" id="es-clave"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg><b>06</b>Clave de identificación</div><div><h2>¿Encajo en su puesto?</h2><div class="key"><p class="key-intro">Seleccione la necesidad que corresponde a su puesto. Las respuestas conectan mi experiencia con muestras de trabajo actuales e iniciativas previstas.</p><div class="couplet"><span class="no">1</span><button aria-expanded="false" aria-controls="ek1" id="ekb1">Quieren desarrollar competencias en IA o formar a docentes</button><div class="answer" id="ek1" hidden>Combino experiencia docente y en educación de adultos con un enfoque en IA y didáctica. En <strong>Lernwirksam</strong> preveo formación en IA para docentes. Los cuatro ámbitos de AILit orientan los objetivos y las actividades. La formación de KI-Campus está en curso y prevista; el curso de certificado KI-Manager (IHK) comienza el 16/11/2026.<p><a href="#es-ai-literacy">Vista general de competencias en IA →</a></p></div></div><div class="couplet"><span class="no">2</span><button aria-expanded="false" aria-controls="ek2" id="ekb2">Desarrollan aprendizaje digital, materiales o aplicaciones educativas</button><div class="answer" id="ek2" hidden>Diseño propuestas desde una perspectiva didáctica y disciplinar, utilizando herramientas de IA y Canva. Con <strong>Karrierekompass</strong> desarrollo un asistente de carrera y formación. Se prevé una <strong>app para cursos de alemán profesional</strong>.<p><a href="#es-proyectos">Proyectos y estado de desarrollo →</a></p></div></div><div class="couplet"><span class="no">3</span><button aria-expanded="false" aria-controls="ek3" id="ekb3">Buscan experiencia en educación de adultos, alemán o español</button><div class="answer" id="ek3" hidden>Como <strong>docente de alemán acreditado por el BAMF</strong>, cuento con experiencia en cursos de idioma e integración. Estudié Biología y Español, hablo español a nivel <strong>C1</strong> y tengo experiencia en enseñanza sensible a las necesidades lingüísticas. La app prevista de alemán profesional parte de esta base.<p><a href="/lernwirksam/es/#berufssprachkurse">Iniciativa de alemán profesional →</a></p></div></div><div class="couplet"><span class="no">4</span><button aria-expanded="false" aria-controls="ek4" id="ekb4">Quieren diseñar formación corporativa y coaching en IA para empleados</button><div class="answer" id="ek4" hidden>Estoy elaborando una <strong>simulación de coaching en IA como muestra de trabajo</strong>: concretar una situación laboral, fijar objetivos, practicar con IA y reflexionar sobre los resultados. La iniciativa pertenece a la formación corporativa y está en elaboración.<p><a href="/lernwirksam/es/#ki-coaching">Simulación de coaching y estado →</a></p></div></div><div class="couplet"><span class="no">5</span><button aria-expanded="false" aria-controls="ek5" id="ekb5">Necesitan gestión educativa, coordinación de cursos o proyectos</button><div class="answer" id="ek5" hidden>En Ländliche Erwachsenenbildung coordiné <strong>15 cursos con 8 docentes</strong> y planifiqué ofertas conforme a las directrices del BAMF. Fui responsable principal de organizar el <strong>congreso final de SciVis en Berlín</strong>.<p><a href="#es-trayectoria">Trayectoria profesional →</a></p></div></div><div class="couplet"><span class="no">6</span><button aria-expanded="false" aria-controls="ek6" id="ekb6">Desarrollan materiales de Biología, ciencias o sostenibilidad</button><div class="answer" id="ek6" hidden>Codesarrollé <strong>LandYOUs</strong> sobre uso sostenible del suelo y redacté en equipo la guía para Klett MINT. En Didáctica de la Biología elaboré propuestas sobre biodiversidad y las evalué empíricamente.<p><a href="#es-proyectos">Proyectos de la especialidad →</a></p></div></div></div></div></section>
 
   <section class="block" id="es-trayectoria">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg><b>06</b>Trayectoria</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg><b>07</b>Trayectoria</div>
     <div>
       <h2>Experiencia profesional</h2>
       <ol class="timeline">
@@ -632,7 +637,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="es-formacion">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6"/></svg><b>07</b>Formación</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6"/></svg><b>08</b>Formación</div>
     <div>
       <h2>Estudios y formación continua</h2>
       <ol class="timeline">
@@ -649,7 +654,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="es-proyectos">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg><b>08</b>Proyectos</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg><b>09</b>Proyectos</div>
     <div>
       <h2>Proyectos e iniciativas previstas</h2>
       <div class="projects">
@@ -694,7 +699,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="es-portafolio">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><b>09</b>Portafolio</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><b>10</b>Portafolio</div>
     <div>
       <h2>Portafolio: muestras de trabajo</h2>
       <p class="intro">Trabajos seleccionados que puede abrir directamente. El contexto y el estado de las iniciativas están en «Proyectos».</p>
@@ -708,7 +713,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="es-exterior">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h11a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 17a2 2 0 0 1 2-2h11M9 7h5M9 10h5"/></svg><b>10</b>Cuaderno de campo</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h11a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 17a2 2 0 0 1 2-2h11M9 7h5M9 10h5"/></svg><b>11</b>Cuaderno de campo</div>
     <div>
       <h2>Investigación y estudios en el extranjero</h2>
       <ol class="timeline">
@@ -722,7 +727,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="es-competencias">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><b>11</b>Competencias</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><b>12</b>Competencias</div>
     <div>
       <h2>Lo que aporto</h2>
       <div class="skills">
@@ -743,7 +748,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="es-compromiso">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8C20 15.4 12 20 12 20z"/></svg><b>12</b>Compromiso</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8C20 15.4 12 20 12 20z"/></svg><b>13</b>Compromiso</div>
     <div>
       <h2>Voluntariado</h2>
       <ol class="timeline">
@@ -814,19 +819,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
       <h2>A journey through my stations</h2>
       <p class="intro">All aboard: use “Next” to fly or ride from station to station, or tap a place directly.</p>
       <div class="journey" data-jlang="en" data-labels='{"prev": "Back", "next": "Next", "play": "Play journey", "pause": "Pause", "restart": "Start over", "of": "of", "plane": "by plane", "train": "by train", "stay": "arrived", "start": "Start", "overview": "Overview", "closeup": "Zoom in"}'>
-        <div class="jmap"><div class="jstage"><svg viewBox="0 0 1000 620" role="img" aria-label="Map of life stations">
-          <defs><pattern id="dots-en" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" class="jdot"/></pattern></defs>
-          <g class="jcam">
-          <rect x="-600" y="-400" width="2200" height="1420" fill="url(#dots-en)"/>
-          <rect class="jregion" x="600" y="40" width="385" height="380" rx="38"/>
-          <rect class="jregion" x="340" y="395" width="305" height="210" rx="38"/>
-          <rect class="jregion" x="70" y="380" width="215" height="170" rx="38"/>
-          <text class="jrname" x="965" y="400" text-anchor="end">Germany</text>
-          <text class="jrname" x="360" y="430">Spain</text>
-          <text class="jrname" x="92" y="412">Ecuador</text>
-          <g class="jlegs"></g><g class="jshadow"></g><g class="jplaces"></g><g class="jvehicle"></g>
-          </g>
-        </svg></div></div>
+        <div class="jmap"><canvas class="jglobe" width="1000" height="620" role="img" aria-label="Map of life stations"></canvas></div>
         <div class="jcard" aria-live="polite">
           <div class="jmeta"><span class="jstep"></span><span class="jmode"></span></div>
           <h3 class="jtitle"></h3>
@@ -840,7 +833,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
           <button type="button" class="btn ghost jview" aria-pressed="false">Overview</button>
         </div>
         <ol class="jlist"></ol>
-        <p class="note">Schematic map, not to scale.</p>
+        <p class="note">Map data: Natural Earth (public domain).</p>
       </div>
     </div>
   </section>
@@ -871,13 +864,27 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
       </ol>
     </div>
   </section>
+  <section class="block" id="en-concepts">
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Teaching concepts</div>
+    <div>
+      <h2>Teaching concepts</h2>
+      <p class="intro">Four approaches I use to design learning: the idea, who it is for and where I have used it.</p>
+      <div class="projects">
+<article class="project"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">AI &amp; instructional design · draft</span><h3>Socratic dialogue with AI</h3><p>Learners write their own prompts. A learning companion asks questions instead of giving answers: clarify the goal, check the result, improve it themselves.</p><p class="org">For schools, adult education, corporate learning and education management. Concept from 2026, not yet tested.</p><a href="/lernwirksam/lernbegleiter-konzept.html">Read the concept (in German) →</a></article>
+<article class="project"><img src="/assets/projekte/landyous.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biology · sustainability</span><h3>Game-based learning</h3><p>A learning game offers a playful way into sustainable land use. A teacher’s guide supports its use in class.</p><p class="org">Co-developed the game LandYOUs and its guide as a team, published by Klett MINT (2018).</p><a href="https://mint-zirkel.de/unterrichtsmaterial/landyous-2/" target="_blank" rel="noopener noreferrer">View LandYOUs ↗</a></article>
+<article class="project"><img src="/assets/projekte/oekoambulanz.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biodiversity · school</span><h3>Ökoambulanz</h3><p>Students become “eco-paramedics” and promote biodiversity at their school. A guide describes the process.</p><p class="org">Developed independently and implemented at UNESCO Associated Schools in Bremen (2019).</p></article>
+<article class="project"><img src="/assets/projekte/sprachsensibel.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Language · subject learning</span><h3>Language-sensitive subject teaching</h3><p>Subject learning and language learning belong together: technical vocabulary, typical sentence patterns and support for reading and writing are planned in.</p><p class="org">In biology and Spanish lessons, as a substitute teacher including German as a second language, and in BAMF language courses.</p></article>
+      </div>
+    </div>
+  </section>
+
 <section class="block" id="en-ai-literacy"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><path d="M10 14l2-4 2 4M10.6 13h2.8"/></svg><b>AI</b>Literacy</div><div><h2>AI literacy: a competence overview</h2><p class="intro">AI literacy brings together knowledge, practical skills and reflective attitudes. For Lernwirksam, the AILit framework provides a reference for planning learning activities.</p><div class="ail-panel"><div class="ail-banner"><strong>Understand. Create. Decide. Shape.</strong><p>Four connected domains, with people retaining responsibility.</p></div><div class="ail-grid"><article class="ail-card"><span class="ail-no">01 / 04</span><h3>Engage with AI</h3><p>Recognise AI, understand its limitations and critically assess its outputs.</p><details><summary>Open a planned practice example</summary><p>Educator training: A teacher checks an AI-generated biology text for factual errors and explains the corrections.</p></details></article><article class="ail-card"><span class="ail-no">02 / 04</span><h3>Create with AI</h3><p>Develop original ideas and materials with AI and revise them transparently.</p><details><summary>Open a planned practice example</summary><p>Vocational German app: Participants draft a workplace dialogue with AI support and adapt the vocabulary and tone to the situation.</p></details></article><article class="ail-card"><span class="ail-no">03 / 04</span><h3>Manage AI</h3><p>Allocate tasks appropriately, define clear goals and retain quality control.</p><details><summary>Open a planned practice example</summary><p>Coaching simulation: A workplace task is divided between independent work and AI assistance. The process and result are then reviewed together.</p></details></article><article class="ail-card"><span class="ail-no">04 / 04</span><h3>Shape AI</h3><p>Question the human decisions behind AI and consider how systems could improve.</p><details><summary>Open a planned practice example</summary><p>Lernwirksam pilot: Learners specify requirements for a fair, understandable learning aid and evaluate a draft against those criteria.</p></details></article></div><div class="ail-footer"><p>An original, simplified presentation informed by the AILit framework of the OECD and European Commission. The original framework addresses primary and secondary education. The adult and professional learning examples are my own proposed adaptations for planned Lernwirksam projects.</p><p>This overview describes learning goals and a conceptual reference, rather than evidence of personal competence.</p><p><a href="https://ailiteracyframework.org/" target="_blank" rel="noopener">Original framework ↗</a> · <a href="https://ki-campus.org/themen/ai-literacy" target="_blank" rel="noopener">AI Campus explanation ↗</a></p></div><div class="ail-tips"><h3>Tips for further learning</h3><ul><li><a href="https://ki-campus.org/" target="_blank" rel="noopener noreferrer">AI Campus (KI-Campus) ↗</a>: free online courses on AI and AI literacy from the Stifterverband and partners, in German and English.</li><li><a href="https://promptcowboy.ai/" target="_blank" rel="noopener noreferrer">Prompt Cowboy ↗</a>: a tool that turns rough ideas into detailed prompts. My tip: write your own prompt first, then compare it with the suggestion and see what was missing.</li></ul><p class="note">External services with their own privacy rules; Prompt Cowboy works with a user account. Do not enter personal or confidential data. The operators of linked sites are responsible for their content.</p></div><div class="ail-links"><a class="ail-jump" href="/lernwirksam/en/#ki-fortbildungen">AI training for educators →</a><a class="ail-jump" href="/lernwirksam/en/#ki-coaching">AI coaching simulation →</a><a class="ail-jump" href="/lernwirksam/en/#berufssprachkurse">Vocational German courses →</a></div></div></div></section>
 
 
-  <section class="block" id="en-key"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg><b>05</b>Identification key</div><div><h2>Am I a fit for your role?</h2><div class="key"><p class="key-intro">Choose the need that matches your role. Each answer connects my experience with current work samples and planned projects.</p><div class="couplet"><span class="no">1</span><button aria-expanded="false" aria-controls="nk1" id="nkb1">You want to build AI literacy or train educators</button><div class="answer" id="nk1" hidden>I combine teaching and adult education experience with a focus on AI and instructional design. Within <strong>Lernwirksam</strong>, I am planning AI training for educators, using the four AILit domains to inform learning goals and activities. AI Campus training is ongoing and planned; the IHK AI Manager certificate course starts on 16 November 2026.<p><a href="#en-ai-literacy">AI literacy overview →</a></p></div></div><div class="couplet"><span class="no">2</span><button aria-expanded="false" aria-controls="nk2" id="nkb2">You develop digital learning, learning materials or education apps</button><div class="answer" id="nk2" hidden>I design learning activities from a subject and instructional perspective, using AI tools and Canva. With <strong>Karrierekompass</strong>, I am developing a career and training assistant. A companion <strong>app for vocational German courses</strong> is planned.<p><a href="#en-projects">Projects and development status →</a></p></div></div><div class="couplet"><span class="no">3</span><button aria-expanded="false" aria-controls="nk3" id="nkb3">You need adult education, German language teaching or Spanish experience</button><div class="answer" id="nk3" hidden>As a <strong>BAMF-approved German teacher</strong>, I bring experience in language and integration courses. I studied biology and Spanish, speak Spanish at <strong>C1</strong> level and have taught language-sensitive subject lessons. The planned vocational German app builds on this background.<p><a href="/lernwirksam/en/#berufssprachkurse">Vocational German project →</a></p></div></div><div class="couplet"><span class="no">4</span><button aria-expanded="false" aria-controls="nk4" id="nkb4">You want to develop corporate learning and AI coaching for employees</button><div class="answer" id="nk4" hidden>For professional development, I am preparing an <strong>AI coaching simulation as a work sample</strong>: identifying a workplace situation, setting learning goals, practising AI use and reflecting on results. This corporate learning project is currently in preparation.<p><a href="/lernwirksam/en/#ki-coaching">Coaching simulation and status →</a></p></div></div><div class="couplet"><span class="no">5</span><button aria-expanded="false" aria-controls="nk5" id="nkb5">You need education management, course coordination or project organisation</button><div class="answer" id="nk5" hidden>At Ländliche Erwachsenenbildung, I coordinated <strong>15 courses with 8 teachers</strong> and planned provision under BAMF guidelines. For the SciVis research project, I was lead organiser of the <strong>final conference in Berlin</strong>.<p><a href="#en-experience">Career experience →</a></p></div></div><div class="couplet"><span class="no">6</span><button aria-expanded="false" aria-controls="nk6" id="nkb6">You develop educational media for biology, STEM or sustainability</button><div class="answer" id="nk6" hidden>I co-developed <strong>LandYOUs</strong> on sustainable land use and co-wrote the accompanying guide for Klett MINT. In biology education research, I developed biodiversity teaching concepts and tested them empirically.<p><a href="#en-projects">Subject-related projects →</a></p></div></div></div></div></section>
+  <section class="block" id="en-key"><div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg><b>06</b>Identification key</div><div><h2>Am I a fit for your role?</h2><div class="key"><p class="key-intro">Choose the need that matches your role. Each answer connects my experience with current work samples and planned projects.</p><div class="couplet"><span class="no">1</span><button aria-expanded="false" aria-controls="nk1" id="nkb1">You want to build AI literacy or train educators</button><div class="answer" id="nk1" hidden>I combine teaching and adult education experience with a focus on AI and instructional design. Within <strong>Lernwirksam</strong>, I am planning AI training for educators, using the four AILit domains to inform learning goals and activities. AI Campus training is ongoing and planned; the IHK AI Manager certificate course starts on 16 November 2026.<p><a href="#en-ai-literacy">AI literacy overview →</a></p></div></div><div class="couplet"><span class="no">2</span><button aria-expanded="false" aria-controls="nk2" id="nkb2">You develop digital learning, learning materials or education apps</button><div class="answer" id="nk2" hidden>I design learning activities from a subject and instructional perspective, using AI tools and Canva. With <strong>Karrierekompass</strong>, I am developing a career and training assistant. A companion <strong>app for vocational German courses</strong> is planned.<p><a href="#en-projects">Projects and development status →</a></p></div></div><div class="couplet"><span class="no">3</span><button aria-expanded="false" aria-controls="nk3" id="nkb3">You need adult education, German language teaching or Spanish experience</button><div class="answer" id="nk3" hidden>As a <strong>BAMF-approved German teacher</strong>, I bring experience in language and integration courses. I studied biology and Spanish, speak Spanish at <strong>C1</strong> level and have taught language-sensitive subject lessons. The planned vocational German app builds on this background.<p><a href="/lernwirksam/en/#berufssprachkurse">Vocational German project →</a></p></div></div><div class="couplet"><span class="no">4</span><button aria-expanded="false" aria-controls="nk4" id="nkb4">You want to develop corporate learning and AI coaching for employees</button><div class="answer" id="nk4" hidden>For professional development, I am preparing an <strong>AI coaching simulation as a work sample</strong>: identifying a workplace situation, setting learning goals, practising AI use and reflecting on results. This corporate learning project is currently in preparation.<p><a href="/lernwirksam/en/#ki-coaching">Coaching simulation and status →</a></p></div></div><div class="couplet"><span class="no">5</span><button aria-expanded="false" aria-controls="nk5" id="nkb5">You need education management, course coordination or project organisation</button><div class="answer" id="nk5" hidden>At Ländliche Erwachsenenbildung, I coordinated <strong>15 courses with 8 teachers</strong> and planned provision under BAMF guidelines. For the SciVis research project, I was lead organiser of the <strong>final conference in Berlin</strong>.<p><a href="#en-experience">Career experience →</a></p></div></div><div class="couplet"><span class="no">6</span><button aria-expanded="false" aria-controls="nk6" id="nkb6">You develop educational media for biology, STEM or sustainability</button><div class="answer" id="nk6" hidden>I co-developed <strong>LandYOUs</strong> on sustainable land use and co-wrote the accompanying guide for Klett MINT. In biology education research, I developed biodiversity teaching concepts and tested them empirically.<p><a href="#en-projects">Subject-related projects →</a></p></div></div></div></div></section>
 
   <section class="block" id="en-experience">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg><b>06</b>Experience</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg><b>07</b>Experience</div>
     <div>
       <h2>Professional experience</h2>
       <ol class="timeline">
@@ -891,7 +898,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="en-education">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6"/></svg><b>07</b>Education</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6"/></svg><b>08</b>Education</div>
     <div>
       <h2>Studies and further training</h2>
       <ol class="timeline">
@@ -908,7 +915,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="en-projects">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg><b>08</b>Projects</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg><b>09</b>Projects</div>
     <div>
       <h2>Projects and plans</h2>
       <div class="projects">
@@ -953,7 +960,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="en-portfolio">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><b>09</b>Portfolio</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><b>10</b>Portfolio</div>
     <div>
       <h2>Portfolio: work samples</h2>
       <p class="intro">Selected work you can open directly. Background and status of each project are under “Projects”.</p>
@@ -967,7 +974,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="en-abroad">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h11a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 17a2 2 0 0 1 2-2h11M9 7h5M9 10h5"/></svg><b>10</b>Field notes</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h11a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 17a2 2 0 0 1 2-2h11M9 7h5M9 10h5"/></svg><b>11</b>Field notes</div>
     <div>
       <h2>Research and study abroad</h2>
       <ol class="timeline">
@@ -981,7 +988,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="en-skills">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><b>11</b>Skills</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><b>12</b>Skills</div>
     <div>
       <h2>What I bring</h2>
       <div class="skills">
@@ -1002,7 +1009,7 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
   </section>
 
   <section class="block" id="en-volunteering">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8C20 15.4 12 20 12 20z"/></svg><b>12</b>Community</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8C20 15.4 12 20 12 20z"/></svg><b>13</b>Community</div>
     <div>
       <h2>Volunteering</h2>
       <ol class="timeline">
@@ -1074,116 +1081,6 @@ document.querySelectorAll('.langswitch button').forEach(function(b){
 window.addEventListener('hashchange', function(){ setLang(langFromHash()); });
 setLang(langFromHash());
 </script>
-<script>
-(function(){
-var JD = {"places": {"lingen": {"xy": [673, 201], "label": "Lingen", "lx": -14, "ly": 7, "a": "end", "vx": 36, "vy": -28}, "meppen": {"xy": [672, 182], "label": "Meppen", "lx": -14, "ly": 0, "a": "end", "vx": 36, "vy": -26}, "osnabrueck": {"xy": [702, 227], "label": "Osnabrück", "lx": 0, "ly": 36, "a": "middle"}, "bremen": {"xy": [732, 140], "label": "Bremen", "lx": 14, "ly": 7, "a": "start"}, "braunschweig": {"xy": [801, 228], "label": "Braunschweig", "lx": 0, "ly": -18, "a": "middle"}, "halle": {"xy": [859, 314], "label": "Halle", "lx": 14, "ly": 7, "a": "start"}, "berlin": {"xy": [916, 201], "label": "Berlin", "lx": 0, "ly": -16, "a": "middle"}, "nrw": {"xy": [642, 330], "label": "NRW", "lx": 0, "ly": 30, "a": "middle"}, "cadiz": {"xy": [454, 576], "label": "Cádiz", "lx": -14, "ly": 7, "a": "end"}, "valladolid": {"xy": [503, 439], "label": "Valladolid", "lx": 14, "ly": 7, "a": "start"}, "granada": {"xy": [538, 559], "label": "Granada", "lx": 14, "ly": 7, "a": "start"}, "cuenca": {"xy": [175, 470], "label": "Cuenca", "lx": 0, "ly": 30, "a": "middle"}}, "stations": [{"p": "lingen", "m": null, "when": {"de": "bis 2008", "es": "hasta 2008", "en": "until 2008"}, "title": {"de": "Wo alles beginnt", "es": "Donde todo empieza", "en": "Where it all begins"}, "text": {"de": "In meiner Heimatstadt engagiere ich mich früh: durch aktive Mitwirkung bei den Kivelinge, in der Kinder- und Jugendarbeit von St. Bonifatius und im Zivildienst beim Malteser Hilfsdienst.", "es": "En mi ciudad natal me implico pronto: participando activamente en los Kivelinge, en el trabajo con niños y jóvenes de la parroquia de San Bonifacio y en el servicio civil con Malteser.", "en": "In my home town I get involved early: through active involvement in the Kivelinge society, in children's and youth work at St. Bonifatius and in civilian service with the Malteser."}}, {"p": "braunschweig", "m": "train", "when": {"de": "2008 – 2009", "es": "2008 – 2009", "en": "2008 – 2009"}, "title": {"de": "Erster Schritt ins Studium", "es": "Primer paso en la universidad", "en": "First step into university"}, "text": {"de": "Ein Orientierungsjahr im Bioingenieurwesen an der TU Braunschweig.", "es": "Un año de orientación en Bioingeniería en la Universidad Técnica de Braunschweig.", "en": "An orientation year in bioengineering at TU Braunschweig."}}, {"p": "osnabrueck", "m": "train", "when": {"de": "2009 – 2013", "es": "2009 – 2013", "en": "2009 – 2013"}, "title": {"de": "Biologie und Spanisch", "es": "Biología y Español", "en": "Biology and Spanish"}, "text": {"de": "Studium Biologie und Spanisch an der Universität Osnabrück, abgeschlossen mit dem Bachelor of Arts (Note 1,9).", "es": "Estudios de Biología y Español en la Universidad de Osnabrück, con el grado (B.A.) y nota 1,9.", "en": "Biology and Spanish at the University of Osnabrück, completed with a Bachelor of Arts (grade 1.9)."}}, {"p": "cadiz", "m": "plane", "when": {"de": "2010", "es": "2010", "en": "2010"}, "title": {"de": "Eintauchen ins Spanische", "es": "Inmersión en el español", "en": "Immersed in Spanish"}, "text": {"de": "Zwei Intensiv-Sprachkurse an der Escuela de Español K2 Internacional.", "es": "Dos cursos intensivos en la Escuela de Español K2 Internacional.", "en": "Two intensive language courses at the Escuela de Español K2 Internacional."}}, {"p": "valladolid", "m": "train", "when": {"de": "2011 – 2012", "es": "2011 – 2012", "en": "2011 – 2012"}, "title": {"de": "Ein Jahr ERASMUS", "es": "Un año de ERASMUS", "en": "A year of ERASMUS"}, "text": {"de": "Zwei Semester an der Universidad de Valladolid.", "es": "Dos semestres en la Universidad de Valladolid.", "en": "Two semesters at the University of Valladolid."}}, {"p": "granada", "m": "train", "when": {"de": "2012", "es": "2012", "en": "2012"}, "title": {"de": "Auf der Bühne in Granada", "es": "En el escenario de Granada", "en": "On stage in Granada"}, "text": {"de": "Ich präsentiere ein internationales Projekt zur Optimierung von ERASMUS auf dem Jubiläumskongress.", "es": "Presento un proyecto internacional para mejorar ERASMUS en el congreso del aniversario.", "en": "I present an international project on improving ERASMUS at the anniversary congress."}}, {"p": "osnabrueck", "m": "plane", "when": {"de": "2013 – 2015", "es": "2013 – 2015", "en": "2013 – 2015"}, "title": {"de": "Master of Education", "es": "Máster en Educación", "en": "Master of Education"}, "text": {"de": "Master in Biologie und Spanisch (Note 1,5), dazu die Mediatorenausbildung und die Betreuung internationaler Studierender in der Summer School.", "es": "Máster en Biología y Español (nota 1,5), además de la formación como mediador y la atención a estudiantes internacionales en la Summer School.", "en": "Master's in biology and Spanish (grade 1.5), plus mediator training and looking after international students at the Summer School."}}, {"p": "cuenca", "m": "plane", "when": {"de": "2015", "es": "2015", "en": "2015"}, "title": {"de": "Forschen in Ecuador", "es": "Investigar en Ecuador", "en": "Research in Ecuador"}, "text": {"de": "Empirische Erhebungen für meine Masterarbeit. Ecuador wird zum wiederkehrenden Ziel: 2016 und 2018 komme ich für Feldforschung zurück.", "es": "Recogida de datos para mi trabajo de fin de máster. Ecuador se convierte en un destino recurrente: vuelvo en 2016 y 2018 para investigar.", "en": "Empirical fieldwork for my master's thesis. Ecuador becomes a recurring destination: I return for research in 2016 and 2018."}}, {"p": "halle", "m": "plane", "when": {"de": "2016", "es": "2016", "en": "2016"}, "title": {"de": "Biodiversität lehren", "es": "Enseñar biodiversidad", "en": "Teaching biodiversity"}, "text": {"de": "Wissenschaftlicher Mitarbeiter in der Biologiedidaktik der Universität Halle-Wittenberg: Bildungsangebote zur Biodiversität für den Schulunterricht.", "es": "Investigador en Didáctica de la Biología en la Universidad de Halle-Wittenberg: propuestas sobre biodiversidad para la escuela.", "en": "Research associate in biology education at the University of Halle-Wittenberg: biodiversity learning offers for schools."}}, {"p": "bremen", "m": "train", "when": {"de": "2017 – 2019", "es": "2017 – 2019", "en": "2017 – 2019"}, "title": {"de": "Forschung trifft Klassenzimmer", "es": "La investigación llega al aula", "en": "Research meets the classroom"}, "text": {"de": "An der Universität Bremen entwickle und erprobe ich Unterrichtsinterventionen zur biologischen Vielfalt, dazu das Lernspiel LandYOUs und die Ökoambulanz für UNESCO-Projektschulen.", "es": "En la Universidad de Bremen diseño y evalúo intervenciones didácticas sobre biodiversidad, además del juego LandYOUs y la Ökoambulanz para escuelas UNESCO.", "en": "At the University of Bremen I design and test teaching interventions on biodiversity, plus the learning game LandYOUs and the Ökoambulanz for UNESCO schools."}}, {"p": "berlin", "m": "train", "when": {"de": "2018", "es": "2018", "en": "2018"}, "title": {"de": "Eine Tagung organisieren", "es": "Organizar un congreso", "en": "Running a conference"}, "text": {"de": "Hauptverantwortlich organisiere ich die wissenschaftliche Abschlusstagung des Forschungsprojekts SciVis.", "es": "Organizo como responsable principal el congreso científico final del proyecto SciVis.", "en": "I am lead organiser of the final academic conference of the SciVis research project."}}, {"p": "nrw", "m": "train", "when": {"de": "2019 – 2021 · 2025 – 2026", "es": "2019 – 2021 · 2025 – 2026", "en": "2019 – 2021 · 2025 – 2026"}, "title": {"de": "Unterrichtspraxis an Schulen", "es": "Práctica docente en centros", "en": "Teaching practice in schools"}, "text": {"de": "Eigenverantwortlicher Unterricht in Biologie und Spanisch an Gymnasien in Nordrhein-Westfalen, mit ersten digitalen Lernkonzepten.", "es": "Docencia autónoma de Biología y Español en institutos de Renania del Norte-Westfalia, con primeros conceptos de aprendizaje digital.", "en": "Independent teaching of biology and Spanish at grammar schools in North Rhine-Westphalia, trialling digital learning concepts."}}, {"p": "meppen", "m": "train", "when": {"de": "2023", "es": "2023", "en": "2023"}, "title": {"de": "Vertretung mit Sprachgefühl", "es": "Sustituciones con sensibilidad lingüística", "en": "Covering classes, language-aware"}, "text": {"de": "Vertretungslehrkraft an der Anne-Frank-Oberschule: Biologie, Gesundheit & Soziales und DaF/DaZ.", "es": "Profesor sustituto en la Anne-Frank-Oberschule: Biología, Salud y Asuntos Sociales y alemán como segunda lengua.", "en": "Substitute teacher at the Anne-Frank-Oberschule: biology, health & social care and German as a second language."}}, {"p": "lingen", "m": "train", "when": {"de": "2023 – 2025", "es": "2023 – 2025", "en": "2023 – 2025"}, "title": {"de": "Erwachsenenbildung", "es": "Educación de adultos", "en": "Adult education"}, "text": {"de": "Bildungskoordinator und BAMF-Dozent bei der Ländlichen Erwachsenenbildung: 15 Kurse, 8 Dozent:innen und eigener Unterricht in DaF/DaZ.", "es": "Coordinador educativo y docente del BAMF en la Ländliche Erwachsenenbildung: 15 cursos, 8 docentes y clases propias de alemán.", "en": "Education coordinator and BAMF teacher at the Ländliche Erwachsenenbildung: 15 courses, 8 teachers and my own German classes."}}, {"p": "lingen", "m": "stay", "when": {"de": "heute", "es": "hoy", "en": "today"}, "title": {"de": "Nächster Halt: digitales Lernen", "es": "Próxima parada: aprendizaje digital", "en": "Next stop: digital learning"}, "text": {"de": "IHK-Lehrgang KI-Manager, die eigene App Karrierekompass und die geplante Mesa Redonda, ein internationaler Stammtisch in Lingen. Und danach vielleicht Ihr Team?", "es": "Certificado IHK de KI-Manager, mi app Karrierekompass y la Mesa Redonda, un encuentro internacional en fase de planificación en Lingen. ¿Y después, quizá su equipo?", "en": "The IHK AI Manager course, my own app Karrierekompass and the planned Mesa Redonda, an international meetup in Lingen. And next, perhaps your team?"}}]};
-var NS = 'http://www.w3.org/2000/svg';
-var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-function el(n, a){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
-function legPath(a, b, mode){
-  if (mode === 'plane'){
-    var mx = (a[0]+b[0])/2, my = (a[1]+b[1])/2, dx = b[0]-a[0], dy = b[1]-a[1], d = Math.sqrt(dx*dx+dy*dy);
-    var cx = mx + dy*0.25, cy = my - Math.abs(dx)*0.25 - d*0.12;
-    return 'M'+a[0]+','+a[1]+' Q'+cx.toFixed(1)+','+cy.toFixed(1)+' '+b[0]+','+b[1];
-  }
-  return 'M'+a[0]+','+a[1]+' L'+b[0]+','+b[1];
-}
-var PLANE = 'M-16,0 L10,-3 Q16,0 10,3 Z M-2,-2 L-10,-14 L-5,-14 L5,-2 Z M-2,2 L-10,14 L-5,14 L5,2 Z M-13,-1 L-17,-7 L-13,-7 L-9,-1 Z M-13,1 L-17,7 L-13,7 L-9,1 Z';
-var TRAIN = 'M-15,-9 h24 q8,0 8,8 v6 h-32 Z M-11,-6 h7 v5 h-7 Z M0,-6 h7 v5 h-7 Z';
-function init(root){
-  var lang = root.getAttribute('data-jlang'), L = JSON.parse(root.getAttribute('data-labels'));
-  var svg = root.querySelector('svg'), gLegs = svg.querySelector('.jlegs'), gPlaces = svg.querySelector('.jplaces'), gVeh = svg.querySelector('.jvehicle');
-  var S = JD.stations, P = JD.places, cur = 0, anim = null, timer = null;
-  var legs = [null];
-  for (var i = 1; i < S.length; i++){
-    var a = P[S[i-1].p].xy, b = P[S[i].p].xy;
-    if (S[i].m === 'stay' || (a[0]===b[0] && a[1]===b[1])){ legs.push(null); continue; }
-    var path = el('path', {d: legPath(a, b, S[i].m), 'class': 'jleg ' + S[i].m});
-    gLegs.appendChild(path); legs.push(path);
-  }
-  var placeEls = {};
-  Object.keys(P).forEach(function(k){
-    var p = P[k], g = el('g', {'class': 'jplace', tabindex: '0', role: 'button', 'aria-label': p.label});
-    var H = 20;
-    g.appendChild(el('ellipse', {cx: p.xy[0], cy: p.xy[1], rx: 10, ry: 4, 'class': 'jpinshadow'}));
-    g.appendChild(el('line', {x1: p.xy[0], y1: p.xy[1], x2: p.xy[0], y2: p.xy[1]-H, 'class': 'jstem'}));
-    g.appendChild(el('circle', {cx: p.xy[0], cy: p.xy[1]-H, r: 10}));
-    var t = el('text', {x: p.xy[0]+p.lx, y: p.xy[1]-H+p.ly, 'text-anchor': p.a}); t.textContent = p.label; g.appendChild(t);
-    function pick(){
-      var first = -1, best = -1; for (var j2 = 0; j2 < S.length; j2++) if (S[j2].p === k){ if (first === -1) first = j2; if (j2 > cur && best === -1) best = j2; }
-      go(best !== -1 ? best : first, false); }
-    g.addEventListener('click', function(){ stop(); pick(); });
-    g.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); stop(); pick(); } });
-    gPlaces.appendChild(g); placeEls[k] = g;
-  });
-  var veh = el('g', {}); var bg = el('circle', {r: 22, 'class': 'veh-bg'}); var ic = el('path', {'class': 'veh'});
-  veh.appendChild(bg); veh.appendChild(ic); gVeh.appendChild(veh);
-  var shadow = el('ellipse', {rx: 18, ry: 6}); svg.querySelector('.jshadow').appendChild(shadow); shadow.style.display = 'none';
-  var cam = svg.querySelector('.jcam'), stage = root.querySelector('.jstage'), overview = false;
-  function camTo(cx, cy, sc, fast){
-    if (overview){ sc = 1; cx = 500; cy = 310; }
-    var tx = 500 - sc*cx, ty = (overview ? 310 : 330) - sc*cy;
-    cam.classList.toggle('fast', !!fast);
-    cam.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + sc + ')';
-  }
-  function camStation(i, fast){ var xy = P[S[i].p].xy; camTo(xy[0], xy[1] - 20, 1.6, fast); }
-  function camLeg(a, b){ var w = Math.abs(a[0]-b[0]) + 260, h = Math.abs(a[1]-b[1]) + 260; var sc = Math.max(1, Math.min(1.6, 1000/w, 620/h)); camTo((a[0]+b[0])/2, (a[1]+b[1])/2 - 30, sc, true); }
-  function setVeh(x, y, ang, mode){
-    ic.setAttribute('d', mode === 'plane' ? PLANE : TRAIN);
-    var rot = mode === 'plane' ? ang : 0;
-    veh.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')');
-    ic.setAttribute('transform', 'rotate(' + rot.toFixed(1) + ')' + (mode === 'plane' ? '' : ' translate(-1,3)'));
-  }
-  var list = root.querySelector('.jlist');
-  S.forEach(function(s, i){ var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
-    b.textContent = P[s.p].label + ' · ' + s.when[lang].replace(/^([0-9]{4}).*$/, '$1');
-    b.addEventListener('click', function(){ stop(); go(i, false); }); li.appendChild(b); list.appendChild(li); });
-  var bPrev = root.querySelector('.jprev'), bNext = root.querySelector('.jnext'), bPlay = root.querySelector('.jplay');
-  function render(){
-    var s = S[cur];
-    root.querySelector('.jstep').textContent = (cur+1) + ' ' + L.of + ' ' + S.length + ' · ' + s.when[lang];
-    root.querySelector('.jmode').textContent = cur === 0 ? L.start : (s.m === 'stay' ? L.stay : L[s.m]);
-    root.querySelector('.jtitle').textContent = s.title[lang];
-    root.querySelector('.jwhere').textContent = P[s.p].label === 'NRW' ? (lang === 'de' ? 'Nordrhein-Westfalen' : lang === 'es' ? 'Renania del Norte-Westfalia' : 'North Rhine-Westphalia') : P[s.p].label;
-    root.querySelector('.jtext').textContent = s.text[lang];
-    for (var i = 1; i < legs.length; i++) if (legs[i]) legs[i].classList.toggle('done', i <= cur);
-    var visited = {}; for (var j = 0; j <= cur; j++) visited[S[j].p] = true;
-    Object.keys(placeEls).forEach(function(k){ placeEls[k].classList.toggle('visited', !!visited[k]); placeEls[k].classList.toggle('current', k === s.p); });
-    [].forEach.call(list.querySelectorAll('button'), function(b, i){ if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); b.classList.toggle('visited', i < cur); });
-    bPrev.disabled = cur === 0; bNext.textContent = cur === S.length-1 ? L.restart : L.next;
-  }
-  function park(){ var pl = P[S[cur].p], xy = pl.xy, m = S[cur].m === 'plane' ? 'plane' : 'train'; shadow.style.display = 'none'; setVeh(xy[0] + (pl.vx || 0), xy[1] - 20 + (pl.vy === undefined ? -34 : pl.vy), 0, m); }
-  function go(i, animate){
-    if (anim) { cancelAnimationFrame(anim); anim = null; }
-    var path = legs[i];
-    if (animate && !reduce && path && i === cur + 1){
-      var len = path.getTotalLength(), mode = S[i].m, t0 = null, dur = mode === 'plane' ? 1800 : 1100;
-      cur = i; render(); legs[i].classList.remove('done');
-      camLeg(P[S[i-1].p].xy, P[S[i].p].xy);
-      function step(ts){ if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / dur), e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k+2, 2)/2;
-        var p = path.getPointAtLength(e*len), q = path.getPointAtLength(Math.min(len, e*len + 1));
-        var alt = mode === 'plane' ? Math.sin(Math.PI*e) * 90 : 0;
-        if (mode === 'plane'){ shadow.style.display = ''; shadow.setAttribute('cx', p.x.toFixed(1)); shadow.setAttribute('cy', p.y.toFixed(1)); shadow.setAttribute('rx', (18 - alt/9).toFixed(1)); }
-        setVeh(p.x, p.y - alt, Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI, mode);
-        if (k < 1) anim = requestAnimationFrame(step); else { anim = null; legs[i].classList.add('done'); park(); camStation(i, false); } }
-      anim = requestAnimationFrame(step);
-    } else { cur = i; render(); park(); camStation(i, false); }
-  }
-  function stop(){ if (timer){ clearInterval(timer); timer = null; bPlay.textContent = L.play; } }
-  bNext.addEventListener('click', function(){ stop(); if (cur === S.length-1) go(0, false); else go(cur+1, true); });
-  bPrev.addEventListener('click', function(){ stop(); if (cur > 0) go(cur-1, false); });
-  bPlay.addEventListener('click', function(){
-    if (timer){ stop(); return; }
-    if (cur === S.length-1) go(0, false);
-    bPlay.textContent = L.pause;
-    timer = setInterval(function(){ if (cur >= S.length-1){ stop(); return; } go(cur+1, true); }, reduce ? 2500 : 4200);
-  });
-  var bView = root.querySelector('.jview');
-  bView.addEventListener('click', function(){ overview = !overview; bView.setAttribute('aria-pressed', String(overview)); bView.textContent = overview ? L.closeup : L.overview; stage.classList.toggle('flat', overview); camStation(cur, false); });
-  go(0, false);
-}
-[].forEach.call(document.querySelectorAll('.journey'), init);
-})();
-</script>
+<script src="/assets/js/d3-array.min.js" defer></script><script src="/assets/js/d3-geo.min.js" defer></script><script src="/assets/js/lebensreise.js" defer></script>
 </body>
 </html>

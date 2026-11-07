@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-labelledby="t">
+  <title id="t">Sokratischer KI-Lernbegleiter</title>
+  <!-- Offenes Buch: Bildung -->
+  <path d="M80 116c-14-8-34-10-54-6v32c20-4 40-2 54 6z" fill="#E2A748"/>
+  <path d="M80 116c14-8 34-10 54-6v32c-20-4-40-2-54 6z" fill="#B87912"/>
+  <path d="M34 118c14-2 28 0 38 4M34 126c14-2 28 0 38 4M88 122c10-4 24-6 38-4M88 130c10-4 24-6 38-4" fill="none" stroke="#F3F5EF" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>
+  <!-- Sprechblase: Dialog -->
+  <path d="M80 10c30.4 0 55 18.8 55 42s-24.6 42-55 42c-3.4 0-6.7-.2-9.9-.7L80 106l-20.6-14.8C38.6 85.400 25 70 25 52 25 28.8 49.6 10 80 10z" fill="#2E6A4E"/>
+  <!-- Fragezeichen: sokratische Frage -->
+  <path d="M60 40c0-8.2 6.4-13.6 14.6-13.6S89 31.8 89 39.4c0 6.2-3.7 9.4-8 12.3-3.5 2.4-5.2 4.2-5.2 8.4v1.6" fill="none" stroke="#F3F5EF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Netz aus Knoten: KI -->
+  <path d="M76 74L100 74L112 60L110 48M112 60L122 66" fill="none" stroke="#E2A748" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="76" cy="74" r="5.5" fill="#E2A748"/>
+  <circle cx="100" cy="74" r="3.6" fill="#E2A748"/>
+  <circle cx="112" cy="60" r="3.6" fill="#E2A748"/>
+  <!-- KI-Plakette am Ende des Netzes -->
+  <circle cx="110" cy="36" r="13" fill="#E2A748"/>
+  <path d="M104 30v12M110.5 30l-6 6 6 6M116.5 30v12" fill="none" stroke="#2E6A4E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="122" cy="66" r="2.8" fill="#E2A748"/>
+</svg>

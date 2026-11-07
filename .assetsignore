@@ -1,0 +1,8 @@
+.git
+.gitignore
+.assetsignore
+wrangler.jsonc
+netlify.toml
+fetch-fonts.mjs
+node_modules
+.wrangler

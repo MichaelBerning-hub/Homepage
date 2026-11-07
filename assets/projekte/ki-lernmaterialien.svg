@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-labelledby="t"><title id="t">KI-gestützte Lernmaterialien</title><rect width="120" height="120" rx="26" fill="#E2ECE4"/>
+<path d="M30 16h42l18 18v70a4 4 0 0 1-4 4H30a4 4 0 0 1-4-4V20a4 4 0 0 1 4-4z" fill="#F3F5EF" stroke="#2E6A4E" stroke-width="4"/>
+<path d="M72 16v18h18" fill="none" stroke="#2E6A4E" stroke-width="4" stroke-linejoin="round"/>
+<path d="M38 50h30M38 62h40M38 74h24" stroke="#2E6A4E" stroke-width="4" stroke-linecap="round"/>
+<path d="M80 78c1.5 8 4 10.5 12 12-8 1.5-10.5 4-12 12-1.5-8-4-10.5-12-12 8-1.5 10.5-4 12-12z" fill="#E2A748"/></svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-labelledby="t"><title id="t">Karrierekompass</title><rect width="120" height="120" rx="26" fill="#E2ECE4"/>
+<circle cx="60" cy="60" r="38" fill="#2E6A4E"/><circle cx="60" cy="60" r="30" fill="#F3F5EF"/>
+<path d="M60 34v6M60 80v6M34 60h6M80 60h6" stroke="#2E6A4E" stroke-width="3" stroke-linecap="round"/>
+<path d="M60 60L76 44L66 66Z" fill="#E2A748"/><path d="M60 60L44 76L54 54Z" fill="#2E6A4E"/>
+<circle cx="60" cy="60" r="4" fill="#B87912"/></svg>

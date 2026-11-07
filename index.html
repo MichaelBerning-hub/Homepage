@@ -207,7 +207,12 @@ section.block h2{font-size:clamp(1.6rem,3.4vw,2.1rem);margin-bottom:16px}
 footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .lernwirksam-card-logo{display:block;width:min(100%,210px);height:auto;background:#fff;border-radius:10px;padding:12px;margin:0 0 16px}
 .lb-card-logo{display:block;width:min(100%,150px);height:auto;background:#fff;border-radius:10px;padding:10px;margin:0 0 16px}
-.proj-icon{display:block;width:88px;height:88px;margin:0 0 14px;border-radius:20px}</style>
+.proj-icon{display:block;width:88px;height:88px;margin:0 0 14px;border-radius:20px}
+.dtabs{display:inline-flex;gap:4px;padding:4px;margin:4px 0 16px;border-radius:999px;background:var(--leaf-soft)}
+.dtabs button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:8px 18px;background:transparent;color:var(--muted);cursor:pointer}
+.dtabs button[aria-selected="true"]{background:var(--surface);color:var(--leaf);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.dtabs button:focus-visible{outline:3px solid var(--pollen);outline-offset:2px}
+.method-icon{display:block;width:56px;height:56px;padding:12px;margin:0 0 14px;border-radius:16px;background:var(--leaf-soft);color:var(--leaf);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}</style>
 <style>
 .ail-panel{margin:22px 0 0}.ail-banner{background:#173e31;color:#fff;padding:24px 26px;border-radius:16px;margin-bottom:16px}.ail-banner strong{display:block;font-size:1.3rem;line-height:1.3}.ail-banner p{color:#e2ece4;margin:8px 0 0;font-size:.95rem}.ail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.ail-card{border:1px solid #c9d8ce;border-top:4px solid #2e6a4e;border-radius:14px;background:#fff;padding:22px;min-width:0}.ail-card:nth-child(2){border-top-color:#9e6b1b}.ail-card:nth-child(3){border-top-color:#376c85}.ail-card:nth-child(4){border-top-color:#77568a}.ail-no{color:#56685c;font-size:.8rem;font-weight:700;letter-spacing:.1em}.ail-card h3{margin:8px 0 10px;font-size:1.18rem;line-height:1.35;color:#17241d}.ail-card p{font-size:.95rem;color:#485a50;margin:0 0 12px;line-height:1.6}.ail-card details{border-top:1px solid #dce5df;padding-top:12px}.ail-card summary{color:#24543f;font-weight:700;cursor:pointer;font-size:.9rem;line-height:1.5}.ail-card summary:focus-visible{outline:3px solid #9e6b1b;outline-offset:4px}.ail-card details[open] summary{margin-bottom:10px}.ail-card details p{margin-bottom:0}.ail-footer{margin-top:18px;border-left:3px solid #a7bdac;padding:4px 0 4px 16px}
 .ail-tips{margin-top:18px;border:1px solid #c9d8ce;border-radius:14px;background:#fff;padding:18px 20px}
@@ -344,15 +349,26 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
     </div>
   </section>
   <section class="block" id="konzepte">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Didaktische Konzepte</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Konzepte &amp; Methoden</div>
     <div>
-      <h2>Didaktische Konzepte</h2>
-      <p class="intro">Vier Ansätze, mit denen ich Lernen gestalte: was die Idee ist, für wen sie gedacht ist und wo ich sie eingesetzt habe.</p>
+      <h2>Didaktische Konzepte und Methoden</h2>
+      <p class="intro">Vier Ansätze, mit denen ich Lernen gestalte, und die Methoden, die ich im Unterricht und in Kursen einsetze.</p>
+      <div class="dtabs" role="tablist" aria-label="Didaktische Konzepte und Methoden"><button type="button" role="tab" id="konzepte-t1" aria-controls="konzepte-p1" aria-selected="true">Konzepte</button><button type="button" role="tab" id="konzepte-t2" aria-controls="konzepte-p2" aria-selected="false" tabindex="-1">Methoden</button></div>
+      <div role="tabpanel" id="konzepte-p1" aria-labelledby="konzepte-t1">
       <div class="projects">
 <article class="project"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">KI &amp; Didaktik · Konzeptentwurf</span><h3>Sokratischer Dialog mit KI</h3><p>Lernende schreiben ihre Prompts selbst. Ein Lernbegleiter stellt Fragen statt fertige Antworten zu geben: Ziel klären, Ergebnis prüfen, selbst verbessern.</p><p class="org">Für Schule, Erwachsenenbildung/DaF, Corporate Learning und Bildungsmanagement. Konzept 2026, noch nicht erprobt.</p><a href="/lernwirksam/lernbegleiter-konzept.html">Konzept lesen →</a></article>
 <article class="project"><img src="/assets/projekte/landyous.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biologie · Nachhaltigkeit</span><h3>Spielbasiertes Lernen</h3><p>Ein Lernspiel öffnet einen spielerischen Zugang zur nachhaltigen Landnutzung. Eine Handreichung unterstützt Lehrkräfte beim Einsatz im Unterricht.</p><p class="org">Mitentwicklung des Lernspiels LandYOUs und der Handreichung im Team, veröffentlicht bei Klett MINT (2018).</p><a href="https://mint-zirkel.de/unterrichtsmaterial/landyous-2/" target="_blank" rel="noopener noreferrer">LandYOUs ansehen ↗</a></article>
 <article class="project"><img src="/assets/projekte/oekoambulanz.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biodiversität · Schule</span><h3>Ökoambulanz</h3><p>Schülerinnen und Schüler werden zu „Öko-Sanitätern“ und fördern die biologische Vielfalt an ihrer Schule. Ein Leitfaden beschreibt den Ablauf.</p><p class="org">Eigenständig entwickelt und an UNESCO-Projektschulen in Bremen umgesetzt (2019).</p></article>
 <article class="project"><img src="/assets/projekte/sprachsensibel.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Sprache · Fachlernen</span><h3>Sprachsensibler Fachunterricht</h3><p>Fachliches Lernen und Sprachlernen gehören zusammen: Fachwortschatz, typische Satzmuster und Unterstützung beim Lesen und Schreiben werden gezielt mitgeplant.</p><p class="org">Im Biologie- und Spanischunterricht, als Vertretungslehrkraft unter anderem in DaF/DaZ und in BAMF-Sprachkursen.</p></article>
+      </div>
+      </div>
+      <div role="tabpanel" id="konzepte-p2" aria-labelledby="konzepte-t2" hidden>
+      <div class="projects">
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6"/></svg><span class="kind">Gesprächsführung</span><h3>Sokratisches Gespräch</h3><p>Statt Inhalte vorzutragen, führe ich mit gezielten Fragen zu eigenen Begründungen. Lernende prüfen ihre Annahmen und formulieren Erkenntnisse selbst.</p><p class="org">In Unterricht und Kursen; Grundlage meines KI-Lernbegleiters.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="8" r="2.5"/><circle cx="17" cy="8" r="2.5"/><circle cx="12" cy="15" r="2.5"/><path d="M9 9.5l1.6 3.6M15 9.5l-1.6 3.6M9.5 8h5"/></svg><span class="kind">Zusammenarbeit</span><h3>Kooperatives Lernen</h3><p>Think-Pair-Share, Gruppenpuzzle und Lerntandems: erst allein nachdenken, dann austauschen, dann gemeinsam vorstellen. So kommen alle zu Wort.</p><p class="org">In Schule und Sprachkursen, besonders mit Tandems im DaF/DaZ-Unterricht.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20l6-11 4 7 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg><span class="kind">Lernen vor Ort</span><h3>Außerschulische Lernorte</h3><p>Lernen dort, wo das Thema stattfindet: Schulgelände, Natur, Exkursionen. Beobachten, bestimmen und Ergebnisse festhalten.</p><p class="org">In Biologie und Biodiversitätsprojekten; eigene Feldforschung in Ecuador.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v16M5 20h14M12 6l-7 2 0 0M12 6l7 2"/><path d="M2.5 14l2.5-6 2.5 6a2.5 2.5 0 0 1-5 0zM16.5 14l2.5-6 2.5 6a2.5 2.5 0 0 1-5 0z"/></svg><span class="kind">Konflikte klären</span><h3>Mediation im Unterricht</h3><p>Konflikte werden nicht entschieden, sondern gemeinsam geklärt: zuhören, Interessen benennen, eine Lösung vereinbaren.</p><p class="org">Auf Grundlage meiner Mediatorenausbildung (2014), in Klassen und Kursgruppen.</p></article>
+      </div>
       </div>
     </div>
   </section>
@@ -604,15 +620,26 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
     </div>
   </section>
   <section class="block" id="es-conceptos">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Conceptos didácticos</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Conceptos y métodos</div>
     <div>
-      <h2>Conceptos didácticos</h2>
-      <p class="intro">Cuatro enfoques con los que diseño el aprendizaje: la idea, para quién está pensado y dónde lo he aplicado.</p>
+      <h2>Conceptos y métodos didácticos</h2>
+      <p class="intro">Cuatro enfoques con los que diseño el aprendizaje y los métodos que utilizo en clase y en cursos.</p>
+      <div class="dtabs" role="tablist" aria-label="Conceptos y métodos didácticos"><button type="button" role="tab" id="es-conceptos-t1" aria-controls="es-conceptos-p1" aria-selected="true">Conceptos</button><button type="button" role="tab" id="es-conceptos-t2" aria-controls="es-conceptos-p2" aria-selected="false" tabindex="-1">Métodos</button></div>
+      <div role="tabpanel" id="es-conceptos-p1" aria-labelledby="es-conceptos-t1">
       <div class="projects">
 <article class="project"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">IA y didáctica · borrador</span><h3>Diálogo socrático con IA</h3><p>Las personas escriben sus propios prompts. Un acompañante hace preguntas en lugar de dar respuestas: aclarar el objetivo, revisar el resultado y mejorarlo por sí mismas.</p><p class="org">Para la escuela, la educación de adultos, la formación corporativa y la gestión educativa. Concepto de 2026, aún sin probar.</p><a href="/lernwirksam/lernbegleiter-konzept.html">Leer el concepto (en alemán) →</a></article>
 <article class="project"><img src="/assets/projekte/landyous.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biología · sostenibilidad</span><h3>Aprendizaje basado en juegos</h3><p>Un juego didáctico ofrece un acceso lúdico al uso sostenible del suelo. Una guía acompaña al profesorado en su uso en clase.</p><p class="org">Codesarrollo del juego LandYOUs y de la guía en equipo, publicado en Klett MINT (2018).</p><a href="https://mint-zirkel.de/unterrichtsmaterial/landyous-2/" target="_blank" rel="noopener noreferrer">Ver LandYOUs ↗</a></article>
 <article class="project"><img src="/assets/projekte/oekoambulanz.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biodiversidad · escuela</span><h3>Ökoambulanz</h3><p>El alumnado se convierte en «ecosanitarios» y fomenta la biodiversidad en su centro. Una guía describe el proceso.</p><p class="org">Desarrollado de forma independiente y aplicado en escuelas asociadas a la UNESCO en Bremen (2019).</p></article>
 <article class="project"><img src="/assets/projekte/sprachsensibel.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Lengua · aprendizaje de contenidos</span><h3>Enseñanza de contenidos sensible a la lengua</h3><p>El aprendizaje de la materia y el de la lengua van juntos: se planifican el vocabulario técnico, las estructuras típicas y el apoyo a la lectura y la escritura.</p><p class="org">En clases de Biología y Español, como profesor sustituto, entre otras en alemán como lengua extranjera, y en cursos de idiomas del BAMF.</p></article>
+      </div>
+      </div>
+      <div role="tabpanel" id="es-conceptos-p2" aria-labelledby="es-conceptos-t2" hidden>
+      <div class="projects">
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6"/></svg><span class="kind">Conducción del diálogo</span><h3>Diálogo socrático</h3><p>En lugar de exponer contenidos, guío con preguntas hacia razonamientos propios. Las personas revisan sus supuestos y formulan sus conclusiones.</p><p class="org">En clases y cursos; base de mi acompañante de aprendizaje con IA.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="8" r="2.5"/><circle cx="17" cy="8" r="2.5"/><circle cx="12" cy="15" r="2.5"/><path d="M9 9.5l1.6 3.6M15 9.5l-1.6 3.6M9.5 8h5"/></svg><span class="kind">Colaboración</span><h3>Aprendizaje cooperativo</h3><p>Think-Pair-Share, rompecabezas y tándems: primero pensar solo, luego intercambiar y después presentar en común. Así todos participan.</p><p class="org">En la escuela y en cursos de idiomas, sobre todo con tándems en alemán como lengua extranjera.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20l6-11 4 7 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg><span class="kind">Aprender in situ</span><h3>Lugares de aprendizaje fuera del aula</h3><p>Aprender donde ocurre el tema: el recinto escolar, la naturaleza, excursiones. Observar, identificar y registrar resultados.</p><p class="org">En Biología y proyectos de biodiversidad; investigación de campo propia en Ecuador.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v16M5 20h14M12 6l-7 2 0 0M12 6l7 2"/><path d="M2.5 14l2.5-6 2.5 6a2.5 2.5 0 0 1-5 0zM16.5 14l2.5-6 2.5 6a2.5 2.5 0 0 1-5 0z"/></svg><span class="kind">Resolver conflictos</span><h3>Mediación en el aula</h3><p>Los conflictos no se deciden, se aclaran juntos: escuchar, nombrar intereses y acordar una solución.</p><p class="org">Basado en mi formación como mediador (2014), en grupos de clase y de curso.</p></article>
+      </div>
       </div>
     </div>
   </section>
@@ -865,15 +892,26 @@ footer{padding:20px 0 40px;color:var(--muted);font-size:.9rem;display:flex;justi
     </div>
   </section>
   <section class="block" id="en-concepts">
-    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Teaching concepts</div>
+    <div class="side"><svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.6-5-2-8-1.5v13c3-.5 6-.1 8 1.5 2-1.6 5-2 8-1.5v-13c-3-.5-6-.1-8 1.5z"/><path d="M12 6v13"/></svg><b>05</b>Concepts &amp; methods</div>
     <div>
-      <h2>Teaching concepts</h2>
-      <p class="intro">Four approaches I use to design learning: the idea, who it is for and where I have used it.</p>
+      <h2>Teaching concepts and methods</h2>
+      <p class="intro">Four approaches I use to design learning, and the methods I use in lessons and courses.</p>
+      <div class="dtabs" role="tablist" aria-label="Teaching concepts and methods"><button type="button" role="tab" id="en-concepts-t1" aria-controls="en-concepts-p1" aria-selected="true">Concepts</button><button type="button" role="tab" id="en-concepts-t2" aria-controls="en-concepts-p2" aria-selected="false" tabindex="-1">Methods</button></div>
+      <div role="tabpanel" id="en-concepts-p1" aria-labelledby="en-concepts-t1">
       <div class="projects">
 <article class="project"><img src="/lernwirksam/assets/logo-lernbegleiter.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">AI &amp; instructional design · draft</span><h3>Socratic dialogue with AI</h3><p>Learners write their own prompts. A learning companion asks questions instead of giving answers: clarify the goal, check the result, improve it themselves.</p><p class="org">For schools, adult education, corporate learning and education management. Concept from 2026, not yet tested.</p><a href="/lernwirksam/lernbegleiter-konzept.html">Read the concept (in German) →</a></article>
 <article class="project"><img src="/assets/projekte/landyous.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biology · sustainability</span><h3>Game-based learning</h3><p>A learning game offers a playful way into sustainable land use. A teacher’s guide supports its use in class.</p><p class="org">Co-developed the game LandYOUs and its guide as a team, published by Klett MINT (2018).</p><a href="https://mint-zirkel.de/unterrichtsmaterial/landyous-2/" target="_blank" rel="noopener noreferrer">View LandYOUs ↗</a></article>
 <article class="project"><img src="/assets/projekte/oekoambulanz.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Biodiversity · school</span><h3>Ökoambulanz</h3><p>Students become “eco-paramedics” and promote biodiversity at their school. A guide describes the process.</p><p class="org">Developed independently and implemented at UNESCO Associated Schools in Bremen (2019).</p></article>
 <article class="project"><img src="/assets/projekte/sprachsensibel.svg" alt="" width="120" height="120" class="proj-icon" loading="lazy" decoding="async"><span class="kind">Language · subject learning</span><h3>Language-sensitive subject teaching</h3><p>Subject learning and language learning belong together: technical vocabulary, typical sentence patterns and support for reading and writing are planned in.</p><p class="org">In biology and Spanish lessons, as a substitute teacher including German as a second language, and in BAMF language courses.</p></article>
+      </div>
+      </div>
+      <div role="tabpanel" id="en-concepts-p2" aria-labelledby="en-concepts-t2" hidden>
+      <div class="projects">
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6"/></svg><span class="kind">Facilitation</span><h3>Socratic dialogue</h3><p>Instead of lecturing, I use targeted questions to lead learners to their own reasoning. They test their assumptions and put insights into their own words.</p><p class="org">In lessons and courses; the basis of my AI learning companion.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="8" r="2.5"/><circle cx="17" cy="8" r="2.5"/><circle cx="12" cy="15" r="2.5"/><path d="M9 9.5l1.6 3.6M15 9.5l-1.6 3.6M9.5 8h5"/></svg><span class="kind">Collaboration</span><h3>Cooperative learning</h3><p>Think-pair-share, jigsaw and learning tandems: think alone, then exchange, then present together, so everyone gets a voice.</p><p class="org">In schools and language courses, especially tandems in German as a second language.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20l6-11 4 7 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg><span class="kind">Learning on site</span><h3>Out-of-classroom learning</h3><p>Learning where the topic happens: school grounds, nature, field trips. Observe, identify and record results.</p><p class="org">In biology and biodiversity projects; my own field research in Ecuador.</p></article>
+<article class="project method"><svg class="method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v16M5 20h14M12 6l-7 2 0 0M12 6l7 2"/><path d="M2.5 14l2.5-6 2.5 6a2.5 2.5 0 0 1-5 0zM16.5 14l2.5-6 2.5 6a2.5 2.5 0 0 1-5 0z"/></svg><span class="kind">Resolving conflict</span><h3>Mediation in class</h3><p>Conflicts are not decided but resolved together: listen, name interests, agree on a solution.</p><p class="org">Based on my mediator training (2014), in classes and course groups.</p></article>
+      </div>
       </div>
     </div>
   </section>
@@ -1081,6 +1119,13 @@ document.querySelectorAll('.langswitch button').forEach(function(b){
 window.addEventListener('hashchange', function(){ setLang(langFromHash()); });
 setLang(langFromHash());
 </script>
-<script src="/assets/js/d3-array.min.js" defer></script><script src="/assets/js/d3-geo.min.js" defer></script><script src="/assets/js/lebensreise.js" defer></script>
+<script>
+document.querySelectorAll('.dtabs').forEach(function(list){
+  var tabs=[].slice.call(list.querySelectorAll('[role=tab]'));
+  function sel(t){tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});}
+  tabs.forEach(function(t,i){t.addEventListener('click',function(){sel(t);});
+    t.addEventListener('keydown',function(e){var k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!k)return;e.preventDefault();var n=tabs[(i+k+tabs.length)%tabs.length];sel(n);n.focus();});});
+});
+</script><script src="/assets/js/d3-array.min.js" defer></script><script src="/assets/js/d3-geo.min.js" defer></script><script src="/assets/js/lebensreise.js" defer></script>
 </body>
 </html>

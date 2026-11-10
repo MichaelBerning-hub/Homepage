@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Integrationskurs-App · Prototyp · Michael Berning</title>
+<meta name="description" content="Klickbarer Prototyp einer Lern-App für BAMF-Integrationskurse: Wortschatz, Redemittel, DTZ- und „Leben in Deutschland“-Training, Kursansicht für Lehrkräfte.">
+<style>
+/* Gleiches System wie die Berufssprachkurs-App: eine Spalte, mobil zuerst, Kontext oben, Navigation unten. Akzent Petrol statt Blau. */
+:root{
+  --paper:#edf3f3; --surface:#ffffff; --ink:#122628; --muted:#53676a; --line:#d3dfe0;
+  --accent:#0b6477; --accent-soft:#dcecef; --accent-ink:#ffffff; --signal:#e9a91e; --signal-soft:#fcf1d8;
+  --der:#2459c4; --die:#c2334a; --das:#1c8048;
+  --good:#1c8048; --warn:#b77905; --crit:#c2334a;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --r:14px; color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0d1718; --surface:#152426; --ink:#e6f0f0; --muted:#98abad; --line:#28393b;
+    --accent:#5cc3d6; --accent-soft:#183339; --accent-ink:#071618; --signal:#f2bd4b; --signal-soft:#3a2f17;
+    --der:#7ea6ff; --die:#ff8a9b; --das:#5fd08f; --good:#5fd08f; --warn:#f2bd4b; --crit:#ff8a9b; color-scheme: dark;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+body.big{font-size:20px}
+body.big .flash .word{font-size:2.8rem}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance;font-weight:750}
+h1{font-size:1.6rem} h2{font-size:1.3rem} h3{font-size:1.08rem;font-weight:600}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--signal);outline-offset:2px;border-radius:6px}
+.wrap{max-width:780px;margin:0 auto;padding:16px 16px calc(104px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.top-in{max-width:780px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;margin-right:auto}
+.mark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--display);font-weight:750;font-size:.85rem}
+.brand b{font-family:var(--display);font-size:1.05rem;display:block;line-height:1}
+.brand small{color:var(--muted);font-size:.75rem}
+.ctx{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:.85rem;display:flex;gap:6px;align-items:center}
+.ctx strong{color:var(--accent)}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:5px 12px;font-size:.85rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:700}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav.bottom .in{max-width:780px;margin:0 auto;display:flex}
+nav.bottom a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 2px 8px;color:var(--muted);text-decoration:none;font-size:.72rem;border-top:3px solid transparent}
+nav.bottom a svg{width:22px;height:22px}
+nav.bottom a[aria-current="page"]{color:var(--accent);border-top-color:var(--accent);font-weight:700}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.card.hero{background:var(--accent);color:var(--accent-ink);border:0}
+.card.hero .muted{color:color-mix(in srgb,var(--accent-ink) 78%,transparent)}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.hero .eyebrow{color:color-mix(in srgb,var(--accent-ink) 75%,transparent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.between{justify-content:space-between}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (max-width:420px){.grid2{grid-template-columns:1fr}}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:2px}
+.tile b{font-family:var(--display);font-size:1.7rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.tile span{font-size:.8rem;color:var(--muted)}
+.btn{border:0;border-radius:11px;padding:11px 16px;background:var(--accent);color:var(--accent-ink);font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;min-height:44px}
+.btn.ghost{background:var(--accent-soft);color:var(--accent)}
+.btn.line{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.sm{padding:7px 12px;min-height:36px;font-size:.88rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.hero .btn{background:var(--accent-ink);color:var(--accent)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.88rem;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:700}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.75rem;font-weight:700;white-space:nowrap}
+.pill.lv{background:var(--accent-soft);color:var(--accent)}
+.pill.good{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.pill.crit{background:color-mix(in srgb,var(--crit) 16%,transparent);color:var(--crit)}
+.list{display:flex;flex-direction:column}
+.list > *{border-top:1px solid var(--line);padding:12px 0}
+.list > *:first-child{border-top:0;padding-top:0}
+.list > *:last-child{padding-bottom:0}
+a.item,button.item,div.item{display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit;background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left}
+.num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--signal-soft);color:var(--ink);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.bar.good i{background:var(--good)} .bar.warn i{background:var(--warn)} .bar.crit i{background:var(--crit)}
+label{font-size:.88rem;font-weight:700;display:flex;flex-direction:column;gap:5px}
+input[type=text],input[type=date],select,textarea{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:10px 12px;width:100%}
+textarea{min-height:120px;resize:vertical;line-height:1.45}
+.note{background:var(--signal-soft);border-radius:12px;padding:10px 12px;font-size:.88rem}
+.hidden{display:none !important}
+.speak{border:1px solid var(--line);background:transparent;border-radius:999px;width:34px;height:34px;display:inline-grid;place-items:center;flex:none;color:var(--accent)}
+.speak svg{width:16px;height:16px}
+.flash{min-height:250px;justify-content:center;align-items:center;text-align:center;gap:14px}
+.flash .word{font-family:var(--display);font-size:2.2rem;font-weight:750;line-height:1.1}
+.art-der{color:var(--der)} .art-die{color:var(--die)} .art-das{color:var(--das)}
+.arts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:360px}
+.arts button{border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 0;font-size:1.1rem;font-weight:700;font-family:var(--display)}
+.arts button[data-a="der"]{color:var(--der)} .arts button[data-a="die"]{color:var(--die)} .arts button[data-a="das"]{color:var(--das)}
+.res-ok{color:var(--good);font-weight:700} .res-no{color:var(--crit);font-weight:700}
+.boxes{display:flex;gap:3px}
+.boxes i{width:10px;height:10px;border-radius:3px;background:var(--line)}
+.boxes i.on{background:var(--accent)}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{max-width:86%;padding:10px 13px;border-radius:14px;white-space:pre-wrap}
+.msg.ai{background:var(--surface);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-bottom-right-radius:4px}
+.msg .who{display:block;font-size:.72rem;font-weight:700;opacity:.75;margin-bottom:2px}
+.msg .tools{display:flex;gap:6px;margin-top:6px}
+.linkbtn{border:0;background:none;color:var(--accent);font-size:.8rem;font-weight:700;padding:0}
+.tip{align-self:flex-start;max-width:86%;font-size:.86rem;background:var(--signal-soft);border-radius:10px;padding:6px 10px}
+.md h4{font-size:1rem;margin:10px 0 4px} .md ul{margin:4px 0;padding-left:20px} .md p{margin:6px 0}
+.md{white-space:normal}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+td .bar{width:70px;display:inline-block;vertical-align:middle;margin-right:6px}
+.sheet-bg{position:fixed;inset:0;background:rgba(8,18,20,.45);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:780px;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;max-height:88%;overflow:auto}
+.opt{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.opt button{border:1px solid var(--line);background:var(--paper);border-radius:11px;padding:10px;text-align:left;font-size:.92rem}
+.opt button[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft);font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:999px;font-size:.88rem;z-index:50;max-width:90%}
+.q{display:flex;flex-direction:column;gap:8px}
+.q .opts{display:flex;flex-direction:column;gap:6px}
+.q .opts button{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:9px 12px}
+.q .opts button.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
+.q .opts button.no{border-color:var(--crit);background:color-mix(in srgb,var(--crit) 12%,transparent)}
+.text-src{background:var(--paper);border-radius:12px;padding:12px 14px;font-size:.95rem;white-space:pre-line;border-left:4px solid var(--signal)}
+.trans{background:var(--accent-soft);border-radius:12px;padding:12px 14px;white-space:pre-wrap}
+details summary{cursor:pointer;font-weight:700}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+.demo{max-width:780px;margin:0 auto;padding:6px 16px;font-size:.8rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
+.demo a{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<div class="demo"><span>Prototyp mit Beispieldaten · Eingaben bleiben nur in diesem Browser</span><a href="/">← Zur Homepage · Impressum &amp; Datenschutz</a></div>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><div class="mark" aria-hidden="true">IK</div><div><b>Integrationskurs</b><small>Deutsch · Orientierung · DTZ</small></div></div>
+    <button class="ctx" id="ctxBtn" data-act="openSettings" aria-label="Kursabschnitt und Kursart ändern"></button>
+    <div class="seg" role="group" aria-label="Rolle">
+      <button id="roleL" data-act="role" data-v="lern">Lernen</button>
+      <button id="roleT" data-act="role" data-v="lehr">Unterrichten</button>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="view"></main>
+<nav class="bottom" aria-label="Hauptnavigation"><div class="in" id="nav"></div></nav>
+<div id="sheet"></div>
+<div id="toast" class="toast hidden" role="status"></div>
+
+<script>
+/* ---------- Kursstruktur ---------- */
+const STAGES = {
+  basis:{label:"Basis · A1", lv:"A1", mod:[ "Modul 1–3", "Modul 1–3" ], note:"Basissprachkurs, erste 300 UE"},
+  aufbau:{label:"Aufbau · A2", lv:"A2", mod:[ "Modul 4–5", "Modul 4–7" ], note:"Aufbausprachkurs"},
+  b1:{label:"Aufbau · B1", lv:"B1", mod:[ "Modul 6 + DTZ", "Modul 8–9 + DTZ" ], note:"Endspurt zum Deutsch-Test für Zuwanderer"},
+  orient:{label:"Orientierung", lv:"B1", mod:[ "Orientierungskurs", "Orientierungskurs" ], note:"100 UE, Abschluss: Test „Leben in Deutschland“"}
+};
+const KURSARTEN = {
+  allg:{l:"Allgemeiner Integrationskurs", s:"Allgemein", long:false},
+  alpha:{l:"Alphabetisierungskurs", s:"Alpha", long:true, big:true},
+  zweit:{l:"Kurs für Zweitschriftlernende", s:"Zweitschrift", long:true, big:true},
+  eltern:{l:"Eltern- / Frauenintegrationskurs", s:"Eltern/Frauen", long:true},
+  jugend:{l:"Jugendintegrationskurs", s:"Jugend", long:true},
+  foerder:{l:"Förderkurs", s:"Förder", long:true},
+  intensiv:{l:"Intensivkurs", s:"Intensiv", long:false}
+};
+const LV = {Alpha:0, A1:1, A2:2, B1:3};
+const LANGS = ["keine","Englisch","Arabisch","Ukrainisch","Russisch","Türkisch","Persisch (Dari/Farsi)","Kurdisch (Kurmancî)","Tigrinya","Französisch","Rumänisch","Spanisch"];
+
+/* Handlungsfelder nach Rahmencurriculum, als Wortschatz-Decks */
+const DECKS = {wohnen:"Wohnen", gesundheit:"Gesundheit", einkaufen:"Einkaufen", aemter:"Ämter & Behörden", arbeit:"Arbeit & Arbeitssuche", kinder:"Kinder, Kita & Schule", mobil:"Mobilität", medien:"Medien & Handy"};
+const V = (w,a,pl,s,e)=>({w,a,pl,s,e});
+const VOCAB = {
+  wohnen:[
+    V("Miete","die","die Mieten","Die Miete bezahle ich am Anfang vom Monat.","Geld für die Wohnung, jeden Monat."),
+    V("Vermieter","der","die Vermieter","Ich rufe den Vermieter an, die Heizung ist kaputt.","Die Person, der die Wohnung gehört."),
+    V("Heizung","die","die Heizungen","Die Heizung wird nicht warm.","Damit wird die Wohnung im Winter warm."),
+    V("Schlüssel","der","die Schlüssel","Ich habe meinen Schlüssel verloren.","Damit öffnet man die Tür."),
+    V("Mülltonne","die","die Mülltonnen","Das Papier kommt in die blaue Mülltonne.","Großer Behälter für Müll vor dem Haus."),
+    V("Hausordnung","die","die Hausordnungen","In der Hausordnung steht: Ab 22 Uhr ist Ruhe.","Regeln für alle im Haus."),
+    V("Kaution","die","die Kautionen","Die Kaution sind zwei Monatsmieten.","Geld, das der Vermieter am Anfang bekommt und später zurückgibt."),
+    V("umziehen","","","Nächsten Monat ziehen wir nach Lingen um.","In eine neue Wohnung gehen und dort wohnen.")
+  ],
+  gesundheit:[
+    V("Hausarzt","der","die Hausärzte","Mein Hausarzt hat seine Praxis in der Marktstraße.","Arzt, zu dem man zuerst geht."),
+    V("Krankenkasse","die","die Krankenkassen","Die Krankenkasse bezahlt den Arztbesuch.","Versicherung, die Arzt und Medikamente bezahlt."),
+    V("Versichertenkarte","die","die Versichertenkarten","Bitte geben Sie mir Ihre Versichertenkarte.","Karte von der Krankenkasse. Man zeigt sie beim Arzt."),
+    V("Rezept","das","die Rezepte","Mit dem Rezept gehe ich in die Apotheke.","Zettel vom Arzt für ein Medikament."),
+    V("Apotheke","die","die Apotheken","Die Apotheke ist bis 18 Uhr geöffnet.","Geschäft für Medikamente."),
+    V("Fieber","das","meist ohne Plural","Mein Sohn hat seit gestern Fieber.","Der Körper ist zu warm, z. B. 39 Grad."),
+    V("Überweisung","die","die Überweisungen","Für den Hautarzt brauche ich eine Überweisung.","Zettel vom Hausarzt für einen anderen Arzt."),
+    V("wehtun","","","Mein Kopf tut weh.","Schmerzen haben.")
+  ],
+  einkaufen:[
+    V("Kassenbon","der","die Kassenbons","Für den Umtausch brauchen Sie den Kassenbon.","Zettel: Was haben Sie gekauft und bezahlt?"),
+    V("Angebot","das","die Angebote","Die Äpfel sind diese Woche im Angebot.","Etwas ist für kurze Zeit billiger."),
+    V("Pfand","das","meist ohne Plural","Für die Flasche bekomme ich 25 Cent Pfand zurück.","Geld für Flaschen. Man bekommt es zurück."),
+    V("Einkaufswagen","der","die Einkaufswagen","Für den Einkaufswagen brauche ich eine Münze.","Wagen im Supermarkt für die Einkäufe."),
+    V("Umtausch","der","meist ohne Plural","Ein Umtausch ist 14 Tage möglich.","Man bringt etwas zurück und bekommt etwas anderes."),
+    V("Größe","die","die Größen","Haben Sie die Jacke in Größe M?","Wie groß ein Kleidungsstück ist, z. B. S, M, L."),
+    V("Obst","das","ohne Plural","Ich kaufe Obst auf dem Markt.","Äpfel, Bananen, Orangen …"),
+    V("bezahlen","","","Kann ich mit Karte bezahlen?","Geld geben für etwas.")
+  ],
+  aemter:[
+    V("Termin","der","die Termine","Ich habe am Montag einen Termin im Bürgerbüro.","Feste Zeit für ein Treffen."),
+    V("Formular","das","die Formulare","Bitte füllen Sie dieses Formular aus.","Papier mit Fragen. Man schreibt Antworten hinein."),
+    V("Antrag","der","die Anträge","Ich stelle einen Antrag auf Kindergeld.","Man fragt offiziell nach etwas, z. B. Geld oder einem Dokument."),
+    V("Unterschrift","die","die Unterschriften","Hier fehlt noch Ihre Unterschrift.","Den eigenen Namen mit der Hand schreiben."),
+    V("Ausweis","der","die Ausweise","Bitte zeigen Sie Ihren Ausweis.","Dokument mit Foto und Name."),
+    V("Meldebescheinigung","die","die Meldebescheinigungen","Nach dem Umzug bekomme ich eine Meldebescheinigung.","Papier vom Amt: Hier wohnen Sie."),
+    V("Frist","die","die Fristen","Die Frist endet am 30. November.","Bis zu diesem Tag muss man etwas machen."),
+    V("ausfüllen","","","Ich fülle das Formular zu Hause aus.","In ein Formular schreiben.")
+  ],
+  arbeit:[
+    V("Stelle","die","die Stellen","Ich suche eine Stelle als Verkäuferin.","Arbeitsplatz, Job."),
+    V("Bewerbung","die","die Bewerbungen","Meine Bewerbung schicke ich per E-Mail.","Brief und Lebenslauf: Ich möchte bei Ihnen arbeiten."),
+    V("Lebenslauf","der","die Lebensläufe","Im Lebenslauf stehen Schule und Arbeit.","Liste: Was habe ich gelernt und gearbeitet?"),
+    V("Arbeitsvertrag","der","die Arbeitsverträge","Im Arbeitsvertrag steht der Lohn.","Papier mit den Regeln für die Arbeit."),
+    V("Lohn","der","die Löhne","Den Lohn bekomme ich am Monatsende.","Geld für die Arbeit."),
+    V("Schicht","die","die Schichten","Diese Woche habe ich Frühschicht.","Feste Arbeitszeit, z. B. früh, spät oder nachts."),
+    V("Jobcenter","das","die Jobcenter","Morgen habe ich einen Termin im Jobcenter.","Amt, das bei der Arbeitssuche hilft und Geld zahlt."),
+    V("sich bewerben","","","Ich bewerbe mich bei einer Bäckerei.","Fragen, ob man bei einer Firma arbeiten kann.")
+  ],
+  kinder:[
+    V("Kita","die","die Kitas","Meine Tochter geht seit Mai in die Kita.","Ort, wo kleine Kinder am Tag betreut werden."),
+    V("Elternabend","der","die Elternabende","Der Elternabend ist am Donnerstag um 19 Uhr.","Treffen von Eltern und Lehrkraft in der Schule."),
+    V("Klassenlehrerin","die","die Klassenlehrerinnen","Die Klassenlehrerin heißt Frau Becker.","Lehrerin, die für eine Klasse verantwortlich ist."),
+    V("Zeugnis","das","die Zeugnisse","Im Sommer gibt es Zeugnisse.","Papier mit den Noten aus der Schule."),
+    V("Hausaufgabe","die","die Hausaufgaben","Er macht die Hausaufgaben am Nachmittag.","Aufgabe von der Schule für zu Hause."),
+    V("Kinderarzt","der","die Kinderärzte","Mit dem Baby gehe ich zum Kinderarzt.","Arzt nur für Kinder."),
+    V("Ausflug","der","die Ausflüge","Die Klasse macht einen Ausflug in den Zoo.","Fahrt mit der Gruppe an einen anderen Ort."),
+    V("abholen","","","Ich hole meinen Sohn um 14 Uhr ab.","Zu einem Ort gehen und jemanden mitnehmen.")
+  ],
+  mobil:[
+    V("Fahrkarte","die","die Fahrkarten","Die Fahrkarte kaufe ich am Automaten.","Ticket für Bus oder Zug."),
+    V("Haltestelle","die","die Haltestellen","Der Bus hält an der Haltestelle vor der Schule.","Ort, wo Bus oder Bahn hält."),
+    V("Verspätung","die","die Verspätungen","Der Zug hat zehn Minuten Verspätung.","Etwas kommt später als geplant."),
+    V("Gleis","das","die Gleise","Der Zug nach Münster fährt von Gleis 2.","Ort am Bahnhof, wo der Zug hält."),
+    V("Führerschein","der","die Führerscheine","Ich mache gerade den Führerschein.","Papier: Man darf Auto fahren."),
+    V("Fahrrad","das","die Fahrräder","Ich fahre mit dem Fahrrad zum Kurs.","Fahrzeug mit zwei Rädern ohne Motor."),
+    V("Ausgang","der","die Ausgänge","Der Ausgang ist links.","Hier geht man aus einem Gebäude."),
+    V("umsteigen","","","In Rheine muss ich umsteigen.","Von einem Zug oder Bus in einen anderen gehen.")
+  ],
+  medien:[
+    V("Handy","das","die Handys","Mein Handy ist leer, ich muss es laden.","Kleines Telefon zum Mitnehmen."),
+    V("Nachricht","die","die Nachrichten","Ich schreibe dir eine Nachricht.","Kurzer Text, z. B. per SMS oder Messenger."),
+    V("Passwort","das","die Passwörter","Mein Passwort sage ich niemandem.","Geheimes Wort für ein Konto im Internet."),
+    V("Handyvertrag","der","die Handyverträge","Der Handyvertrag läuft zwei Jahre.","Vertrag mit einer Firma für Telefon und Internet."),
+    V("Ladekabel","das","die Ladekabel","Hast du ein Ladekabel für mich?","Kabel, mit dem man das Handy auflädt."),
+    V("E-Mail","die","die E-Mails","Die Kursleiterin schickt uns eine E-Mail.","Brief über das Internet."),
+    V("Internet","das","ohne Plural","Im Kursraum gibt es kostenloses Internet.","Weltweites Netz für Daten und Informationen."),
+    V("herunterladen","","","Ich lade die App herunter.","Etwas aus dem Internet auf das Handy holen.")
+  ]
+};
+
+const FIELDS = {vorstellen:"Sich vorstellen", termine:"Termine machen", arzt:"Beim Arzt", wohnen:"Wohnen & Vermieter", amt:"Auf dem Amt", einkaufen:"Einkaufen & Reklamieren", kinder:"Kita & Schule", arbeit:"Arbeit suchen", konflikt:"Konflikte lösen", brief:"Briefe & E-Mails"};
+const R = (l,t)=>({l,t});
+const REDEMITTEL = {
+  vorstellen:[R("A1","Ich heiße … und komme aus …"),R("A1","Ich wohne in … Ich bin verheiratet und habe zwei Kinder."),R("A1","Ich spreche Arabisch, Englisch und ein bisschen Deutsch."),R("A2","In meinem Heimatland habe ich als … gearbeitet."),R("A2","Seit … lebe ich in Deutschland."),R("B1","In Zukunft möchte ich gern als … arbeiten, deshalb mache ich …")],
+  termine:[R("A1","Ich möchte einen Termin machen."),R("A1","Geht es am Montag?"),R("A2","Am Dienstag kann ich leider nicht. Haben Sie am Mittwoch Zeit?"),R("A2","Ich muss den Termin leider absagen."),R("B1","Könnten wir den Termin auf nächste Woche verschieben?"),R("B1","Wäre es möglich, früher zu kommen? Es ist dringend.")],
+  arzt:[R("A1","Ich habe Schmerzen. Hier."),R("A1","Ich habe Fieber und Husten."),R("A2","Seit drei Tagen tut mein Hals weh."),R("A2","Wie oft muss ich die Tabletten nehmen?"),R("B1","Ich vertrage dieses Medikament nicht so gut. Gibt es eine Alternative?"),R("B1","Brauche ich eine Krankmeldung für meinen Arbeitgeber?")],
+  wohnen:[R("A1","Die Heizung ist kaputt."),R("A2","Wann kann der Hausmeister kommen?"),R("A2","Ich interessiere mich für die Wohnung. Ist sie noch frei?"),R("A2","Wie hoch sind die Nebenkosten?"),R("B1","Ich habe Ihnen schon vor einer Woche geschrieben, aber das Problem ist immer noch nicht gelöst."),R("B1","Ich bitte Sie, das bis Freitag zu reparieren.")],
+  amt:[R("A1","Ich habe einen Termin um 10 Uhr."),R("A1","Wo ist Zimmer 12?"),R("A2","Welche Unterlagen brauche ich?"),R("A2","Können Sie das bitte langsam wiederholen?"),R("B1","Ich habe den Brief nicht ganz verstanden. Können Sie mir erklären, was ich tun muss?"),R("B1","Bis wann muss ich das Formular abgeben?")],
+  einkaufen:[R("A1","Was kostet das?"),R("A1","Ich nehme zwei Kilo Tomaten, bitte."),R("A2","Haben Sie die Hose auch in Größe 40?"),R("A2","Kann ich das umtauschen?"),R("B1","Die Jacke ist nach zwei Tagen kaputtgegangen. Ich möchte mein Geld zurück."),R("B1","Hier ist der Kassenbon. Ich habe sie letzte Woche bei Ihnen gekauft.")],
+  kinder:[R("A1","Mein Sohn ist heute krank."),R("A1","Ich hole Lina um 15 Uhr ab."),R("A2","Wie geht es meiner Tochter in der Schule?"),R("A2","Was muss mein Kind zum Ausflug mitbringen?"),R("B1","Ich mache mir Sorgen, weil mein Sohn in Mathe schlechter geworden ist."),R("B1","Können wir einen Termin für ein Gespräch vereinbaren?")],
+  arbeit:[R("A1","Ich suche Arbeit."),R("A2","Ich habe Ihre Anzeige gelesen. Ist die Stelle noch frei?"),R("A2","Ich kann auch am Wochenende arbeiten."),R("B1","Ich habe fünf Jahre als Schneiderin gearbeitet und kenne mich mit Maschinen aus."),R("B1","Wie sind die Arbeitszeiten?"),R("B1","Ich würde gern ein Praktikum bei Ihnen machen.")],
+  konflikt:[R("A2","Entschuldigung, die Musik ist sehr laut."),R("A2","Das ist nicht so schlimm."),R("B1","Ich verstehe Sie, aber für mich ist das ein Problem, weil …"),R("B1","Vielleicht können wir uns einigen: …"),R("B1","Können wir in Ruhe darüber sprechen?"),R("B1","Tut mir leid, das war ein Missverständnis.")],
+  brief:[R("A1","Liebe Maria, … Viele Grüße"),R("A2","Sehr geehrte Damen und Herren, …"),R("A2","Ich schreibe Ihnen, weil …"),R("A2","Leider kann ich am … nicht kommen."),R("B1","Ich möchte mich für … entschuldigen."),R("B1","Ich freue mich auf Ihre Antwort. Mit freundlichen Grüßen")]
+};
+
+const SC = (id,d,f,t,ai,me,ziel,open,tips)=>({id,d,f,t,ai,me,ziel,open,tips});
+const SCENARIOS = [
+  SC("arzttermin","gesundheit","termine","Arzttermin am Telefon","Frau Weber, Arzthelferin in der Praxis","Sie sind krank und brauchen schnell einen Termin.","Beschwerden nennen, Termin vereinbaren, Uhrzeit wiederholen","Praxis Dr. Hansen, Weber am Apparat. Was kann ich für Sie tun?",["Ich möchte bitte einen Termin.","Ich habe seit gestern Fieber.","Also am … um … Uhr. Danke!"]),
+  SC("hausarzt","gesundheit","arzt","Beim Hausarzt","Dr. Hansen, Hausarzt","Sie haben seit Tagen Halsschmerzen.","Beschwerden beschreiben, Fragen zu den Tabletten stellen, Krankmeldung erfragen","Guten Tag, setzen Sie sich bitte. Was fehlt Ihnen denn?",["Seit drei Tagen tut mein Hals weh.","Wie oft muss ich die Tabletten nehmen?","Brauche ich eine Krankmeldung?"]),
+  SC("heizung","wohnen","wohnen","Heizung kaputt","Herr Brinkmann, Ihr Vermieter","Sie sind Mieterin oder Mieter. Die Heizung ist seit zwei Tagen kalt.","Problem erklären, Reparaturtermin vereinbaren","Brinkmann. Hallo?",["Die Heizung in meiner Wohnung ist kaputt.","Seit zwei Tagen ist es kalt.","Wann kann jemand kommen?"]),
+  SC("besichtigung","wohnen","wohnen","Wohnungsbesichtigung","Frau Lange, Vermieterin","Sie suchen eine Wohnung für Ihre Familie.","Fragen zu Miete, Nebenkosten und Einzug stellen, Interesse zeigen","Kommen Sie rein. Das ist die Wohnung: drei Zimmer, Küche, Bad. Haben Sie Fragen?",["Wie hoch ist die Miete?","Sind die Nebenkosten dabei?","Ab wann ist die Wohnung frei?"]),
+  SC("nachbar","wohnen","konflikt","Lärm im Haus","Herr Schröder, Nachbar","Ihr Nachbar sagt, Ihre Kinder sind abends zu laut.","Ruhig bleiben, Situation erklären, gemeinsam eine Lösung finden","Guten Abend. Entschuldigung, aber Ihre Kinder sind jeden Abend so laut. Ich muss früh aufstehen!",["Das tut mir leid. Das wusste ich nicht.","Ich verstehe Sie, aber Kinder …","Vielleicht können wir uns einigen: …"]),
+  SC("buergeramt","aemter","amt","Anmeldung im Bürgerbüro","Herr Kaya, Mitarbeiter im Bürgerbüro","Sie sind umgezogen und möchten sich anmelden.","Anliegen nennen, Fragen beantworten, Unterlagen klären","Guten Morgen. Ihre Wartenummer, bitte. Was ist Ihr Anliegen?",["Ich möchte mich anmelden.","Ich bin am … umgezogen.","Welche Unterlagen brauchen Sie?"]),
+  SC("jobcenter","arbeit","amt","Termin im Jobcenter","Frau Hoffmann, Ihre Ansprechpartnerin im Jobcenter","Sie suchen Arbeit und sprechen über Ihre Pläne.","Erfahrung beschreiben, Wünsche nennen, nächste Schritte verstehen","Hallo, schön, dass Sie da sind. Erzählen Sie mal: Was haben Sie früher beruflich gemacht?",["In meinem Heimatland habe ich als … gearbeitet.","Ich möchte gern als … arbeiten.","Was muss ich als Nächstes machen?"]),
+  SC("anruf-stelle","arbeit","arbeit","Anruf wegen einer Stellenanzeige","Herr Meyer, Chef einer Bäckerei","Sie haben eine Anzeige gelesen: Aushilfe gesucht.","Interesse zeigen, Fragen zu Arbeitszeit und Lohn stellen, Termin vereinbaren","Bäckerei Meyer, guten Tag.",["Ich habe Ihre Anzeige gelesen. Ist die Stelle noch frei?","Wie sind die Arbeitszeiten?","Ich kann auch am Wochenende arbeiten."]),
+  SC("kita-krank","kinder","kinder","Kind in der Kita krankmelden","Frau Becker, Erzieherin","Ihr Kind ist krank und kann heute nicht kommen.","Krankmeldung, Dauer, Frage nach Wiederkommen","Kita Sonnenschein, Becker. Guten Morgen!",["Mein Sohn ist heute krank.","Er hat Fieber.","Wann darf er wiederkommen?"]),
+  SC("elterngespraech","kinder","kinder","Elterngespräch in der Schule","Herr Wolf, Klassenlehrer","Sie sprechen mit dem Lehrer über Ihre Tochter.","Fragen stellen, Sorgen äußern, Unterstützung vereinbaren","Schön, dass Sie gekommen sind. Ihre Tochter ist sehr nett, aber beim Lesen hat sie noch Probleme.",["Was kann ich zu Hause machen?","Gibt es Hilfe in der Schule?","Wann können wir wieder sprechen?"]),
+  SC("reklamation","einkaufen","einkaufen","Schuhe reklamieren","Frau Neumann, Verkäuferin","Ihre neuen Schuhe sind nach einer Woche kaputt.","Problem erklären, Kassenbon zeigen, Umtausch oder Geld zurück verlangen","Hallo, kann ich Ihnen helfen?",["Ich habe die Schuhe letzte Woche hier gekauft.","Jetzt sind sie schon kaputt.","Kann ich sie umtauschen?"]),
+  SC("bahnhof","mobil","termine","Am Bahnhof: Zug fällt aus","Herr Pohl, Mitarbeiter am Info-Schalter","Ihr Zug fällt aus. Sie müssen zu einem Termin.","Situation erklären, Alternative erfragen, Gleis und Uhrzeit verstehen","Guten Tag. Wohin möchten Sie fahren?",["Mein Zug nach … fällt aus.","Wann fährt der nächste Zug?","Von welchem Gleis?"]),
+  SC("handyvertrag","medien","konflikt","Falsche Handyrechnung","Frau Schulz, Kundenservice","Auf Ihrer Handyrechnung steht zu viel Geld.","Problem erklären, Rechnung prüfen lassen, Lösung vereinbaren","Kundenservice, Schulz, guten Tag. Wie kann ich Ihnen helfen?",["Meine Rechnung ist zu hoch.","Ich habe das nicht bestellt.","Können Sie das bitte prüfen?"])
+];
+
+/* ---------- DTZ (eigene Übungen im Stil der Prüfung) ---------- */
+const READING = [
+  {lv:"A2", typ:"rf", titel:"Aushang im Treppenhaus", text:"Liebe Mieterinnen und Mieter,\n\nam Mittwoch, 18. November, gibt es von 8 bis 13 Uhr kein Wasser im Haus. Die Firma Hartmann repariert die Leitungen im Keller. Bitte füllen Sie vorher Wasser in Flaschen oder Töpfe.\n\nDie Waschküche ist am Mittwoch den ganzen Tag geschlossen. Ab Donnerstag können Sie wieder waschen.\n\nBei Fragen rufen Sie bitte die Hausverwaltung an: 0591 123456 (Mo–Fr 9–12 Uhr).\n\nIhre Hausverwaltung",
+    q:[["Am Mittwochvormittag gibt es kein Wasser.",true,"Von 8 bis 13 Uhr gibt es kein Wasser."],["Die Firma repariert die Heizung.",false,"Sie repariert die Leitungen im Keller."],["Am Mittwochnachmittag kann man wieder waschen.",false,"Die Waschküche ist am Mittwoch den ganzen Tag geschlossen."],["Die Hausverwaltung kann man vormittags anrufen.",true,"Mo–Fr 9–12 Uhr."]]},
+  {lv:"B1", typ:"mc", titel:"Elternbrief: Ausflug der Klasse 3b", text:"Liebe Eltern,\n\nam Freitag, 27. November, besuchen wir mit der Klasse das Naturkundemuseum in Osnabrück. Wir fahren um 8:15 Uhr mit dem Zug ab Lingen und sind gegen 14 Uhr zurück. Bitte bringen Sie Ihr Kind schon um 7:50 Uhr direkt zum Bahnhof.\n\nDer Eintritt und die Fahrkarte kosten zusammen 9 Euro. Bitte geben Sie das Geld bis Mittwoch in einem Umschlag mit dem Namen Ihres Kindes mit. Wenn das für Ihre Familie schwierig ist, sprechen Sie mich gern an; der Förderverein kann helfen.\n\nIhr Kind braucht ein Frühstück, etwas zu trinken und eine Regenjacke. Handys bleiben bitte zu Hause.\n\nViele Grüße\nAnna Becker, Klassenlehrerin",
+    q:[["Wo treffen sich die Kinder am Freitag?",["in der Schule","am Bahnhof","im Museum"],1,"„Bitte bringen Sie Ihr Kind … direkt zum Bahnhof.“"],["Bis wann sollen die Eltern das Geld mitgeben?",["bis Mittwoch","bis Freitag","bis Montag"],0,"„… bis Mittwoch in einem Umschlag …“"],["Was ist, wenn eine Familie das Geld nicht bezahlen kann?",["Das Kind bleibt zu Hause.","Die Familie kann mit der Lehrerin sprechen.","Die Schule bezahlt immer alles."],1,"Der Förderverein kann helfen, man soll die Lehrerin ansprechen."],["Was sollen die Kinder nicht mitnehmen?",["eine Regenjacke","ein Frühstück","ein Handy"],2,"„Handys bleiben bitte zu Hause.“"]]}
+];
+const LISTEN = [
+  {titel:"Durchsage am Bahnhof", text:"Achtung an Gleis 2. Der Regionalexpress nach Münster, planmäßige Abfahrt 9 Uhr 12, hat heute etwa 20 Minuten Verspätung. Grund dafür ist eine Störung an einem Stellwerk. Reisende nach Rheine können auch den Bus der Linie 182 nehmen. Er fährt um 9 Uhr 20 vor dem Bahnhof ab. Wir bitten um Entschuldigung.",
+    q:[["Wie viel Verspätung hat der Zug?",["etwa 10 Minuten","etwa 20 Minuten","er fällt aus"],1],["Was können Reisende nach Rheine machen?",["den Bus nehmen","auf Gleis 3 warten","ein Taxi bestellen"],0],["Wann fährt der Bus?",["um 9:12 Uhr","um 9:20 Uhr","um 9:30 Uhr"],1]]},
+  {titel:"Nachricht von der Arztpraxis", text:"Guten Tag, Frau Rahimi, hier ist die Praxis Doktor Hansen. Sie haben morgen um 10 Uhr einen Termin bei uns. Leider ist Doktor Hansen morgen krank. Wir können Ihnen einen neuen Termin am Freitag um 8 Uhr 30 anbieten. Bitte rufen Sie uns bis heute 18 Uhr zurück und sagen Sie, ob das passt. Und denken Sie bitte an Ihre Versichertenkarte. Vielen Dank und auf Wiederhören.",
+    q:[["Warum fällt der Termin aus?",["Die Praxis ist geschlossen.","Der Arzt ist krank.","Frau Rahimi hat abgesagt."],1],["Wann ist der neue Termin?",["morgen um 10 Uhr","Freitag um 8:30 Uhr","Freitag um 18 Uhr"],1],["Was soll Frau Rahimi tun?",["bis 18 Uhr zurückrufen","eine E-Mail schreiben","einfach am Freitag kommen"],0]]}
+];
+const WRITE = [
+  {t:"Sie können eine Woche nicht zum Deutschkurs kommen. Schreiben Sie Ihrer Kursleiterin, Frau Schmitz, eine E-Mail:\n• Grund\n• wie lange\n• Hausaufgaben\n• Wann kommen Sie wieder?", gr:"Sehr geehrte Frau Schmitz,"},
+  {t:"Ihre Freundin Olga hat Sie zu ihrem Geburtstag am Samstag eingeladen. Sie können nicht kommen. Schreiben Sie Olga eine Nachricht:\n• Dank für die Einladung\n• warum Sie nicht kommen können\n• Geschenk\n• ein neues Treffen vorschlagen", gr:"Liebe Olga,"}
+];
+const SPEAK2 = {bild:"Auf dem Bild sehen Sie eine Familie auf einem Wochenmarkt. Eine Frau kauft Gemüse an einem Stand, ein Mann trägt eine Einkaufstasche, ein Kind hält einen Apfel in der Hand.", fragen:["Was sehen Sie auf dem Bild?","Wo kaufen Sie Lebensmittel ein? Warum dort?","Wie ist das Einkaufen in Ihrem Heimatland?"]};
+const SPEAK3 = {aufgabe:"Gemeinsam etwas planen: Ihr Deutschkurs ist bald zu Ende. Sie möchten mit allen ein Abschlussfest machen. Planen Sie zusammen: Wann? Wo? Essen und Getränke? Wer macht was?", open:"Hallo! Wir wollen doch ein Fest zum Kursende machen. Wann sollen wir feiern?", tips:["Wie wäre es am …?","Das ist eine gute Idee, aber …","Ich kann … mitbringen.","Gut, dann machen wir es so: …"]};
+
+/* ---------- Leben in Deutschland: eigene Übungsfragen (nicht der amtliche Katalog) ---------- */
+const LT = (k,q,o,r,e)=>({k,q,o,r,e});
+const LID_CAT = {P:"Politik in der Demokratie", G:"Geschichte und Verantwortung", M:"Mensch und Gesellschaft"};
+const LID = [
+  LT("P","Wie viele Bundesländer hat Deutschland?",["14","16","18"],1,"Deutschland hat 16 Bundesländer, zum Beispiel Niedersachsen und Bayern."),
+  LT("P","Wer wählt den Bundeskanzler oder die Bundeskanzlerin?",["das Volk direkt","der Bundestag","der Bundespräsident"],1,"Der Bundestag wählt den Bundeskanzler oder die Bundeskanzlerin."),
+  LT("P","Wie oft wird der Bundestag normalerweise gewählt?",["alle 4 Jahre","alle 5 Jahre","alle 7 Jahre"],0,"Die Wahlperiode des Bundestags dauert vier Jahre."),
+  LT("P","Ab wie viel Jahren darf man bei der Bundestagswahl wählen?",["ab 16","ab 18","ab 21"],1,"Bei der Bundestagswahl wählt man ab 18 Jahren."),
+  LT("P","Was bedeutet „geheime Wahl“?",["Niemand darf sehen, wen ich wähle.","Die Wahl ist nachts.","Nur Politiker dürfen wählen."],0,"Jede Person wählt allein; niemand darf kontrollieren, wen sie wählt."),
+  LT("P","Wer ist das Staatsoberhaupt von Deutschland?",["der Bundeskanzler","der Bundespräsident","der Präsident des Bundestags"],1,"Das Staatsoberhaupt ist der Bundespräsident oder die Bundespräsidentin."),
+  LT("P","Was ist der Bundesrat?",["die Vertretung der Bundesländer","ein Gericht","die Regierung einer Stadt"],0,"Im Bundesrat arbeiten die Bundesländer bei Gesetzen des Bundes mit."),
+  LT("P","Welche Institution gehört zur Rechtsprechung (Judikative)?",["die Polizei","die Gerichte","die Regierung"],1,"Gewaltenteilung: Parlament (Gesetze), Regierung (ausführen), Gerichte (Recht sprechen)."),
+  LT("P","Wer kann eine Partei in Deutschland verbieten?",["die Bundesregierung allein","das Bundesverfassungsgericht","jede Stadt"],1,"Nur das Bundesverfassungsgericht kann eine Partei verbieten."),
+  LT("P","Was steht in Artikel 1 des Grundgesetzes?",["Die Würde des Menschen ist unantastbar.","Deutschland ist ein Bundesstaat.","Alle Kinder müssen zur Schule gehen."],0,"Artikel 1: „Die Würde des Menschen ist unantastbar.“"),
+  LT("P","Darf man in Deutschland friedlich demonstrieren?",["Ja, das ist ein Grundrecht.","Nein, nie.","Nur mit Erlaubnis der Polizei für jede Person."],0,"Versammlungsfreiheit: Man darf sich friedlich und ohne Waffen versammeln."),
+  LT("P","Was ist die Hauptstadt von Deutschland?",["Bonn","Berlin","Frankfurt am Main"],1,"Die Hauptstadt ist Berlin."),
+  LT("G","Wann ist das Grundgesetz in Kraft getreten?",["1945","1949","1990"],1,"Das Grundgesetz gilt seit Mai 1949."),
+  LT("G","Wer war von 1933 bis 1945 in Deutschland an der Macht?",["die Nationalsozialisten","die Kommunisten","der Kaiser"],0,"1933 bis 1945: Diktatur der Nationalsozialisten unter Hitler."),
+  LT("G","Was war der Holocaust?",["eine Wahl","der Mord an Millionen europäischer Juden","ein Friedensvertrag"],1,"Die Nationalsozialisten ermordeten etwa sechs Millionen Jüdinnen und Juden."),
+  LT("G","Was passierte am 8. Mai 1945?",["Ende des Zweiten Weltkriegs in Europa","Bau der Berliner Mauer","Gründung der EU"],0,"Am 8. Mai 1945 endete der Zweite Weltkrieg in Europa."),
+  LT("G","Wann fiel die Berliner Mauer?",["1961","1989","2000"],1,"Die Mauer fiel am 9. November 1989."),
+  LT("G","Was feiert man am 3. Oktober?",["den Tag der Deutschen Einheit","das Ende des Kriegs","den Tag der Arbeit"],0,"Seit dem 3. Oktober 1990 ist Deutschland wiedervereinigt."),
+  LT("G","Seit wann gibt es die europäische Zusammenarbeit, bei der Deutschland Gründungsmitglied ist?",["seit 1957","seit 1990","seit 2002"],0,"1957: Römische Verträge, Gründung der EWG – Vorläufer der EU."),
+  LT("M","Welche Farben hat die deutsche Flagge?",["Schwarz-Rot-Gold","Rot-Weiß-Blau","Schwarz-Weiß-Rot"],0,"Die Flagge ist Schwarz-Rot-Gold."),
+  LT("M","Wer darf in Deutschland Kinder schlagen?",["die Eltern","die Lehrer","niemand"],2,"Kinder haben ein Recht auf eine Erziehung ohne Gewalt."),
+  LT("M","Müssen Kinder in Deutschland zur Schule gehen?",["Ja, es gibt eine Schulpflicht.","Nein, das entscheiden die Eltern.","Nur Jungen."],0,"In Deutschland gilt die Schulpflicht."),
+  LT("M","Was gilt für Männer und Frauen nach dem Grundgesetz?",["Sie sind gleichberechtigt.","Männer haben mehr Rechte.","Das ist nicht geregelt."],0,"Artikel 3: Männer und Frauen sind gleichberechtigt."),
+  LT("M","Was bedeutet Religionsfreiheit?",["Man muss Christ sein.","Man kann eine Religion frei wählen oder keine haben.","Religion ist verboten."],1,"Jeder Mensch darf seinen Glauben frei wählen, wechseln oder ohne Religion leben."),
+  LT("M","Wo wird eine Ehe in Deutschland rechtsgültig geschlossen?",["im Standesamt","im Jobcenter","beim Notar"],0,"Rechtsgültig ist die Ehe, wenn sie vor dem Standesamt geschlossen wird."),
+  LT("M","Ab welchem Alter darf man in Deutschland heiraten?",["ab 16","ab 18","ab 21"],1,"Eine Ehe ist erst ab 18 Jahren erlaubt."),
+  LT("M","Welche Versicherung muss jede Person in Deutschland haben?",["Krankenversicherung","Hausratversicherung","Autoversicherung für alle"],0,"Eine Krankenversicherung ist für alle Pflicht."),
+  LT("M","Was bedeutet Meinungsfreiheit?",["Man darf seine Meinung sagen, auch Kritik an der Regierung.","Man darf nur die Meinung der Regierung sagen.","Man darf andere ohne Grenzen beleidigen."],0,"Meinungsfreiheit ist ein Grundrecht; Beleidigung oder Volksverhetzung sind aber verboten.")
+];
+
+/* ---------- Demo-Kurse ---------- */
+const DEMO_COURSES = [
+  {id:"c1", name:"IK Modul 4 · Vormittag", stage:"aufbau", art:"allg", info:"Mo–Fr 8:30–12:45 · Präsenz", tn:[
+    {n:"Amina K.",w:74,l:70,h:66,s:58,sp:72,lid:0,an:96,last:"heute"},{n:"Oleksandr P.",w:61,l:64,h:58,s:47,sp:60,lid:0,an:88,last:"gestern"},
+    {n:"Nguyen T.",w:82,l:78,h:71,s:69,sp:63,lid:0,an:98,last:"heute"},{n:"Fatma Y.",w:36,l:41,h:49,s:28,sp:52,lid:0,an:71,last:"vor 6 Tagen"},
+    {n:"Abdul R.",w:55,l:48,h:62,s:40,sp:70,lid:0,an:90,last:"heute"},{n:"Sara H.",w:69,l:66,h:57,s:60,sp:55,lid:0,an:84,last:"vor 2 Tagen"},
+    {n:"Ivana R.",w:88,l:85,h:80,s:76,sp:79,lid:0,an:100,last:"heute"},{n:"Mohammed A.",w:44,l:39,h:51,s:33,sp:63,lid:0,an:79,last:"vor 3 Tagen"}]},
+  {id:"c2", name:"Alpha-IK Modul 2", stage:"basis", art:"alpha", info:"Mo–Fr 13:00–17:15 · Präsenz", tn:[
+    {n:"Hawa D.",w:42,l:30,h:55,s:22,sp:48,lid:0,an:93,last:"heute"},{n:"Yonas T.",w:51,l:38,h:60,s:31,sp:57,lid:0,an:87,last:"gestern"},
+    {n:"Shirin M.",w:63,l:47,h:66,s:40,sp:62,lid:0,an:95,last:"heute"},{n:"Rahim S.",w:28,l:19,h:41,s:15,sp:39,lid:0,an:74,last:"vor 4 Tagen"}]},
+  {id:"c3", name:"Orientierungskurs Dezember", stage:"orient", art:"allg", info:"Mo–Fr 8:30–12:45 · Präsenz", tn:[
+    {n:"Elena S.",w:80,l:84,h:77,s:69,sp:74,lid:82,an:97,last:"heute"},{n:"Kwame O.",w:66,l:70,h:66,s:52,sp:71,lid:58,an:90,last:"gestern"},
+    {n:"Leila B.",w:58,l:61,h:55,s:47,sp:50,lid:41,an:82,last:"vor 5 Tagen"}]}
+];
+const DEMO_TASKS = [
+  {t:"Wortschatz-Runde: Wohnen", course:"c1", due:"2026-11-12", kind:"woerter:wohnen"},
+  {t:"Gespräch: Heizung kaputt", course:"c1", due:"2026-11-13", kind:"gespraech:heizung"}
+];
+
+/* ---------- Zustand ---------- */
+const KEY = "ik-app-v1";
+function defaults(){ return {role:"lern", stage:"aufbau", art:"allg", lang:"keine", auto:false, deck:"wohnen", cards:{}, streak:{last:"",n:0}, done:{}, tasks:DEMO_TASKS.slice(), courses:JSON.parse(JSON.stringify(DEMO_COURSES)), custom:[], hint:true, course:"c1"}; }
+function load(){ const d = defaults(); try{ const raw = localStorage.getItem(KEY); if(raw) return Object.assign(d, JSON.parse(raw)); }catch(e){} return d; }
+let S = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+const ui = {deck:null, queue:null, qi:0, phase:"ask", pick:null, field:"vorstellen", allLv:false, exam:"dtz", part:"hoeren", answers:{}, rp:null, mat:null, matBusy:false, matOut:null, wfb:null, wBusy:false, wTask:0, wText:"", timer:null, timeLeft:0, newCourse:false, lid:null, lidCat:"alle", tr:{}};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const stage = () => STAGES[S.stage];
+const lvNow = () => stage().lv;
+const modLabel = (st = S.stage, art = S.art) => STAGES[st].mod[KURSARTEN[art].long ? 1 : 0];
+const today = () => new Date().toISOString().slice(0,10);
+const hasLang = () => S.lang && S.lang !== "keine";
+function tick(){ const t = today(); if(S.streak.last === t) return; const y = new Date(Date.now()-864e5).toISOString().slice(0,10); S.streak.n = S.streak.last === y ? S.streak.n + 1 : 1; S.streak.last = t; save(); }
+function toast(msg){ const el = $("#toast"); el.textContent = msg; el.classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(()=>el.classList.add("hidden"), 2600); }
+const CAN_SPEAK = "speechSynthesis" in window;
+function speak(t, rate){ try{ const u = new SpeechSynthesisUtterance(t.replace(/…/g," ")); u.lang = "de-DE"; u.rate = rate || (KURSARTEN[S.art].big ? .8 : .9); speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){ toast("Vorlesen ist in dieser Ansicht nicht verfügbar."); } }
+const ICON_SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+const spk = t => CAN_SPEAK ? `<button class="speak" data-act="speak" data-t="${esc(t)}" aria-label="Vorlesen">${ICON_SPK}</button>` : "";
+async function copy(t){ try{ await navigator.clipboard.writeText(t); toast("Kopiert"); }catch(e){ toast("Kopieren nicht möglich. Bitte Text markieren."); } }
+
+/* ---------- KI ---------- */
+let AI = null, aiState = "wait";
+try{ if(window.claude && typeof claude.use === "function"){ claude.use("sample").then(s => { AI = s; aiState = s ? "ok" : "off"; softRender(); }).catch(()=>{ aiState = "off"; softRender(); }); } else aiState = "off"; }catch(e){ aiState = "off"; }
+setTimeout(()=>{ if(aiState === "wait"){ aiState = "off"; softRender(); } }, 11000);
+function softRender(){ const a = document.activeElement; if(a && (a.tagName === "TEXTAREA" || a.tagName === "INPUT")) return; render(); }
+async function askAI(prompt, onText){ if(!AI) throw {code:"off"}; const r = await AI(prompt, {cache:false, onText: onText ? ({text}) => onText(text) : undefined}); return r.text; }
+function aiErr(e){ if(e && e.code === "not_granted"){ aiState = "off"; return "Die KI-Funktion wurde nicht freigegeben."; } if(e && e.code === "rate_limited") return "Gerade zu viele Anfragen. Bitte in einer Minute noch einmal versuchen."; if(e && e.code === "off") return "Die KI ist in dieser Ansicht nicht verfügbar."; return "Das hat nicht geklappt. Bitte noch einmal versuchen."; }
+function md(t){
+  const lines = esc(t).split("\n"); let out = "", inList = false;
+  for(let l of lines){
+    l = l.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+    if(/^\s*[-•*]\s+/.test(l)){ if(!inList){ out += "<ul>"; inList = true; } out += "<li>" + l.replace(/^\s*[-•*]\s+/,"") + "</li>"; continue; }
+    if(inList){ out += "</ul>"; inList = false; }
+    if(/^#{1,4}\s/.test(l)) out += "<h4>" + l.replace(/^#{1,4}\s/,"") + "</h4>";
+    else if(l.trim()) out += "<p>" + l + "</p>";
+  }
+  if(inList) out += "</ul>";
+  return out;
+}
+const aiBadge = () => aiState === "ok" ? '<span class="pill good">KI bereit</span>' : aiState === "wait" ? '<span class="pill lv">KI wird verbunden …</span>' : '<span class="pill warn">KI hier nicht verfügbar</span>';
+const levelRule = lv => ({Alpha:"Alphabetisierung: sehr kurze Hauptsätze mit 3 bis 6 Wörtern, nur sehr häufige Wörter, keine Nebensätze.", A1:"A1: sehr kurze, einfache Hauptsätze, Präsens, häufige Alltagswörter.", A2:"A2: kurze, klare Sätze, einfache Nebensätze mit weil/dass/wenn, Perfekt erlaubt.", B1:"B1: alltägliche, klare Sprache, auch Nebensätze, höflich mit Konjunktiv II (könnten Sie, würde)."})[lv];
+
+/* Übersetzung in die Hilfesprache */
+function translate(text){
+  if(!hasLang()){ openSettings(); toast("Bitte zuerst eine Hilfesprache wählen."); return; }
+  if(aiState !== "ok"){ toast("Übersetzen geht nur mit KI."); return; }
+  $("#sheet").innerHTML = `<div class="sheet-bg" data-act="closeSheet"><div class="sheet" role="dialog" aria-modal="true" aria-label="Übersetzung">
+    <div class="row between"><h2>In ${esc(S.lang)}</h2><button class="btn sm line" data-act="closeSheet">Schließen</button></div>
+    <div class="text-src">${esc(text)}</div><div class="trans" id="trOut" dir="auto">Wird übersetzt …</div>
+    <p class="small muted">KI-Übersetzung als Lernhilfe. Sie kann Fehler enthalten.</p></div></div>`;
+  const prompt = `Übersetze den folgenden deutschen Text für eine Person in einem Deutschkurs (Integrationskurs) in die Sprache ${S.lang}. Gib zuerst nur die Übersetzung aus. Schreibe danach eine Leerzeile und bis zu 3 Zeilen im Format "deutsches Wort = Übersetzung" für die wichtigsten Wörter. Keine weiteren Erklärungen.\n\nText:\n"""${text}"""`;
+  askAI(prompt, t => { const el = $("#trOut"); if(el) el.textContent = t; }).then(t => { const el = $("#trOut"); if(el) el.textContent = t; }).catch(e => { const el = $("#trOut"); if(el) el.textContent = aiErr(e); });
+}
+const trBtn = t => hasLang() && aiState === "ok" ? `<button class="linkbtn" data-act="trans" data-t="${esc(t)}">In ${esc(S.lang.split(" ")[0])} anzeigen</button>` : "";
+
+/* ---------- Wortschatz-Logik ---------- */
+const INTERVAL = [0, 0, 1, 3, 7, 21];
+const deckWords = d => VOCAB[d].concat(S.custom.filter(c => c.d === d));
+const cid = (d,w) => d + ":" + w.w;
+function due(d){ const now = Date.now(); return deckWords(d).filter(w => { const c = S.cards[cid(d,w)]; return !c || c.due <= now; }); }
+function known(d){ return deckWords(d).filter(w => { const c = S.cards[cid(d,w)]; return c && c.box >= 3; }).length; }
+function allDue(){ return Object.keys(DECKS).reduce((a,d) => a + due(d).length, 0); }
+function grade(d, w, ok){ const id = cid(d,w); const c = S.cards[id] || {box:1, due:0}; c.box = ok ? Math.min(5, c.box + 1) : 1; c.due = Date.now() + INTERVAL[c.box] * 864e5; S.cards[id] = c; tick(); save(); }
+
+/* ---------- Routing ---------- */
+const NAV = {
+  lern:[["start","Start","M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"],["woerter","Wörter","M4 5h11a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2zM8 3h12v14"],["saetze","Sätze","M4 5h16v10H9l-5 4z"],["pruefung","Prüfung","M9 4h6v3H9zM6 6h12v15H6zM9 13l2 2 4-4"],["gespraech","Gespräch","M3 6h11v7H7l-4 3zM10 13v2h7l4 3V9h-4"]],
+  lehr:[["kurs","Kurs","M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 1 0 0-5M16 15c3 0 6 1.5 6 4.5"],["material","Material","M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"],["saetze","Redemittel","M4 5h16v10H9l-5 4z"],["gespraech","Rollenspiel","M3 6h11v7H7l-4 3zM10 13v2h7l4 3V9h-4"]]
+};
+function route(){ const h = location.hash.replace("#",""); const ok = NAV[S.role].map(n => n[0]); return ok.includes(h) ? h : ok[0]; }
+function renderChrome(){
+  document.body.classList.toggle("big", !!KURSARTEN[S.art].big);
+  $("#ctxBtn").innerHTML = `<strong>${esc(stage().label)}</strong><span>·</span><span>${esc(KURSARTEN[S.art].s)}</span>`;
+  $("#roleL").setAttribute("aria-pressed", S.role === "lern"); $("#roleT").setAttribute("aria-pressed", S.role === "lehr");
+  const r = route();
+  $("#nav").innerHTML = NAV[S.role].map(([id,label,d]) => `<a href="#${id}" ${id === r ? 'aria-current="page"' : ""}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>${label}</a>`).join("");
+}
+function render(){ renderChrome(); const r = route(); $("#view").innerHTML = VIEWS[r](); const c = $("#chatEnd"); if(c) c.scrollIntoView({block:"end"}); }
+
+/* ---------- Lernende: Start ---------- */
+const VIEWS = {};
+const PARTS = [["hoeren","Hören"],["lesen","Lesen"],["schreiben","Schreiben"],["sprechen","Sprechen"],["lid","Leben in D."]];
+VIEWS.start = () => {
+  const d = due(S.deck).length, k = known(S.deck), tot = deckWords(S.deck).length;
+  const isOrient = S.stage === "orient";
+  const pool = isOrient ? PARTS : PARTS.slice(0,4);
+  const weakest = pool.slice().sort((a,b) => (S.done[a[0]]||0) - (S.done[b[0]]||0))[0];
+  const sc = SCENARIOS.find(s => s.d === S.deck) || SCENARIOS[0];
+  const fKeys = Object.keys(FIELDS); const f = fKeys[new Date().getDate() % fKeys.length];
+  const cands = REDEMITTEL[f].filter(p => LV[p.l] <= LV[lvNow()]);
+  const phr = (cands.length ? cands : REDEMITTEL[f]).slice(-1)[0];
+  const myTasks = S.tasks.filter(t => { const c = S.courses.find(c => c.id === t.course); return c && c.stage === S.stage; });
+  const goal = isOrient ? "Ziel: Test „Leben in Deutschland“" : S.stage === "b1" ? "Ziel: Deutsch-Test für Zuwanderer (DTZ), B1" : `Ziel dieses Abschnitts: ${lvNow()} · am Ende DTZ`;
+  return `
+  ${S.hint ? `<div class="note row between"><span>Kursabschnitt, Kursart und Ihre Hilfesprache stellen Sie oben ein. Ihr Fortschritt bleibt nur auf diesem Gerät.</span><button class="btn sm line" data-act="hideHint">Verstanden</button></div>` : ""}
+  <section class="card hero">
+    <span class="eyebrow">${esc(KURSARTEN[S.art].l)} · ${esc(modLabel())}</span>
+    <h1>${esc(stage().label)}</h1>
+    <p class="muted">${goal}</p>
+    <div class="row">${isOrient ? `<a class="btn" href="#pruefung" data-act="part" data-x="lid" data-p="lid">Fragen üben</a>` : `<a class="btn" href="#woerter">${d ? `${d} Karten wiederholen` : "Wörter ansehen"}</a>`}</div>
+  </section>
+  <div class="grid3">
+    <div class="tile"><b>${allDue()}</b><span>Karten fällig</span></div>
+    <div class="tile"><b>${k}/${tot}</b><span>sicher: ${esc(DECKS[S.deck])}</span></div>
+    <div class="tile"><b>${S.streak.n}</b><span>Tage in Folge</span></div>
+  </div>
+  ${myTasks.length ? `<section class="card"><div class="row between"><h2>Von Ihrer Lehrkraft</h2><span class="pill lv">Demo</span></div><div class="list">${myTasks.map(t => `<a class="item" href="#${t.kind.split(":")[0]}" data-act="openTask" data-k="${esc(t.kind)}"><span class="num">!</span><span style="flex:1"><b>${esc(t.t)}</b><br><span class="small muted">fällig bis ${new Date(t.due).toLocaleDateString("de-DE")}</span></span></a>`).join("")}</div></section>` : ""}
+  <section class="card">
+    <h2>Heute üben</h2>
+    <div class="list">
+      <a class="item" href="#woerter"><span class="num">1</span><span><b>Wörter: ${esc(DECKS[S.deck])}</b><br><span class="small muted">${d} fällige Karten</span></span></a>
+      <div class="item"><span class="num">2</span><span style="flex:1"><b>Satz des Tages</b> <span class="pill lv">${phr.l}</span><br><span>„${esc(phr.t)}“</span><br><span class="small muted">${FIELDS[f]}</span> ${trBtn(phr.t)}</span>${spk(phr.t)}</div>
+      <a class="item" href="#gespraech" data-act="pickRp" data-id="${sc.id}"><span class="num">3</span><span><b>Gespräch: ${esc(sc.t)}</b><br><span class="small muted">${esc(sc.ziel)}</span></span></a>
+      <a class="item" href="#pruefung" data-act="part" data-x="${weakest[0] === "lid" ? "lid" : "dtz"}" data-p="${weakest[0]}"><span class="num">4</span><span><b>Prüfung üben: ${weakest[1]}</b><br><span class="small muted">Hier haben Sie am wenigsten geübt.</span></span></a>
+    </div>
+  </section>
+  <section class="card">
+    <h2>Stand im Prüfungstraining</h2>
+    ${PARTS.map(([id,l]) => { const v = S.done[id] || 0; return `<div><div class="row between small"><span>${l}${id === "lid" ? "" : " (DTZ)"}</span><span class="muted">${v} %</span></div><div class="bar"><i style="width:${v}%"></i></div></div>`; }).join("")}
+    <p class="small muted">Hören, Lesen, Leben in Deutschland: bestes Ergebnis. Schreiben und Sprechen: steigt mit jeder Übung.</p>
+  </section>`;
+};
+
+/* ---------- Wörter ---------- */
+VIEWS.woerter = () => {
+  const d = ui.deck || S.deck;
+  if(!ui.queue){ ui.queue = due(d).slice(0,10); ui.qi = 0; ui.phase = "ask"; ui.pick = null; }
+  const words = deckWords(d), w = ui.queue[ui.qi];
+  let cardHtml;
+  if(!w){
+    cardHtml = `<section class="card flash"><h2>Runde geschafft</h2><p class="muted">Alle fälligen Karten sind wiederholt. Die nächsten kommen nach dem Lernplan wieder.</p><button class="btn ghost" data-act="practiceAll">Alle Karten trotzdem üben</button></section>`;
+  } else {
+    const noun = !!w.a;
+    if(ui.phase === "ask"){
+      cardHtml = `<section class="card flash">
+        <span class="eyebrow">Karte ${ui.qi+1} von ${ui.queue.length}</span>
+        <div class="row" style="justify-content:center"><div class="word">${noun ? "___ " : ""}${esc(w.w)}</div>${spk(w.w)}</div>
+        <p class="muted small">${esc(w.e)}</p>
+        ${trBtn(w.w + ": " + w.e)}
+        ${noun ? `<div class="arts">${["der","die","das"].map(a => `<button data-act="art" data-a="${a}">${a}</button>`).join("")}</div>` : `<button class="btn" data-act="reveal">Beispiel zeigen</button>`}
+      </section>`;
+    } else {
+      const ok = noun ? ui.pick === w.a : null;
+      cardHtml = `<section class="card flash">
+        ${noun ? `<span class="${ok ? "res-ok" : "res-no"}">${ok ? "Richtig!" : `Nicht ganz: Es heißt „${w.a} ${esc(w.w)}“.`}</span>` : ""}
+        <div class="word ${noun ? "art-" + w.a : ""}">${noun ? w.a + " " : ""}${esc(w.w)}</div>
+        ${noun ? `<p class="muted">Plural: ${esc(w.pl)}</p>` : ""}
+        <div class="row" style="justify-content:center"><p>„${esc(w.s)}“</p>${spk((noun ? w.a + " " : "") + w.w + ". " + w.s)}</div>
+        ${trBtn(w.s)}
+        ${noun ? `<button class="btn" data-act="next" data-ok="${ok ? 1 : 0}">Weiter</button>` : `<div class="row" style="justify-content:center"><button class="btn line" data-act="next" data-ok="0">Nochmal üben</button><button class="btn" data-act="next" data-ok="1">Gewusst</button></div>`}
+      </section>`;
+    }
+  }
+  return `
+  <h1>Wörter</h1>
+  <div class="chips" role="group" aria-label="Thema">${Object.entries(DECKS).map(([k,l]) => `<button class="chip" data-act="deck" data-b="${k}" aria-pressed="${k === d}">${esc(l)}</button>`).join("")}</div>
+  ${cardHtml}
+  <section class="card">
+    <div class="row between"><h2>${esc(DECKS[d])}</h2><span class="small muted">${known(d)} von ${words.length} sicher</span></div>
+    <p class="small muted">Farben: <b class="art-der">der</b> · <b class="art-die">die</b> · <b class="art-das">das</b>. Kästchen zeigen die Lernstufe (1–5).</p>
+    <div class="list">${words.map(x => { const c = S.cards[cid(d,x)]; const b = c ? c.box : 0; return `<div class="row between"><span style="flex:1;min-width:0"><b class="${x.a ? "art-" + x.a : ""}">${x.a ? x.a + " " : ""}${esc(x.w)}</b>${x.pl && x.a ? ` <span class="small muted">· ${esc(x.pl)}</span>` : ""}${x.own ? ' <span class="pill lv">vom Kurs</span>' : ""}</span><span class="boxes" aria-label="Lernstufe ${b}">${[1,2,3,4,5].map(i => `<i class="${i <= b ? "on" : ""}"></i>`).join("")}</span>${spk((x.a ? x.a + " " : "") + x.w)}</div>`; }).join("")}</div>
+  </section>`;
+};
+
+/* ---------- Sätze / Redemittel ---------- */
+VIEWS.saetze = () => {
+  const t = lvNow();
+  const list = REDEMITTEL[ui.field].filter(p => ui.allLv || LV[p.l] <= LV[t]);
+  const sc = SCENARIOS.find(s => s.f === ui.field);
+  return `
+  <h1>${S.role === "lehr" ? "Redemittel" : "Wichtige Sätze"}</h1>
+  <p class="muted">Feste Sätze für typische Situationen im Alltag in Deutschland.</p>
+  <div class="chips" role="group" aria-label="Situation">${Object.entries(FIELDS).map(([k,l]) => `<button class="chip" data-act="field" data-f="${k}" aria-pressed="${k === ui.field}">${l}</button>`).join("")}</div>
+  <section class="card">
+    <div class="row between"><h2>${FIELDS[ui.field]}</h2><button class="chip" data-act="allLv" aria-pressed="${ui.allLv}">${ui.allLv ? "Alle Niveaus" : "Bis " + t}</button></div>
+    ${list.length ? `<div class="list">${list.map(p => `<div class="row"><span class="pill lv">${p.l}</span><span style="flex:1">${esc(p.t)} ${trBtn(p.t)}</span>${spk(p.t)}<button class="speak" data-act="copy" data-t="${esc(p.t)}" aria-label="Kopieren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>`).join("")}</div>` : `<p class="muted">Für dieses Niveau gibt es hier noch keine Sätze. Tippen Sie auf „Bis ${t}“, um alle zu sehen.</p>`}
+  </section>
+  ${sc ? `<section class="card"><h3>Gleich anwenden</h3><p class="small muted">Im Gespräch „${esc(sc.t)}“ brauchen Sie genau diese Sätze.</p><a class="btn ghost" href="#gespraech" data-act="pickRp" data-id="${sc.id}">Gespräch starten</a></section>` : ""}`;
+};
+
+/* ---------- Prüfung: DTZ + LiD ---------- */
+VIEWS.pruefung = () => {
+  const head = `<h1>Prüfung üben</h1>
+  <div class="seg" role="group" aria-label="Prüfung" style="align-self:flex-start"><button data-act="exam" data-x="dtz" aria-pressed="${ui.exam === "dtz"}">DTZ (A2–B1)</button><button data-act="exam" data-x="lid" aria-pressed="${ui.exam === "lid"}">Leben in Deutschland</button></div>`;
+  if(ui.exam === "lid") return head + lidView();
+  const parts = PARTS.slice(0,4);
+  let body = "";
+  if(ui.part === "lesen"){
+    body = READING.map((r,ri) => `<section class="card"><span class="eyebrow">Lesen · ${r.lv}</span><h2>${esc(r.titel)}</h2><div class="text-src">${esc(r.text)}</div>
+      <p class="small muted">${r.typ === "rf" ? "Richtig oder falsch?" : "Wählen Sie die passende Antwort."}</p>
+      ${r.q.map((q,i) => quiz("L"+ri+"_"+i, q, r.typ)).join("")}
+      ${scoreLine("L"+ri+"_", r.q, r.typ, "lesen")}</section>`).join("");
+  } else if(ui.part === "hoeren"){
+    body = LISTEN.map((h,hi) => `<section class="card"><span class="eyebrow">Hören</span><h2>${esc(h.titel)}</h2>
+      <p class="small muted">Lesen Sie zuerst die Fragen. Hören Sie dann den Text. Im Training dürfen Sie mehrmals hören.</p>
+      <div class="row">${CAN_SPEAK ? `<button class="btn" data-act="speak" data-t="${esc(h.text)}">Abspielen</button>` : ""}<button class="btn line" data-act="toggleTr" data-i="${hi}">Mitlesetext ${ui.tr[hi] ? "ausblenden" : "zeigen"}</button></div>
+      ${ui.tr[hi] || !CAN_SPEAK ? `<div class="text-src">${esc(h.text)}</div>` : ""}
+      ${h.q.map((q,i) => quiz("H"+hi+"_"+i, q, "mc")).join("")}
+      ${scoreLine("H"+hi+"_", h.q, "mc", "hoeren")}</section>`).join("");
+  } else if(ui.part === "schreiben"){
+    const wt = WRITE[ui.wTask];
+    body = `<section class="card"><span class="eyebrow">Schreiben</span><h2>Wählen Sie eine Aufgabe</h2>
+      <div class="chips">${WRITE.map((x,i) => `<button class="chip" data-act="wTask" data-i="${i}" aria-pressed="${i === ui.wTask}">Aufgabe ${String.fromCharCode(65+i)}</button>`).join("")}</div>
+      <div class="text-src">${esc(wt.t)}</div>
+      <p class="small muted">Schreiben Sie zu allen Punkten mindestens einen Satz. Denken Sie an Anrede und Gruß. Etwa 60–80 Wörter.</p>
+      <label for="wTxt">Ihr Text</label><textarea id="wTxt" data-input="wc" placeholder="${esc(wt.gr)} …">${esc(ui.wText || "")}</textarea>
+      <div class="row between"><span class="small muted" id="wc">${wc(ui.wText)} Wörter</span>
+      <button class="btn" data-act="wFeedback" ${aiState !== "ok" || ui.wBusy ? "disabled" : ""}>${ui.wBusy ? "Wird geprüft …" : "KI-Feedback holen"}</button></div>
+      ${aiState !== "ok" ? `<p class="small muted">${aiBadge()} Ohne KI: Prüfen Sie selbst mit der Checkliste.</p>` : ""}
+      <div id="wOut" class="md">${ui.wfb ? md(ui.wfb) : ""}</div>
+      <details><summary>Checkliste zum Selbstprüfen</summary><ul class="small"><li>Habe ich alle vier Punkte bearbeitet?</li><li>Anrede und Gruß: „Sehr geehrte …“ / „Mit freundlichen Grüßen“ oder „Liebe …“ / „Viele Grüße“?</li><li>Steht das Verb an Position 2? Im Nebensatz mit „weil“ am Ende?</li><li>Habe ich Datum oder Uhrzeit klar geschrieben?</li></ul></details></section>`;
+  } else {
+    body = `<section class="card"><span class="eyebrow">Sprechen · Teil 1</span><h2>Sich vorstellen</h2>
+      <p>Erzählen Sie etwa eine Minute über sich. Diese Punkte helfen:</p>
+      <div class="chips" style="flex-wrap:wrap">${["Name","Herkunft","Wohnort","Familie","Beruf / Arbeit","Sprachen","Hobbys"].map(x => `<span class="chip">${x}</span>`).join("")}</div>
+      <p class="small muted">Danach fragt die Prüferin oft nach, z. B. „Warum lernen Sie Deutsch?“ – Sätze dazu finden Sie unter „Sätze“ → „Sich vorstellen“.</p></section>
+    <section class="card"><span class="eyebrow">Sprechen · Teil 2</span><h2>Über ein Bild und Erfahrungen sprechen</h2>
+      <div class="text-src">${esc(SPEAK2.bild)}</div>
+      <ul>${SPEAK2.fragen.map(f => `<li>${esc(f)}</li>`).join("")}</ul>
+      <button class="btn line" data-act="timer">${ui.timer ? `Läuft: ${fmt(ui.timeLeft)}` : "2 Minuten sprechen – Timer starten"}</button></section>
+    <section class="card"><span class="eyebrow">Sprechen · Teil 3</span><h2>Gemeinsam etwas planen</h2>
+      <div class="text-src">${esc(SPEAK3.aufgabe)}</div>
+      <a class="btn" href="#gespraech" data-act="pickRp" data-id="pruefung">Mit KI-Partnerin üben</a>
+      <p class="small muted">Die KI ist Ihre Partnerin in der Prüfung. Sprechen Sie Ihre Antwort laut und schreiben Sie sie dann auf.</p></section>`;
+  }
+  return head + `
+  <p class="muted">Eigene Übungen im Stil des Deutsch-Tests für Zuwanderer. Keine Original-Prüfung und keine offizielle Bewertung.</p>
+  <div class="grid2" role="group" aria-label="Prüfungsteil">${parts.map(([id,l]) => `<button class="tile" data-act="part" data-x="dtz" data-p="${id}" style="text-align:left;${ui.part === id ? "border:2px solid var(--accent)" : ""}"><span class="eyebrow">${l}</span><b>${S.done[id] || 0} %</b><span>${id === "lesen" || id === "hoeren" ? "bestes Ergebnis" : "Übungsfortschritt"}</span></button>`).join("")}</div>
+  ${body}`;
+};
+function quiz(key, q, typ){
+  const opts = typ === "rf" ? ["richtig","falsch"] : q[1];
+  const right = typ === "rf" ? (q[1] ? 0 : 1) : q[2];
+  const expl = typ === "rf" ? q[2] : q[3];
+  const a = ui.answers[key];
+  return `<div class="q"><b>${esc(q[0])}</b><div class="opts">${opts.map((o,i) => { let cls = ""; if(a !== undefined){ if(i === right) cls = "ok"; else if(i === a) cls = "no"; } return `<button class="${cls}" data-act="ans" data-k="${key}" data-i="${i}" ${a !== undefined ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>${a !== undefined && expl ? `<span class="small muted">${esc(expl)}</span>` : ""}</div>`;
+}
+function scoreLine(prefix, qs, typ, part){
+  const n = qs.length; let done = 0, ok = 0;
+  qs.forEach((q,i) => { const a = ui.answers[prefix+i]; if(a !== undefined){ done++; const right = typ === "rf" ? (q[1] ? 0 : 1) : q[2]; if(a === right) ok++; } });
+  if(done < n) return `<p class="small muted">${done} von ${n} beantwortet</p>`;
+  const pct = Math.round(ok / n * 100);
+  if((S.done[part] || 0) < pct){ S.done[part] = pct; save(); }
+  return `<div class="note row between"><span><b>${ok} von ${n} richtig</b> (${pct} %)</span><button class="btn sm line" data-act="resetQ" data-p="${prefix}">Nochmal</button></div>`;
+}
+const wc = t => (t || "").trim() ? t.trim().split(/\s+/).length : 0;
+const fmt = s => Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+
+function lidView(){
+  const L = ui.lid;
+  const intro = `<p class="muted">Eigene Übungsfragen zu den Themen des Orientierungskurses. Der echte Test hat 33 Fragen mit je vier Antworten aus dem amtlichen Fragenkatalog des BAMF, darunter Fragen zu Ihrem Bundesland.</p>`;
+  if(!L){
+    const n = k => k === "alle" ? LID.length : LID.filter(q => q.k === k).length;
+    return intro + `
+    <section class="card"><h2>Thema wählen</h2>
+      <div class="chips" style="flex-wrap:wrap">${[["alle","Alle Themen"]].concat(Object.entries(LID_CAT)).map(([k,l]) => `<button class="chip" data-act="lidCat" data-k="${k}" aria-pressed="${ui.lidCat === k}">${l} (${n(k)})</button>`).join("")}</div>
+      <div class="row"><button class="btn" data-act="lidStart" data-n="10">10 Fragen</button><button class="btn line" data-act="lidStart" data-n="99">Alle Fragen</button></div></section>
+    <div class="grid2"><div class="tile"><b>${S.done.lid || 0} %</b><span>bestes Ergebnis</span></div><div class="tile"><b>${LID.length}</b><span>Übungsfragen</span></div></div>`;
+  }
+  if(L.i >= L.set.length){
+    const ok = L.set.filter((qi,i) => L.ans[i] === LID[qi].r).length, pct = Math.round(ok / L.set.length * 100);
+    if((S.done.lid || 0) < pct){ S.done.lid = pct; save(); }
+    const wrong = L.set.map((qi,i) => ({q:LID[qi], a:L.ans[i]})).filter(x => x.a !== x.q.r);
+    return `<section class="card"><h2>${ok} von ${L.set.length} richtig</h2><div class="bar ${pct >= 50 ? "good" : "warn"}"><i style="width:${pct}%"></i></div>
+      <p class="small muted">Zum Vergleich: Im echten Test brauchen Sie für den Orientierungskurs 15 von 33 richtigen Antworten, für die Einbürgerung 17.</p>
+      <div class="row"><button class="btn" data-act="lidStart" data-n="${L.set.length}">Neue Runde</button><button class="btn line" data-act="lidEnd">Zur Übersicht</button></div></section>
+      ${wrong.length ? `<section class="card"><h2>Das wiederholen</h2><div class="list">${wrong.map(x => `<div><b>${esc(x.q.q)}</b><br><span class="res-ok">${esc(x.q.o[x.q.r])}</span><br><span class="small muted">${esc(x.q.e)}</span></div>`).join("")}</div></section>` : ""}`;
+  }
+  const q = LID[L.set[L.i]], a = L.ans[L.i];
+  return `<section class="card">
+    <div class="row between"><span class="eyebrow">Frage ${L.i+1} von ${L.set.length} · ${LID_CAT[q.k]}</span>${spk(q.q + " " + q.o.join(". "))}</div>
+    <div class="bar"><i style="width:${Math.round(L.i / L.set.length * 100)}%"></i></div>
+    <h2>${esc(q.q)}</h2> ${trBtn(q.q + "\n" + q.o.map((o,i) => (i+1) + ". " + o).join("\n"))}
+    <div class="q"><div class="opts">${q.o.map((o,i) => { let cls = ""; if(a !== undefined){ if(i === q.r) cls = "ok"; else if(i === a) cls = "no"; } return `<button class="${cls}" data-act="lidAns" data-i="${i}" ${a !== undefined ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div></div>
+    ${a !== undefined ? `<div class="note">${a === q.r ? "<b>Richtig.</b> " : "<b>Nicht ganz.</b> "}${esc(q.e)}</div><button class="btn" data-act="lidNext">${L.i + 1 < L.set.length ? "Nächste Frage" : "Ergebnis ansehen"}</button>` : ""}
+  </section>
+  <button class="btn sm line" data-act="lidEnd" style="align-self:flex-start">Runde abbrechen</button>`;
+}
+
+/* ---------- Gespräch / Rollenspiel ---------- */
+function examScenario(){ return {id:"pruefung", d:"", f:"termine", t:"DTZ Sprechen Teil 3: Abschlussfest planen", ai:"Prüfungspartnerin Maryam (eine andere Teilnehmerin, duzt Sie)", me:"Teilnehmende Person in der mündlichen Prüfung", ziel:SPEAK3.aufgabe, open:SPEAK3.open, tips:SPEAK3.tips}; }
+function findSc(id){ return id === "pruefung" ? examScenario() : SCENARIOS.find(s => s.id === id); }
+VIEWS.gespraech = () => {
+  if(ui.rp) return chatView();
+  const mine = SCENARIOS.filter(s => s.d === S.deck);
+  const rest = SCENARIOS.filter(s => s.d !== S.deck);
+  const item = s => `<button class="item" data-act="pickRp" data-id="${s.id}"><span class="num">${esc((DECKS[s.d] || "Prüfung")[0])}</span><span style="flex:1"><b>${esc(s.t)}</b><br><span class="small muted">${esc(s.ziel)}</span></span></button>`;
+  return `
+  <div class="row between"><h1>${S.role === "lehr" ? "Rollenspiele" : "Gespräche üben"}</h1>${aiBadge()}</div>
+  <p class="muted">Die KI spielt Ihr Gegenüber, spricht auf Niveau ${lvNow()} und gibt Tipps bei Fehlern.</p>
+  ${mine.length ? `<section class="card"><h2>${esc(DECKS[S.deck])}</h2><div class="list">${mine.map(item).join("")}</div></section>` : ""}
+  <section class="card"><h2>Prüfung</h2><div class="list">${item(examScenario())}</div></section>
+  <section class="card"><h2>Alle Alltagssituationen</h2><div class="list">${rest.map(item).join("")}</div></section>`;
+};
+function chatView(){
+  const sc = findSc(ui.rp.id), m = ui.rp.msgs;
+  const turns = m.filter(x => x.who === "me").length;
+  return `
+  <div class="row between"><button class="btn sm line" data-act="rpBack">← Alle Gespräche</button>${aiBadge()}</div>
+  <section class="card">
+    <h2>${esc(sc.t)}</h2>
+    <div class="small"><b>Ihr Gegenüber:</b> ${esc(sc.ai)}<br><b>Ihre Rolle:</b> ${esc(sc.me)}<br><b>Ziel:</b> ${esc(sc.ziel)}</div>
+    <details><summary class="small">Hilfreiche Sätze</summary><ul class="small">${sc.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></details>
+  </section>
+  <div class="chat">
+    ${m.map(x => `<div class="msg ${x.who}" ${x.live ? 'id="live"' : ""}><span class="who">${x.who === "ai" ? esc(sc.ai.split(",")[0].split(" (")[0]) : "Sie"}</span><span class="tx">${esc(x.text)}</span>${x.who === "ai" && !x.live ? `<span class="tools">${CAN_SPEAK ? `<button class="linkbtn" data-act="speak" data-t="${esc(x.text)}">Vorlesen</button>` : ""}${trBtn(x.text)}</span>` : ""}</div>${x.tip ? `<div class="tip"><b>Tipp:</b> ${esc(x.tip)}</div>` : ""}`).join("")}
+    <div id="chatEnd"></div>
+  </div>
+  ${ui.rp.fb ? `<section class="card md"><h3>Feedback zum Gespräch</h3><div id="rpFb">${md(ui.rp.fb)}</div></section>` : ""}
+  ${aiState === "ok" ? `
+  <section class="card">
+    <label for="rpIn">Ihre Antwort</label>
+    <textarea id="rpIn" style="min-height:80px" placeholder="Schreiben Sie, was Sie sagen …" ${ui.rp.busy ? "disabled" : ""}></textarea>
+    <div class="row between"><button class="btn line sm" data-act="rpFeedback" ${turns < 2 || ui.rp.busy ? "disabled" : ""}>Gespräch beenden & Feedback</button>
+    <button class="btn" data-act="rpSend" ${ui.rp.busy ? "disabled" : ""}>${ui.rp.busy ? "… schreibt" : "Senden"}</button></div>
+  </section>` : `
+  <section class="card"><p class="note">Die KI ist in dieser Ansicht nicht verfügbar. So üben Sie trotzdem: Lesen Sie den ersten Satz laut. Antworten Sie laut mit den Sätzen oben. Schreiben Sie Ihre Antwort danach auf.</p></section>`}`;
+}
+function rpRules(sc){
+  const lv = KURSARTEN[S.art].big && S.stage === "basis" ? "Alpha" : lvNow();
+  return `Du bist Gesprächspartner in einem Rollenspiel in einem Integrationskurs (Deutsch als Zweitsprache, Erwachsene, BAMF).
+Niveau der lernenden Person: ${lv}. Kursart: ${KURSARTEN[S.art].l}.
+Deine Rolle: ${sc.ai}. Rolle der lernenden Person: ${sc.me}. Gesprächsziel der lernenden Person: ${sc.ziel}.
+Regeln: Antworte nur auf Deutsch und bleib immer in deiner Rolle. Schreibe 1 bis 2 kurze Sätze, so wie man spricht. Sprache: ${levelRule(lv)} Sei freundlich und geduldig. Stelle eine Rückfrage, damit die lernende Person das Ziel selbst erreichen muss. Keine Regieanweisungen, keine Emojis, keine Erklärungen außerhalb der Rolle.
+Wenn die letzte Äußerung der lernenden Person einen deutlichen Fehler enthält, schreibe nach deiner Antwort eine neue Zeile, die mit "TIPP:" beginnt, und nenne in einem kurzen, einfachen Satz die richtige Formulierung. Sonst keine TIPP-Zeile.`;
+}
+function transcript(sc){ return ui.rp.msgs.filter(x => !x.live).map(x => (x.who === "ai" ? sc.ai.split(",")[0] : "Lernende Person") + ": " + x.text).join("\n"); }
+async function rpSend(){
+  const inp = $("#rpIn"); const text = (inp && inp.value || "").trim(); if(!text || ui.rp.busy) return;
+  const sc = findSc(ui.rp.id);
+  ui.rp.msgs.push({who:"me", text}); ui.rp.busy = true;
+  const prompt = rpRules(sc) + "\n\nBisheriges Gespräch:\n" + transcript(sc) + "\n\nAntworte jetzt in deiner Rolle auf die letzte Äußerung. Ist das Gesprächsziel erreicht, beende das Gespräch freundlich in deiner Rolle.";
+  const live = {who:"ai", text:"…", live:true}; ui.rp.msgs.push(live); render();
+  try{
+    const out = await askAI(prompt, t => { const el = document.querySelector("#live .tx"); if(el) el.textContent = t.split(/\n?TIPP:/)[0]; });
+    const [ans, tip] = out.split(/\n?TIPP:/);
+    live.text = ans.trim(); if(tip) live.tip = tip.trim(); delete live.live; tick();
+  }catch(e){ ui.rp.msgs.pop(); toast(aiErr(e)); }
+  ui.rp.busy = false; render(); const ni = $("#rpIn"); if(ni) ni.focus();
+}
+async function rpFeedback(){
+  const sc = findSc(ui.rp.id); ui.rp.busy = true; ui.rp.fb = "Feedback wird erstellt …"; render();
+  const lang = hasLang() ? `\nSchreibe am Ende einen Abschnitt "### Kurz in ${S.lang}" mit 2 Sätzen Zusammenfassung in ${S.lang}.` : "";
+  const prompt = `Du bist eine erfahrene Lehrkraft im Integrationskurs (DaZ). Gib Feedback zu diesem Rollenspiel einer lernenden Person (Niveau ${lvNow()}).
+Situation: ${sc.t}. Rolle: ${sc.me}. Ziel: ${sc.ziel}.
+
+Gespräch:
+${transcript(sc)}
+
+Antworte auf Deutsch, freundlich, in einfacher Sprache auf Niveau ${lvNow()}, in Markdown mit diesen Abschnitten (### Überschriften):
+### Ziel erreicht?
+Ein Satz.
+### Das war gut
+2 Punkte als Liste.
+### So sagt man es besser
+Bis zu 3 Punkte: Ihr Satz → besserer Satz.
+### Sätze für das nächste Mal
+3 kurze Sätze als Liste.
+Keine Noten, keine Punkte.${lang}`;
+  try{ ui.rp.fb = await askAI(prompt, t => { ui.rp.fb = t; const el = $("#rpFb"); if(el) el.innerHTML = md(t); }); S.done.sprechen = Math.min(100, (S.done.sprechen || 0) + 10); tick(); save(); }
+  catch(e){ ui.rp.fb = null; toast(aiErr(e)); }
+  ui.rp.busy = false; render();
+}
+async function wFeedback(){
+  const text = ($("#wTxt").value || "").trim(); ui.wText = text;
+  if(wc(text) < 15){ toast("Bitte schreiben Sie zuerst etwas mehr."); return; }
+  ui.wBusy = true; ui.wfb = "Text wird gelesen …"; render();
+  const lang = hasLang() ? `\nZum Schluss ein Abschnitt "### Kurz in ${S.lang}" mit 2 Sätzen in ${S.lang}.` : "";
+  const prompt = `Du bist eine erfahrene Lehrkraft im Integrationskurs und bereitest auf den Deutsch-Test für Zuwanderer (DTZ, A2–B1) vor. Gib Feedback zu diesem Prüfungstext (Brief/E-Mail).
+
+Aufgabe:
+${WRITE[ui.wTask].t}
+
+Text der lernenden Person:
+"""${text}"""
+
+Antworte auf Deutsch in Markdown (### Überschriften), in einfacher, klarer Sprache:
+### Einschätzung
+Je eine kurze Zeile: Alle Punkte bearbeitet? · Anrede und Gruß · Verständlichkeit · Grammatik. Jeweils „gut“, „okay“ oder „noch üben“ mit Halbsatz.
+### Die wichtigsten Korrekturen
+Bis zu 5 Punkte: Fehler → Korrektur (kurze Regel).
+### Ein Satz noch besser
+Ein Satz aus dem Text in verbesserter Version.
+Ein Satz am Ende: Das ist eine Übungseinschätzung, kein offizielles Prüfungsergebnis (A2 oder B1).${lang}`;
+  try{ ui.wfb = await askAI(prompt, x => { ui.wfb = x; const el = $("#wOut"); if(el) el.innerHTML = md(x); }); S.done.schreiben = Math.min(100, (S.done.schreiben || 0) + 15); tick(); save(); }
+  catch(e){ ui.wfb = null; toast(aiErr(e)); }
+  ui.wBusy = false; render();
+}
+
+/* ---------- Lehrkräfte: Kurs ---------- */
+VIEWS.kurs = () => {
+  const c = S.courses.find(x => x.id === S.course) || S.courses[0];
+  const isO = c && c.stage === "orient";
+  const keys = isO ? ["w","l","h","s","sp","lid"] : ["w","l","h","s","sp"];
+  const avg = p => Math.round(keys.reduce((a,k) => a + p[k], 0) / keys.length);
+  const st = v => v >= 70 ? ["good","auf Kurs"] : v >= 50 ? ["warn","beobachten"] : ["crit","Unterstützung"];
+  const tn = c ? c.tn : [];
+  const mean = tn.length ? Math.round(tn.reduce((a,p) => a + avg(p), 0) / tn.length) : 0;
+  const need = tn.filter(p => avg(p) < 50).length;
+  const lowAn = tn.filter(p => p.an < 80).length;
+  const partAvg = k => tn.length ? Math.round(tn.reduce((a,p) => a + p[k], 0) / tn.length) : 0;
+  const pl = [["l","Lesen"],["h","Hören"],["s","Schreiben"],["sp","Sprechen"]].concat(isO ? [["lid","Leben in D."]] : []);
+  const weak = pl.slice().sort((a,b) => partAvg(a[0]) - partAvg(b[0]))[0];
+  const tasks = S.tasks.filter(t => c && t.course === c.id);
+  return `
+  <div class="row between"><h1>Meine Kurse</h1><span class="pill lv">Beispieldaten</span></div>
+  <div class="chips">${S.courses.map(x => `<button class="chip" data-act="course" data-id="${x.id}" aria-pressed="${c && x.id === c.id}">${esc(x.name)}</button>`).join("")}<button class="chip" data-act="newCourse">+ Kurs anlegen</button></div>
+  ${ui.newCourse ? `<section class="card"><h2>Neuer Kurs</h2>
+    <label for="ncName">Kursname<input type="text" id="ncName" placeholder="z. B. IK Modul 5 · Nachmittag"></label>
+    <div class="grid2"><label for="ncSt">Kursabschnitt<select id="ncSt">${Object.entries(STAGES).map(([k,v]) => `<option value="${k}">${v.label}</option>`).join("")}</select></label>
+    <label for="ncArt">Kursart<select id="ncArt">${Object.entries(KURSARTEN).map(([k,v]) => `<option value="${k}">${esc(v.l)}</option>`).join("")}</select></label></div>
+    <label for="ncInfo">Zeiten / Format<input type="text" id="ncInfo" placeholder="z. B. Mo–Fr 8:30–12:45 · Präsenz"></label>
+    <div class="row"><button class="btn" data-act="saveCourse">Kurs anlegen</button><button class="btn line" data-act="newCourse">Abbrechen</button></div></section>` : ""}
+  ${c ? `
+  <section class="card hero"><span class="eyebrow">${esc(STAGES[c.stage].label)} · ${esc(modLabel(c.stage, c.art))} · ${esc(KURSARTEN[c.art].s)}</span><h2>${esc(c.name)}</h2><p class="muted">${esc(c.info || "")}</p></section>
+  <div class="grid3"><div class="tile"><b>${tn.length}</b><span>Teilnehmende</span></div><div class="tile"><b>${mean} %</b><span>Ø Fortschritt</span></div><div class="tile"><b style="color:${need ? "var(--crit)" : "inherit"}">${need}</b><span>brauchen Unterstützung</span></div></div>
+  ${tn.length ? `<div class="note">Schwächster Bereich im Kurs: <b>${weak[1]}</b> (Ø ${partAvg(weak[0])} %).${lowAn ? ` ${lowAn} Teilnehmende mit Anwesenheit unter 80 % – bitte Fehlzeiten im Blick behalten.` : ""} Passendes Material erstellen Sie unter „Material“.</div>` : ""}
+  <section class="card"><h2>Lernstand</h2>
+    ${tn.length ? `<div class="tbl"><table><thead><tr><th>Name</th><th>Wörter</th><th>Hören</th><th>Lesen</th><th>Schreiben</th><th>Sprechen</th>${isO ? "<th>LiD</th>" : ""}<th>Anwesend</th><th>Aktiv</th><th>Status</th></tr></thead><tbody>
+    ${tn.slice().sort((a,b) => avg(a) - avg(b)).map(p => { const s = st(avg(p)); return `<tr><td><b>${esc(p.n)}</b></td><td><span class="bar ${st(p.w)[0]}"><i style="width:${p.w}%"></i></span>${p.w}</td><td>${p.h}</td><td>${p.l}</td><td>${p.s}</td><td>${p.sp}</td>${isO ? `<td>${p.lid}</td>` : ""}<td style="color:${p.an < 80 ? "var(--crit)" : "inherit"}">${p.an} %</td><td class="muted">${esc(p.last)}</td><td><span class="pill ${s[0]}">${s[1]}</span></td></tr>`; }).join("")}
+    </tbody></table></div>` : `<p class="muted">Noch keine Teilnehmenden in diesem Kurs.</p>`}
+    <div class="row"><input type="text" id="tnName" placeholder="Name oder Kürzel hinzufügen" style="flex:1;min-width:160px" aria-label="Name"><button class="btn sm ghost" data-act="addTn">Hinzufügen</button></div>
+    <p class="small muted">Tipp zum Datenschutz: Im Prototyp nur Vorname und Initial oder ein Kürzel verwenden.</p>
+  </section>
+  <section class="card"><h2>Aufgaben verteilen</h2>
+    ${tasks.length ? `<div class="list">${tasks.map(t => `<div class="row between"><span><b>${esc(t.t)}</b><br><span class="small muted">fällig bis ${new Date(t.due).toLocaleDateString("de-DE")}</span></span><button class="btn sm line" data-act="delTask" data-i="${S.tasks.indexOf(t)}">Entfernen</button></div>`).join("")}</div>` : `<p class="muted small">Noch keine Aufgaben für diesen Kurs.</p>`}
+    <div class="grid2"><label for="tkSel">Aufgabe<select id="tkSel">${taskOptions(c).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join("")}</select></label>
+    <label for="tkDue">Fällig bis<input type="date" id="tkDue" value="${new Date(Date.now()+5*864e5).toISOString().slice(0,10)}"></label></div>
+    <button class="btn" data-act="addTask">Aufgabe zuweisen</button>
+    <p class="small muted">Im Prototyp erscheinen Aufgaben auf diesem Gerät unter „Lernen“, wenn dort derselbe Kursabschnitt eingestellt ist.</p>
+  </section>` : ""}`;
+};
+function taskOptions(c){
+  const o = Object.entries(DECKS).map(([k,l]) => ["woerter:" + k + "|Wortschatz-Runde: " + l, "Wortschatz-Runde: " + l]);
+  SCENARIOS.forEach(s => o.push(["gespraech:" + s.id + "|Gespräch: " + s.t, "Gespräch: " + s.t]));
+  o.push(["gespraech:pruefung|DTZ Sprechen Teil 3 üben", "DTZ Sprechen Teil 3 üben"]);
+  ["Hören","Lesen","Schreiben"].forEach(p => o.push(["pruefung:" + p.toLowerCase().replace("ö","oe") + "|DTZ-Training " + p, "DTZ-Training " + p]));
+  o.push(["pruefung:lid|Übungsfragen Leben in Deutschland", "Übungsfragen Leben in Deutschland"]);
+  return o;
+}
+
+/* ---------- Lehrkräfte: Material ---------- */
+const MAT_FIELDS = ["Ämter und Behörden","Arbeit","Arbeitssuche","Aus- und Weiterbildung","Banken und Versicherungen","Betreuung und Ausbildung der Kinder","Einkaufen","Gesundheit","Mediennutzung","Mobilität","Unterricht","Wohnen","Umgang mit Konflikten","Interkulturelle Kompetenz","Orientierungskurs: Politik in der Demokratie","Orientierungskurs: Geschichte und Verantwortung","Orientierungskurs: Mensch und Gesellschaft"];
+const FIELD_DECK = {"Ämter und Behörden":"aemter","Arbeit":"arbeit","Arbeitssuche":"arbeit","Betreuung und Ausbildung der Kinder":"kinder","Einkaufen":"einkaufen","Gesundheit":"gesundheit","Mediennutzung":"medien","Mobilität":"mobil","Wohnen":"wohnen"};
+VIEWS.material = () => {
+  const m = ui.mat || {typ:"Lückentext", f:"Wohnen", lv:lvNow(), art:S.art, extra:""};
+  ui.mat = m;
+  const TYPES = ["Lückentext","Dialog mit Rollenkarten","Wortschatzübung (Zuordnung)","Schreibaufgabe im DTZ-Stil","Lesetext mit Fragen","Hörtext-Skript mit Fragen","Übungsfragen Orientierungskurs","Alpha-Blatt (Anlaute, Silben, große Schrift)"];
+  const dk = FIELD_DECK[m.f];
+  return `
+  <div class="row between"><h1>Material erstellen</h1>${aiBadge()}</div>
+  <p class="muted">Arbeitsblätter nach Handlungsfeldern des Rahmencurriculums, passend zu Niveau und Kursart. Mit Lösungen, zum Kopieren in Ihre Unterlagen.</p>
+  <section class="card">
+    <div class="grid2">
+      <label for="mTyp">Übungstyp<select id="mTyp" data-m="typ">${TYPES.map(t => `<option ${t === m.typ ? "selected" : ""}>${t}</option>`).join("")}</select></label>
+      <label for="mF">Handlungsfeld<select id="mF" data-m="f">${MAT_FIELDS.map(v => `<option ${v === m.f ? "selected" : ""}>${v}</option>`).join("")}</select></label>
+      <label for="mLv">Niveau<select id="mLv" data-m="lv">${["Alpha","A1","A2","B1"].map(l => `<option ${l === m.lv ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+      <label for="mArt">Kursart<select id="mArt" data-m="art">${Object.entries(KURSARTEN).map(([k,v]) => `<option value="${k}" ${k === m.art ? "selected" : ""}>${esc(v.l)}</option>`).join("")}</select></label>
+    </div>
+    <label for="mEx">Zusatzwunsch (optional)<input type="text" id="mEx" data-m="extra" value="${esc(m.extra)}" placeholder="z. B. Fokus trennbare Verben, 20 Minuten, Partnerarbeit, Lingen als Ort"></label>
+    <div class="row"><button class="btn" data-act="genMat" ${aiState !== "ok" || ui.matBusy ? "disabled" : ""}>${ui.matBusy ? "Wird erstellt …" : "Mit KI erstellen"}</button>
+    <button class="btn line" data-act="localGap" ${dk ? "" : "disabled"}>Ohne KI: Lückentext aus Wortschatz</button></div>
+    ${dk ? "" : `<p class="small muted">Der Lückentext ohne KI gibt es für Handlungsfelder mit eigenem Wortschatz-Deck.</p>`}
+  </section>
+  ${ui.matOut ? `<section class="card"><div class="row between"><h2>Arbeitsblatt</h2><button class="btn sm ghost" data-act="copyMat">Kopieren</button></div><div class="md" id="matOut">${md(ui.matOut)}</div></section>` : ""}
+  <section class="card"><h2>Eigenen Wortschatz ergänzen</h2>
+    <p class="small muted">Wörter aus Ihrem Unterricht oder Ihrer Stadt. Sie erscheinen sofort in den Karteikarten.</p>
+    <div class="grid2">
+      <label for="cvW">Wort<input type="text" id="cvW" placeholder="z. B. Wertstoffhof"></label>
+      <label for="cvA">Artikel<select id="cvA"><option value="der">der</option><option value="die">die</option><option value="das">das</option><option value="">kein Nomen</option></select></label>
+      <label for="cvP">Plural<input type="text" id="cvP" placeholder="z. B. die Wertstoffhöfe"></label>
+      <label for="cvD">Thema<select id="cvD">${Object.entries(DECKS).map(([k,v]) => `<option value="${k}" ${k === S.deck ? "selected" : ""}>${esc(v)}</option>`).join("")}</select></label>
+    </div>
+    <label for="cvS">Beispielsatz<input type="text" id="cvS" placeholder="Alte Möbel bringe ich zum Wertstoffhof."></label>
+    <label for="cvE">Erklärung in einfacher Sprache<input type="text" id="cvE" placeholder="Ort, wo man Müll und alte Sachen abgibt."></label>
+    <button class="btn" data-act="addWord">Wort hinzufügen</button>
+    ${S.custom.length ? `<p class="small muted">Eigene Wörter: ${S.custom.map(c => esc((c.a ? c.a + " " : "") + c.w)).join(", ")}</p>` : ""}
+  </section>`;
+};
+async function genMat(){
+  const m = ui.mat; ui.matBusy = true; ui.matOut = "Arbeitsblatt wird erstellt …"; render();
+  const dk = FIELD_DECK[m.f];
+  const words = dk ? deckWords(dk).map(w => (w.a ? w.a + " " : "") + w.w).join(", ") : "";
+  const prompt = `Erstelle ein Arbeitsblatt für einen Integrationskurs (BAMF, Deutsch als Zweitsprache, Erwachsene).
+Übungstyp: ${m.typ}. Niveau: ${m.lv}. Kursart: ${KURSARTEN[m.art].l}. Handlungsfeld (Rahmencurriculum): ${m.f}.
+${words ? "Nutze nach Möglichkeit diesen Wortschatz: " + words + "." : ""}
+${m.extra ? "Zusatzwunsch der Lehrkraft: " + m.extra : ""}
+Sprachniveau der Texte: ${levelRule(m.lv)}
+Anforderungen: realistische Alltagssituation in Deutschland; klare, kurze Arbeitsanweisung in der Sie-Form; 6 bis 10 Items; respektvolle, vielfältige Namen und Situationen ohne Klischees. ${m.typ.startsWith("Übungsfragen") ? "Nur sachlich korrekte Fragen mit je 3 Antworten, genau eine richtig; keine Fragen aus dem amtlichen Katalog wörtlich übernehmen." : ""} ${m.typ.startsWith("Alpha") ? "Für Alphabetisierung: große, einfache Wörter, Silben mit Bindestrich trennen, Anlaut-Übungen, keine langen Texte." : ""}
+Am Ende ein Abschnitt "### Lösungen" und ein Abschnitt "### Hinweise für die Lehrkraft" mit 2 bis 3 Stichpunkten (Sozialform, Zeit, Differenzierung).
+Formatiere in Markdown mit Überschriften (###), Listen und Lücken als ______. Keine Einleitung vor dem Arbeitsblatt.`;
+  try{ ui.matOut = await askAI(prompt, x => { ui.matOut = x; const el = $("#matOut"); if(el) el.innerHTML = md(x); }); }
+  catch(e){ ui.matOut = null; toast(aiErr(e)); }
+  ui.matBusy = false; render();
+}
+function localGap(){
+  const dk = FIELD_DECK[ui.mat.f]; if(!dk) return;
+  const items = deckWords(dk).filter(w => w.a).map(w => { const re = new RegExp(w.w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + "[a-zäöüß]*", "i"); return re.test(w.s) ? {w, s:w.s.replace(re, "______")} : null; }).filter(Boolean);
+  const box = items.map(i => i.w.w).sort().join(" · ");
+  ui.matOut = `### Lückentext: ${DECKS[dk]}\nSchreiben Sie das passende Wort in die Lücke.\n\n**Wörter:** ${box}\n\n` + items.map((i,n) => `- ${n+1}. ${i.s}`).join("\n") + `\n\n### Lösungen\n` + items.map((i,n) => `- ${n+1}. ${i.w.a} ${i.w.w} (${i.w.pl})`).join("\n");
+  render();
+}
+
+/* ---------- Einstellungen ---------- */
+function openSettings(){
+  $("#sheet").innerHTML = `<div class="sheet-bg" data-act="closeSheet"><div class="sheet" role="dialog" aria-modal="true" aria-label="Kurs einstellen">
+    <div class="row between"><h2>Kurs einstellen</h2><button class="btn sm line" data-act="closeSheet">Fertig</button></div>
+    <div><span class="eyebrow">Kursabschnitt</span><div class="opt">${Object.entries(STAGES).map(([k,v]) => `<button data-act="setSt" data-v="${k}" aria-pressed="${k === S.stage}"><b>${v.label}</b><br><span class="small muted">${esc(modLabel(k))} · ${v.note}</span></button>`).join("")}</div></div>
+    <div><span class="eyebrow">Kursart</span><div class="opt">${Object.entries(KURSARTEN).map(([k,v]) => `<button data-act="setArt" data-v="${k}" aria-pressed="${k === S.art}">${esc(v.l)}</button>`).join("")}</div>
+    <p class="small muted">Bei Alpha- und Zweitschriftkursen wird die Schrift größer und das Vorlesen langsamer.</p></div>
+    <div><span class="eyebrow">Hilfesprache</span><div class="opt">${LANGS.map(l => `<button data-act="setLang" data-v="${esc(l)}" aria-pressed="${l === S.lang}">${esc(l)}</button>`).join("")}</div>
+    <p class="small muted">Mit Hilfesprache können Sie Wörter, Sätze und KI-Antworten übersetzen lassen (nur mit KI).</p></div>
+    <button class="btn line sm" data-act="resetAll">Fortschritt auf diesem Gerät zurücksetzen</button>
+  </div></div>`;
+}
+
+/* ---------- Aktionen ---------- */
+const ACT = {
+  openSettings, closeSheet(){ $("#sheet").innerHTML = ""; },
+  setSt(b){ S.stage = b.dataset.v; ui.answers = {}; ui.wfb = null; if(S.stage === "orient") ui.exam = "lid"; save(); openSettings(); render(); },
+  setArt(b){ S.art = b.dataset.v; save(); openSettings(); render(); },
+  setLang(b){ S.lang = b.dataset.v; save(); openSettings(); render(); },
+  resetAll(){ const keep = S.role; S = defaults(); S.role = keep; save(); ui.queue = null; $("#sheet").innerHTML = ""; toast("Fortschritt zurückgesetzt"); render(); },
+  role(b){ S.role = b.dataset.v; save(); ui.rp = null; location.hash = NAV[S.role][0][0]; render(); },
+  hideHint(){ S.hint = false; save(); render(); },
+  speak(b){ speak(b.dataset.t); }, copy(b){ copy(b.dataset.t); }, trans(b){ translate(b.dataset.t); },
+  deck(b){ ui.deck = b.dataset.b; S.deck = b.dataset.b; save(); ui.queue = null; render(); },
+  art(b){ ui.pick = b.dataset.a; ui.phase = "show"; const w = ui.queue[ui.qi]; if(KURSARTEN[S.art].big && w) speak(w.a + " " + w.w + ". " + w.s); render(); },
+  reveal(){ ui.phase = "show"; render(); },
+  next(b){ const d = ui.deck || S.deck; grade(d, ui.queue[ui.qi], b.dataset.ok === "1"); ui.qi++; ui.phase = "ask"; ui.pick = null; render(); },
+  practiceAll(){ const d = ui.deck || S.deck; ui.queue = deckWords(d).slice().sort(() => Math.random() - .5); ui.qi = 0; ui.phase = "ask"; render(); },
+  field(b){ ui.field = b.dataset.f; render(); }, allLv(){ ui.allLv = !ui.allLv; render(); },
+  exam(b){ ui.exam = b.dataset.x; render(); },
+  part(b){ ui.exam = b.dataset.x || "dtz"; if(b.dataset.p !== "lid") ui.part = b.dataset.p; if(location.hash !== "#pruefung") return; render(); },
+  ans(b){ ui.answers[b.dataset.k] = +b.dataset.i; tick(); render(); },
+  resetQ(b){ Object.keys(ui.answers).forEach(k => { if(k.startsWith(b.dataset.p)) delete ui.answers[k]; }); render(); },
+  toggleTr(b){ ui.tr[b.dataset.i] = !ui.tr[b.dataset.i]; render(); },
+  wTask(b){ ui.wTask = +b.dataset.i; ui.wfb = null; render(); },
+  timer(){ if(ui.timer){ clearInterval(ui.timer); ui.timer = null; render(); return; } ui.timeLeft = 120; ui.timer = setInterval(() => { ui.timeLeft--; const b = document.querySelector('[data-act="timer"]'); if(b) b.textContent = "Läuft: " + fmt(ui.timeLeft); if(ui.timeLeft <= 0){ clearInterval(ui.timer); ui.timer = null; toast("Zeit vorbei. Gut gemacht!"); render(); } }, 1000); render(); },
+  lidCat(b){ ui.lidCat = b.dataset.k; render(); },
+  lidStart(b){ const pool = LID.map((q,i) => i).filter(i => ui.lidCat === "alle" || LID[i].k === ui.lidCat).sort(() => Math.random() - .5); ui.lid = {set:pool.slice(0, +b.dataset.n), i:0, ans:[]}; render(); },
+  lidAns(b){ ui.lid.ans[ui.lid.i] = +b.dataset.i; tick(); render(); },
+  lidNext(){ ui.lid.i++; render(); window.scrollTo(0,0); },
+  lidEnd(){ ui.lid = null; render(); },
+  wFeedback, rpSend, rpFeedback,
+  pickRp(b){ const sc = findSc(b.dataset.id); if(!sc) return; ui.rp = {id:sc.id, msgs:[{who:"ai", text:sc.open}], busy:false, fb:null}; if(location.hash !== "#gespraech") return; render(); },
+  rpBack(){ ui.rp = null; render(); },
+  openTask(b){ const [r, x] = b.dataset.k.split(":");
+    if(r === "gespraech"){ const sc = findSc(x); if(sc) ui.rp = {id:sc.id, msgs:[{who:"ai", text:sc.open}], busy:false, fb:null}; }
+    if(r === "woerter" && x){ ui.deck = x; S.deck = x; ui.queue = null; save(); }
+    if(r === "pruefung" && x){ if(x === "lid") ui.exam = "lid"; else { ui.exam = "dtz"; ui.part = x; } }
+    if(location.hash === "#" + r) render(); },
+  course(b){ S.course = b.dataset.id; save(); render(); },
+  newCourse(){ ui.newCourse = !ui.newCourse; render(); },
+  saveCourse(){ const n = $("#ncName").value.trim(); if(!n){ toast("Bitte einen Kursnamen eingeben."); return; } const c = {id:"c" + Date.now(), name:n, stage:$("#ncSt").value, art:$("#ncArt").value, info:$("#ncInfo").value.trim(), tn:[]}; S.courses.push(c); S.course = c.id; ui.newCourse = false; save(); render(); },
+  addTn(){ const n = $("#tnName").value.trim(); if(!n) return; const c = S.courses.find(x => x.id === S.course) || S.courses[0]; c.tn.push({n, w:0, l:0, h:0, s:0, sp:0, lid:0, an:100, last:"noch nicht aktiv"}); save(); render(); },
+  addTask(){ const c = S.courses.find(x => x.id === S.course) || S.courses[0]; const [kind, t] = $("#tkSel").value.split("|"); S.tasks.push({t, course:c.id, due:$("#tkDue").value || today(), kind}); save(); toast("Aufgabe zugewiesen"); render(); },
+  delTask(b){ S.tasks.splice(+b.dataset.i, 1); save(); render(); },
+  genMat, localGap, copyMat(){ copy(ui.matOut || ""); },
+  addWord(){ const w = $("#cvW").value.trim(), s = $("#cvS").value.trim(); if(!w || !s){ toast("Bitte Wort und Beispielsatz eingeben."); return; } S.custom.push({w, a:$("#cvA").value, pl:$("#cvP").value.trim() || "–", s, e:$("#cvE").value.trim() || "", d:$("#cvD").value, own:true}); save(); toast("Wort hinzugefügt"); render(); }
+};
+document.addEventListener("click", e => { const b = e.target.closest("[data-act]"); if(!b) return; const f = ACT[b.dataset.act]; if(!f) return; if(b.tagName === "BUTTON") e.preventDefault(); if(b.classList.contains("sheet-bg") && e.target !== b) return; f(b, e); });
+document.addEventListener("input", e => {
+  if(e.target.dataset.input === "wc"){ ui.wText = e.target.value; const el = $("#wc"); if(el) el.textContent = wc(ui.wText) + " Wörter"; }
+  if(e.target.dataset.m){ ui.mat[e.target.dataset.m] = e.target.value; }
+});
+document.addEventListener("change", e => { if(e.target.dataset.m){ ui.mat[e.target.dataset.m] = e.target.value; if(e.target.dataset.m === "f") render(); } });
+document.addEventListener("keydown", e => { if(e.target.id === "rpIn" && e.key === "Enter" && !e.shiftKey){ e.preventDefault(); rpSend(); } });
+window.addEventListener("hashchange", () => { window.scrollTo(0,0); render(); });
+if(S.stage === "orient") ui.exam = "lid";
+render();
+</script>
+</body>
+</html>

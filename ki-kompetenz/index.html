@@ -1,5 +1,5 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KI-Kompetenz fördern – Ideen und Formate | Michael Berning</title>
+<title>KI-Kompetenz fördern – Ziele und Formate für vier Zielgruppen | Michael Berning</title>
 <meta name="description" content="Ideen und Formate zur Förderung von KI-Kompetenz für Kinder, Jugendliche, Erwachsene und pädagogische Fachkräfte – von Michael Berning.">
 <link rel="canonical" href="https://michaelberning.com/ki-kompetenz/">
 <meta property="og:title" content="KI-Kompetenz fördern – Ideen und Formate">
@@ -63,6 +63,17 @@ h2{font-size:clamp(1.6rem,3.3vw,2.35rem);line-height:1.18;letter-spacing:-.03em;
 .facts{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0;padding:0;list-style:none}
 .facts li{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-weight:700;font-size:.93rem}
 .note{font-size:.88rem;color:var(--muted);max-width:850px;margin-top:22px}
+.goals{background:#fff;border:1px solid var(--line);border-left:6px solid var(--c);border-radius:13px;padding:20px 24px;margin:0 0 22px;max-width:900px}
+.goals b{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.08rem;margin-bottom:6px}
+.goals ul{margin:0;padding-left:20px;color:#3d4d44}.goals li{margin-bottom:4px}
+.fosters{font-size:.92rem;background:#f4f7f2;border-radius:8px;padding:9px 12px;color:#2f3f36}
+.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:26px;counter-reset:st}
+.step{background:#fff;border:1px solid var(--line);border-top:5px solid var(--c);border-radius:13px;padding:20px;text-decoration:none;display:block}
+.step:hover{box-shadow:0 4px 15px #12233913}
+.step small{display:block;font-weight:700;color:var(--muted);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+.step b{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.25rem;margin:4px 0 6px}
+.step p{margin:0;color:#4b596b;font-size:.95rem}
+@media(max-width:950px){.path{grid-template-columns:1fr 1fr}}@media(max-width:650px){.path{grid-template-columns:1fr}}
 footer{background:var(--deep);color:#c9d8df;padding:35px 0;font-size:.9rem}footer a{color:#eff}
 @media(max-width:950px){.formats,.samples{grid-template-columns:1fr 1fr}.principles{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){header{position:static}.shell{width:calc(100% - 32px)}.hero{padding:44px 0}.section{padding:46px 0}.formats,.samples,.principles{grid-template-columns:1fr}nav{gap:12px}}
@@ -76,7 +87,7 @@ footer{background:var(--deep);color:#c9d8df;padding:35px 0;font-size:.9rem}foote
 <section class="hero"><div class="shell">
 <div class="eyebrow">Ideen · Formate · Arbeitsproben</div>
 <h1>KI-Kompetenz fördern – vom Grundschulkind bis zur Lehrkraft</h1>
-<p class="lead">Wie KI funktioniert, wo sie hilft und wo sie irrt, kann man lernen. Hier stelle ich Formate vor, mit denen Kinder, Jugendliche, Erwachsene und pädagogische Fachkräfte KI verstehen, gezielt nutzen und kritisch prüfen.</p>
+<p class="lead">KI-Kompetenz heißt: verstehen, wie KI funktioniert, sie gezielt nutzen, ihre Ergebnisse kritisch prüfen und mitreden, wie sie eingesetzt wird. Hier zeige ich, wie ich diese Kompetenz bei Kindern, Jugendlichen, Erwachsenen und pädagogischen Fachkräften fördere – mit Zielen, Formaten und Arbeitsproben.</p>
 <div class="buttons"><a class="button" href="#kinder">Zu den Formaten</a><a class="button secondary" href="#kontakt">Kontakt aufnehmen</a></div>
 </div></section>
 
@@ -89,8 +100,13 @@ footer{background:var(--deep);color:#c9d8df;padding:35px 0;font-size:.9rem}foote
 <div class="principle"><b>Prüfen</b><p>Aussagen kontrollieren, Fehler erkennen, Quellen und Daten hinterfragen.</p></div>
 <div class="principle"><b>Mitgestalten</b><p>Regeln aushandeln und mitreden, wie KI in Schule, Arbeit und Gesellschaft eingesetzt wird.</p></div>
 </div>
-<div class="chips" aria-label="Zielgruppen">
-<a href="#kinder" style="--c:var(--kids)">Kinder</a><a href="#jugendliche" style="--c:var(--teens)">Jugendliche</a><a href="#erwachsene" style="--c:var(--adults)">Erwachsene</a><a href="#fachkraefte" style="--c:var(--pros)">Pädagogische Fachkräfte</a>
+<h3 style="margin:40px 0 4px;font-size:1.35rem">KI-Kompetenz wächst mit</h3>
+<p class="prose" style="margin:0">Die vier Bereiche bleiben gleich, der Schwerpunkt verschiebt sich mit dem Alter und der Rolle.</p>
+<div class="path">
+<a class="step" href="#kinder" style="--c:var(--kids)"><small>Kinder</small><b>Entdecken</b><p>KI im Alltag erkennen und begreifen, dass sie aus Beispielen lernt und sich irren kann.</p></a>
+<a class="step" href="#jugendliche" style="--c:var(--teens)"><small>Jugendliche</small><b>Hinterfragen</b><p>KI fürs Lernen nutzen, ohne sich das Denken abnehmen zu lassen, und Fälschungen erkennen.</p></a>
+<a class="step" href="#erwachsene" style="--c:var(--adults)"><small>Erwachsene</small><b>Souverän nutzen</b><p>KI in Alltag und Beruf gezielt einsetzen, Risiken einschätzen und Verantwortung behalten.</p></a>
+<a class="step" href="#fachkraefte" style="--c:var(--pros)"><small>Pädagogische Fachkräfte</small><b>Vermitteln</b><p>Eigene KI-Kompetenz sichern und sie bei Kindern, Jugendlichen und Erwachsenen fördern.</p></a>
 </div>
 </div></section>
 
@@ -98,96 +114,97 @@ footer{background:var(--deep);color:#c9d8df;padding:35px 0;font-size:.9rem}foote
 <section class="section alt" id="kinder" style="--c:var(--kids)"><div class="shell">
 <div class="group-head"><h2>Kinder</h2><span class="age">ca. 8–12 Jahre · Grundschule, Hort, offene Angebote</span></div>
 <p class="group-intro">Kinder begegnen KI im Sprachassistenten, in Spielen und in Apps. Sie brauchen keine Technikdetails, sondern ein Gefühl dafür, dass eine Maschine aus Beispielen lernt und sich dabei irren kann. Viele Formate funktionieren ganz ohne Bildschirm.</p>
-<div class="formats">
+<div class="goals"><b>Geförderte KI-Kompetenz – Die Kinder können danach …</b><ul><li>KI in ihrem Alltag erkennen und benennen (Verstehen)</li><li>erklären, dass KI aus Beispielen lernt und deshalb Fehler macht (Verstehen)</li><li>Ergebnisse einer KI mit anderen Quellen vergleichen (Prüfen)</li><li>Fragen stellen, bevor sie etwas glauben (Prüfen)</li></ul></div><div class="formats">
 <article class="format"><ul class="meta"><li>Unplugged</li><li>90 Min.</li><li>Verstehen</li></ul>
 <h3>Wie lernt eine Maschine?</h3>
 <p>Die Kinder spielen selbst „Computer“: Mit Bildkarten von Blättern und Tieren bringen sie einer Gruppe bei, Dinge zu sortieren. Sie merken, dass falsche oder einseitige Beispiele zu falschen Antworten führen.</p>
-<details><summary>Ablauf</summary><ol><li>Einstieg: „Woher weiß das Handy, dass das eine Katze ist?“</li><li>Trainingsrunde mit Bildkarten, dann Testrunde mit neuen Karten</li><li>Gemeinsam auswerten: Warum hat die „Maschine“ sich geirrt?</li></ol>
+<p class="fosters"><b>Gefördert:</b> Verstehen, wie KI aus Daten lernt und warum einseitige Daten zu Fehlern führen.</p><details><summary>Ablauf</summary><ol><li>Einstieg: „Woher weiß das Handy, dass das eine Katze ist?“</li><li>Trainingsrunde mit Bildkarten, dann Testrunde mit neuen Karten</li><li>Gemeinsam auswerten: Warum hat die „Maschine“ sich geirrt?</li></ol>
 <p class="result"><b>Ergebnis:</b> eine einfache Regel für die Klasse: „KI lernt aus Beispielen – und kann sich irren.“</p></details></article>
 
 <article class="format"><ul class="meta"><li>Detektivspiel</li><li>45–60 Min.</li><li>Prüfen</li></ul>
 <h3>KI-Detektive: Mensch oder Maschine?</h3>
 <p>Kinder vergleichen kurze Texte und Bilder, von denen einige mit KI erstellt wurden. Sie sammeln Hinweise, besprechen Zweifelsfälle und lernen, nachzufragen, bevor sie etwas glauben.</p>
-<details><summary>Ablauf</summary><ol><li>Detektivausweis und Lupe: Material in Kleingruppen untersuchen</li><li>Hinweise auf einem Plakat sammeln</li><li>Auflösung und Gespräch: Woran erkennt man es – und woran nicht?</li></ol>
+<p class="fosters"><b>Gefördert:</b> KI-Inhalte erkennen und kritisch hinterfragen.</p><details><summary>Ablauf</summary><ol><li>Detektivausweis und Lupe: Material in Kleingruppen untersuchen</li><li>Hinweise auf einem Plakat sammeln</li><li>Auflösung und Gespräch: Woran erkennt man es – und woran nicht?</li></ol>
 <p class="result"><b>Ergebnis:</b> eine Detektiv-Checkliste mit drei Fragen für den Alltag.</p></details></article>
 
 <article class="format"><ul class="meta"><li>Draußen</li><li>Projekttag</li><li>Anwenden · Prüfen</li></ul>
 <h3>Naturforscher mit Bilderkennung</h3>
 <p>Auf dem Schulgelände bestimmen Kinder Pflanzen mit einer Bestimmungs-App und prüfen das Ergebnis mit einem Bestimmungsbuch. So verbinden sie Artenkenntnis mit der Erfahrung, dass die App nicht immer recht hat.</p>
-<details><summary>Ablauf</summary><ol><li>Forscherteams bilden, Fundstücke fotografieren (Gerät der Lehrkraft, keine Konten)</li><li>App-Vorschlag notieren und mit dem Buch vergleichen</li><li>Steckbriefe anlegen: Wo lag die App richtig, wo nicht?</li></ol>
+<p class="fosters"><b>Gefördert:</b> KI-Ergebnisse mit einer zweiten Quelle überprüfen.</p><details><summary>Ablauf</summary><ol><li>Forscherteams bilden, Fundstücke fotografieren (Gerät der Lehrkraft, keine Konten)</li><li>App-Vorschlag notieren und mit dem Buch vergleichen</li><li>Steckbriefe anlegen: Wo lag die App richtig, wo nicht?</li></ol>
 <p class="result"><b>Ergebnis:</b> eine kleine Artenkartei der Schule. Die Idee knüpft an mein Projekt <a href="/#projekte">Ökoambulanz</a> an.</p></details></article>
 </div></div></section>
 
 <!-- JUGENDLICHE -->
 <section class="section" id="jugendliche" style="--c:var(--teens)"><div class="shell">
 <div class="group-head"><h2>Jugendliche</h2><span class="age">ca. 12–19 Jahre · Sekundarstufe I und II, Jugendarbeit</span></div>
-<p class="group-intro">Viele Jugendliche nutzen KI längst – oft für Hausaufgaben und ohne zu wissen, wann sie ihr trauen können. Ziel ist, KI als Lernpartner statt als Abkürzung zu nutzen und Desinformation zu erkennen.</p>
-<div class="formats">
+<p class="group-intro">Viele Jugendliche nutzen KI längst – oft für Hausaufgaben und ohne zu wissen, wann sie ihr trauen können. Die Formate fördern einen kritischen, selbstbestimmten Umgang: KI als Lernpartner statt als Abkürzung.</p>
+<div class="goals"><b>Geförderte KI-Kompetenz – Die Jugendlichen können danach …</b><ul><li>KI-Antworten mit Quellen überprüfen und Fehler begründen (Prüfen)</li><li>Prompts so formulieren, dass KI beim Lernen hilft statt die Lösung vorzugeben (Anwenden)</li><li>Deepfakes und Desinformation erkennen und ihre Wirkung einschätzen (Prüfen)</li><li>Regeln für den KI-Einsatz mitentwickeln und vertreten (Mitgestalten)</li></ul></div><div class="formats">
 <article class="format"><ul class="meta"><li>Unterricht</li><li>2 Doppelstunden</li><li>Prüfen</li></ul>
 <h3>Faktencheck-Labor</h3>
 <p>Schüler:innen lassen sich ein Fachthema, z. B. aus der Biologie, von einer KI erklären und prüfen die Antwort mit Schulbuch und seriösen Quellen. Sie markieren Fehler, Lücken und erfundene Angaben.</p>
-<details><summary>Ablauf</summary><ol><li>KI-Antwort zu einer Leitfrage erzeugen</li><li>Prüfen mit Quellen, Fehler farbig markieren</li><li>Korrigierte Fassung schreiben und Prüfregeln ableiten</li></ol>
+<p class="fosters"><b>Gefördert:</b> KI-Antworten systematisch prüfen, Fehler und erfundene Angaben erkennen.</p><details><summary>Ablauf</summary><ol><li>KI-Antwort zu einer Leitfrage erzeugen</li><li>Prüfen mit Quellen, Fehler farbig markieren</li><li>Korrigierte Fassung schreiben und Prüfregeln ableiten</li></ol>
 <p class="result"><b>Ergebnis:</b> eine überarbeitete, belegte Erklärung und eine Prüfliste der Klasse.</p></details></article>
 
 <article class="format"><ul class="meta"><li>Werkstatt</li><li>90 Min.</li><li>Anwenden</li></ul>
 <h3>Prompt-Werkstatt: Lernen statt Abschreiben</h3>
 <p>Jugendliche vergleichen zwei Wege: KI schreibt die Lösung – oder KI stellt Fragen und gibt Hinweise. Sie formulieren eigene Prompts, die sie beim Lernen unterstützen, statt ihnen das Denken abzunehmen.</p>
-<details><summary>Ablauf</summary><ol><li>Dieselbe Aufgabe mit „Lösung“-Prompt und mit „Tutor“-Prompt bearbeiten</li><li>Vergleichen: Was habe ich jeweils gelernt?</li><li>Eigene Lern-Prompts sammeln und testen</li></ol>
+<p class="fosters"><b>Gefördert:</b> KI gezielt als Lernhilfe einsetzen und das eigene Denken behalten.</p><details><summary>Ablauf</summary><ol><li>Dieselbe Aufgabe mit „Lösung“-Prompt und mit „Tutor“-Prompt bearbeiten</li><li>Vergleichen: Was habe ich jeweils gelernt?</li><li>Eigene Lern-Prompts sammeln und testen</li></ol>
 <p class="result"><b>Ergebnis:</b> eine Sammlung guter Lern-Prompts. Grundlage ist mein <a href="https://lernbegleiter.michaelberning.com" target="_blank" rel="noopener">sokratischer KI-Lernbegleiter ↗</a>.</p></details></article>
 
 <article class="format"><ul class="meta"><li>Projekttag</li><li>4–6 Std.</li><li>Prüfen · Mitgestalten</li></ul>
 <h3>Deepfakes, Desinformation und unsere Regeln</h3>
 <p>Ausgehend von Beispielen aus sozialen Medien untersuchen Jugendliche, wie KI-Bilder und gefälschte Stimmen entstehen und wirken. Am Ende handeln sie Regeln für den KI-Einsatz in ihrer Klasse oder Schule aus.</p>
-<details><summary>Ablauf</summary><ol><li>Beispiele analysieren: Was macht eine Fälschung glaubwürdig?</li><li>Rechte und Folgen besprechen: Recht am eigenen Bild, Datenschutz</li><li>KI-Regeln für die Klasse formulieren und abstimmen</li></ol>
+<p class="fosters"><b>Gefördert:</b> Manipulation erkennen, Folgen abschätzen, Regeln mitgestalten.</p><details><summary>Ablauf</summary><ol><li>Beispiele analysieren: Was macht eine Fälschung glaubwürdig?</li><li>Rechte und Folgen besprechen: Recht am eigenen Bild, Datenschutz</li><li>KI-Regeln für die Klasse formulieren und abstimmen</li></ol>
 <p class="result"><b>Ergebnis:</b> eine gemeinsam beschlossene KI-Vereinbarung für die Klasse.</p></details></article>
 </div></div></section>
 
 <!-- ERWACHSENE -->
 <section class="section alt" id="erwachsene" style="--c:var(--adults)"><div class="shell">
 <div class="group-head"><h2>Erwachsene</h2><span class="age">Weiterbildung, Sprach- und Integrationskurse, Beruf</span></div>
-<p class="group-intro">Erwachsene wollen wissen, was KI für ihren Alltag und Beruf bedeutet. Hier kann ich auf meine Erfahrung als Bildungskoordinator und BAMF-Dozent in der Erwachsenenbildung zurückgreifen.</p>
-<div class="formats">
+<p class="group-intro">Erwachsene wollen wissen, was KI für ihren Alltag und Beruf bedeutet. Die Formate fördern einen souveränen, verantwortlichen Umgang. Dabei greife ich auf meine Erfahrung als Bildungskoordinator und BAMF-Dozent zurück.</p>
+<div class="goals"><b>Geförderte KI-Kompetenz – Die Teilnehmenden können danach …</b><ul><li>erklären, was KI kann und wo ihre Grenzen liegen (Verstehen)</li><li>KI für eigene Aufgaben in Alltag und Beruf gezielt einsetzen (Anwenden)</li><li>einschätzen, welche Daten sie eingeben dürfen und welche nicht (Prüfen)</li><li>entscheiden, was sie selbst erledigen und was KI übernimmt (Mitgestalten)</li></ul></div><div class="formats">
 <article class="format"><ul class="meta"><li>Workshop</li><li>3 Std.</li><li>Verstehen · Anwenden</li></ul>
 <h3>KI im Alltag – verstehen und sicher nutzen</h3>
 <p>Einstiegsworkshop, z. B. für Volkshochschulen oder Familienbildung: Was ist KI, was kann sie, wo liegen Risiken? Die Teilnehmenden probieren KI an Alltagsaufgaben aus und lernen, was sie nicht eingeben sollten.</p>
-<details><summary>Ablauf</summary><ol><li>Kurze Einführung mit Alltagsbeispielen</li><li>Praxis: Brief formulieren, Rezept planen, Text vereinfachen</li><li>Datenschutz und Betrug: Woran erkenne ich Fälschungen?</li></ol>
+<p class="fosters"><b>Gefördert:</b> Grundverständnis, sichere Nutzung und Schutz der eigenen Daten.</p><details><summary>Ablauf</summary><ol><li>Kurze Einführung mit Alltagsbeispielen</li><li>Praxis: Brief formulieren, Rezept planen, Text vereinfachen</li><li>Datenschutz und Betrug: Woran erkenne ich Fälschungen?</li></ol>
 <p class="result"><b>Ergebnis:</b> eine Merkkarte „Sicher mit KI“ zum Mitnehmen.</p></details></article>
 
 <article class="format"><ul class="meta"><li>Sprachkurs DaF/DaZ</li><li>kursbegleitend</li><li>Anwenden</li></ul>
 <h3>KI als Sprachtrainer im Berufssprachkurs</h3>
 <p>Teilnehmende üben berufliche Gespräche im Rollenspiel mit KI und passen Wortwahl und Ton an die Situation an. Gleichzeitig lernen sie, KI-Rückmeldungen zu hinterfragen, statt sie blind zu übernehmen.</p>
-<details><summary>Ablauf</summary><ol><li>Situation wählen, z. B. Krankmeldung oder Kundengespräch</li><li>Rollenspiel mit KI, Rückmeldung zu Sprache und Höflichkeit</li><li>Im Kurs besprechen: Was war hilfreich, was falsch?</li></ol>
+<p class="fosters"><b>Gefördert:</b> KI zum Üben nutzen und ihre Rückmeldungen kritisch einordnen – in einfacher Sprache.</p><details><summary>Ablauf</summary><ol><li>Situation wählen, z. B. Krankmeldung oder Kundengespräch</li><li>Rollenspiel mit KI, Rückmeldung zu Sprache und Höflichkeit</li><li>Im Kurs besprechen: Was war hilfreich, was falsch?</li></ol>
 <p class="result"><b>Ergebnis:</b> geübte Redemittel für den Beruf. Umgesetzt in meiner <a href="https://app.michaelberning.com/demo" target="_blank" rel="noopener">Berufssprachkurs-App ↗</a>.</p></details></article>
 
 <article class="format"><ul class="meta"><li>Schulung im Betrieb</li><li>½ Tag</li><li>Alle vier Bereiche</li></ul>
 <h3>KI-Kompetenz für Mitarbeitende</h3>
 <p>Seit Februar 2025 verlangt die EU-KI-Verordnung (Art. 4), dass Beschäftigte, die mit KI-Systemen arbeiten, über ausreichende KI-Kompetenz verfügen. Das Format verbindet Grundlagen mit Übungen aus dem eigenen Arbeitsalltag.</p>
-<details><summary>Ablauf</summary><ol><li>Grundlagen und Risiken: Fehler, Verzerrungen, Datenschutz</li><li>Praxis mit eigenen Arbeitsaufgaben: Was übernimmt KI, was ich?</li><li>Gemeinsame Regeln für das Team festhalten</li></ol>
+<p class="fosters"><b>Gefördert:</b> Verantwortlicher KI-Einsatz im Beruf, wie ihn die KI-Verordnung verlangt.</p><details><summary>Ablauf</summary><ol><li>Grundlagen und Risiken: Fehler, Verzerrungen, Datenschutz</li><li>Praxis mit eigenen Arbeitsaufgaben: Was übernimmt KI, was ich?</li><li>Gemeinsame Regeln für das Team festhalten</li></ol>
 <p class="result"><b>Ergebnis:</b> Teamregeln und eine Teilnahmebestätigung.</p></details></article>
 </div></div></section>
 
 <!-- FACHKRÄFTE -->
 <section class="section" id="fachkraefte" style="--c:var(--pros)"><div class="shell">
 <div class="group-head"><h2>Pädagogische Fachkräfte</h2><span class="age">Lehrkräfte, Dozent:innen, Erzieher:innen, Schulsozialarbeit</span></div>
-<p class="group-intro">Wer KI-Kompetenz vermitteln soll, braucht selbst Sicherheit – fachlich, didaktisch und rechtlich. Diese Formate verbinden eigene Praxis mit Material, das sofort im Alltag einsetzbar ist.</p>
-<div class="formats">
+<p class="group-intro">Wer KI-Kompetenz fördern soll, braucht sie selbst – und dazu Methoden, um sie weiterzugeben. Die Formate stärken beides: die eigene KI-Kompetenz der Fachkräfte und ihre Fähigkeit, sie bei Kindern, Jugendlichen und Erwachsenen anzuleiten.</p>
+<div class="goals"><b>Geförderte KI-Kompetenz – Die Fachkräfte können danach …</b><ul><li>die eigene KI-Kompetenz einschätzen und ausbauen (alle Bereiche)</li><li>KI-erstelltes Material fachlich und didaktisch prüfen (Prüfen)</li><li>Formate zur KI-Kompetenzförderung für ihre Zielgruppe planen und anleiten (Anwenden)</li><li>Aufgaben und Regeln so gestalten, dass eigenes Denken sichtbar bleibt (Mitgestalten)</li></ul></div><div class="formats">
 <article class="format"><ul class="meta"><li>Fortbildung</li><li>3 Std.</li><li>Anwenden · Prüfen</li></ul>
 <h3>KI im Unterricht vorbereiten</h3>
 <p>Lehrkräfte lernen, Unterrichtsmaterial mit KI zu entwerfen und kritisch zu prüfen: Ein Modell entwirft, ein zweites kritisiert, die Lehrkraft entscheidet. Mit Prompt-Formel, Prüfliste und Datenschutzhinweisen.</p>
-<details><summary>Ablauf</summary><ol><li>Prompt-Formel kennenlernen und eigenes Material erstellen</li><li>KI-Text auf fachliche Fehler prüfen und Korrekturen begründen</li><li>Materialien austauschen und Prüfliste anpassen</li></ol>
+<p class="fosters"><b>Gefördert:</b> Eigene KI-Kompetenz: KI-Material erstellen, prüfen und verantworten.</p><details><summary>Ablauf</summary><ol><li>Prompt-Formel kennenlernen und eigenes Material erstellen</li><li>KI-Text auf fachliche Fehler prüfen und Korrekturen begründen</li><li>Materialien austauschen und Prüfliste anpassen</li></ol>
 <p class="result"><b>Ergebnis:</b> eigenes, geprüftes Material. Grundlage ist meine <a href="/assets/projekte/ki-im-unterricht-handreichung.pdf" target="_blank" rel="noopener">Handreichung (PDF) ↗</a>.</p></details></article>
 
 <article class="format"><ul class="meta"><li>Workshop</li><li>3 Std.</li><li>Mitgestalten</li></ul>
 <h3>Aufgaben neu denken im KI-Zeitalter</h3>
 <p>Wenn KI Hausaufgaben in Sekunden löst, müssen Aufgaben das Denken sichtbar machen. Fachkräfte bauen eigene Aufgaben um: mit Begründungen, Zwischenschritten, Reflexion und einem offenen Umgang mit KI.</p>
-<details><summary>Ablauf</summary><ol><li>Eigene Aufgabe von KI lösen lassen: Was bleibt übrig?</li><li>Umbauen nach Kriterien: Prozess, Begründung, Transfer</li><li>Gegenseitiges Feedback und Transfer in den eigenen Unterricht</li></ol>
+<p class="fosters"><b>Gefördert:</b> Lernaufgaben so gestalten, dass sie KI-Kompetenz fördern statt umgehen.</p><details><summary>Ablauf</summary><ol><li>Eigene Aufgabe von KI lösen lassen: Was bleibt übrig?</li><li>Umbauen nach Kriterien: Prozess, Begründung, Transfer</li><li>Gegenseitiges Feedback und Transfer in den eigenen Unterricht</li></ol>
 <p class="result"><b>Ergebnis:</b> zwei bis drei überarbeitete Aufgaben pro Person.</p></details></article>
 
-<article class="format"><ul class="meta"><li>Teamtag</li><li>½ Tag</li><li>Mitgestalten</li></ul>
-<h3>KI-Leitlinien für Schule, Kita oder Träger</h3>
-<p>Ein Kollegium entwickelt gemeinsam Leitlinien: Wofür nutzen wir KI, wofür nicht? Wie gehen wir mit Daten von Kindern und Teilnehmenden um? Wie sprechen wir mit Eltern darüber?</p>
-<details><summary>Ablauf</summary><ol><li>Bestandsaufnahme: Wie wird KI bei uns schon genutzt?</li><li>Chancen, Risiken und rechtlichen Rahmen sortieren</li><li>Leitlinien formulieren und nächste Schritte vereinbaren</li></ol>
-<p class="result"><b>Ergebnis:</b> ein Leitlinien-Entwurf für die Einrichtung.</p></details></article>
+<article class="format"><ul class="meta"><li>Fortbildungsreihe</li><li>3 × 3 Std.</li><li>Vermitteln</li></ul>
+<h3>Methodenkoffer: KI-Kompetenz weitergeben</h3>
+<p>Fachkräfte erleben die Formate für Kinder, Jugendliche oder Erwachsene selbst als Teilnehmende, passen sie an ihre Gruppe an und erproben sie in der eigenen Praxis. Im letzten Termin werten sie die Erfahrungen gemeinsam aus.</p>
+<p class="fosters"><b>Gefördert:</b> die Fähigkeit, KI-Kompetenz altersgerecht anzuleiten und zu begleiten.</p>
+<details><summary>Ablauf</summary><ol><li>Formate ausprobieren und Lernziele nach dem AILit-Rahmen zuordnen</li><li>Ein Format für die eigene Gruppe anpassen und durchführen</li><li>Erfahrungen auswerten, Material überarbeiten und teilen</li></ol>
+<p class="result"><b>Ergebnis:</b> ein erprobtes Format pro Person und ein gemeinsamer Methodenkoffer der Einrichtung.</p></details></article>
 </div></div></section>
 
 <!-- ARBEITSPROBEN -->

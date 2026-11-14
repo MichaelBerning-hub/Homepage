@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Berning;Michael;;;
+FN:Michael Berning
+TITLE:Trainer und Konzeptentwickler für KI-Kompetenz
+EMAIL;TYPE=INTERNET:michael.berning@gmx.de
+TEL;TYPE=CELL:+4915253335603
+URL:https://michaelberning.com/
+X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/michael-berning-01328186/
+NOTE:Ideen zur KI-Kompetenzförderung: https://michaelberning.com/ki-kompetenz/
+END:VCARD

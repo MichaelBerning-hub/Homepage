@@ -499,7 +499,7 @@ document.querySelectorAll('.copy-mail').forEach(function(btn){
 function setLang(lang){
   document.querySelectorAll('[data-lang]').forEach(function(el){el.hidden = el.getAttribute('data-lang') !== lang;});
   document.querySelectorAll('.langswitch button').forEach(function(b){b.setAttribute('aria-pressed', String(b.dataset.set === lang));});
-  document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
+  document.documentElement.lang = lang;
   document.querySelector('.mark').setAttribute('href', lang === 'de' ? '#start' : '#' + lang);
 }
 function langFromHash(){ var m = /^#(es|en)/.exec(location.hash); return m ? m[1] : 'de'; }
